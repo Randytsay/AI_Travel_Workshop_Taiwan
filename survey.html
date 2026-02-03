@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="css/main.css">
     <style>
         .survey-form {
-            max-width: 800px;
+            max-width: 1000px;
             margin: 0 auto;
         }
 
@@ -184,7 +184,7 @@
                             <div id="guest-questions">
                                 <!-- 1. 邀請人 -->
                                 <div class="form-group">
-                                    <label class="form-label">邀請您參加的夥伴是？</label>
+                                    <label class="form-label">邀請您參加的朋友是？</label>
                                     <input type="text" id="inviter" class="form-input" placeholder="請輸入邀請人姓名" required>
                                 </div>
 
@@ -391,6 +391,14 @@
             // Show/hide question sections
             document.getElementById('guest-questions').style.display = role === 'guest' ? 'block' : 'none';
             document.getElementById('member-questions').style.display = role === 'member' ? 'block' : 'none';
+
+            // 動態處理必填屬性 (避免隱藏欄位阻礙提交)
+            const inviterInput = document.getElementById('inviter');
+            if (role === 'guest') {
+                inviterInput.setAttribute('required', '');
+            } else {
+                inviterInput.removeAttribute('required');
+            }
         }
 
         // Collect AI interests checkboxes
