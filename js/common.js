@@ -311,15 +311,28 @@ function updateProgressDots(currentPhase, totalPhases = 6) {
 
     dotsContainer.innerHTML = '';
 
+    const phaseNames = ['靈感發想', '深度規劃', '驗證防幻覺', '視覺地圖+社群', '現場生存', '商業變現'];
+
     for (let i = 1; i <= totalPhases; i++) {
         const dot = document.createElement('div');
         dot.className = 'progress-dot';
+        dot.title = `跳轉至階段 ${i}: ${phaseNames[i - 1]}`;
 
         if (WorkshopState.isCompleted(i)) {
             dot.classList.add('completed');
         } else if (i === currentPhase) {
             dot.classList.add('active');
         }
+
+        // Add navigation functionality
+        dot.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (typeof goToPhase === 'function') {
+                goToPhase(i);
+            } else if (typeof goToPhaseFromSubpage === 'function') {
+                goToPhaseFromSubpage(i);
+            }
+        });
 
         dotsContainer.appendChild(dot);
     }

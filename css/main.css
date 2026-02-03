@@ -727,6 +727,16 @@ a:hover {
     border-radius: var(--radius-full);
     background: var(--color-stone-300);
     transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.progress-dot:hover {
+    background: var(--color-stone-400);
+    transform: scale(1.1);
+}
+
+.progress-dot:active {
+    transform: scale(0.9);
 }
 
 .progress-dot.active {
@@ -1043,7 +1053,7 @@ main {
 
 .hero p {
     color: var(--color-stone-600);
-    max-width: 42rem;
+    max-width: none;
 }
 
 /* --- Style Selector --- */
