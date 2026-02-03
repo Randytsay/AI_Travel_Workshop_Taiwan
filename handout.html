@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 旅遊規劃全攻略 - 官方講義</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #fffaf9;
+            color: var(--color-stone-800);
+            font-family: 'Outfit', 'Microsoft JhengHei', sans-serif;
+            line-height: 1.8;
+        }
+
+        .handout-container {
+            max-width: 900px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+
+        .handout-header {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+
+        .handout-cover {
+            width: 100%;
+            border-radius: var(--radius-2xl);
+            box-shadow: var(--shadow-xl);
+            margin-bottom: 2rem;
+        }
+
+        .course-phase {
+            margin-top: 6rem;
+            padding-top: 3rem;
+            border-top: 1px solid var(--color-stone-200);
+        }
+
+        .phase-num {
+            display: inline-block;
+            background: var(--color-primary);
+            color: white;
+            padding: 0.25rem 1rem;
+            border-radius: var(--radius-full);
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+
+        .phase-title {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: var(--color-stone-900);
+            margin-bottom: 1.5rem;
+        }
+
+        .visual-box {
+            background: white;
+            padding: 1rem;
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-md);
+            margin: 2rem 0;
+        }
+
+        .visual-box img {
+            width: 100%;
+            border-radius: var(--radius-lg);
+        }
+
+        .visual-caption {
+            text-align: center;
+            font-size: 0.875rem;
+            color: var(--color-stone-500);
+            margin-top: 0.75rem;
+        }
+
+        .tip-box {
+            background: #fef3c7;
+            border-left: 4px solid var(--color-amber-500);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 0 1rem 1rem 0;
+        }
+
+        @media print {
+            .no-print {
+                display: none;
+            }
+
+            .handout-container {
+                margin: 1rem auto;
+            }
+
+            .course-phase {
+                page-break-before: always;
+            }
+        }
+
+        .btn-print {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 100;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="handout-container">
+        <!-- Header Section -->
+        <header class="handout-header">
+            <img src="workshop_cover_1770142974521.png" alt="Workshop Cover" class="handout-cover">
+            <h1 class="text-4xl font-bold mb-4">AI 旅遊規劃全攻略</h1>
+            <p class="text-xl text-stone-600">從靈感到變現的完整導引手冊</p>
+        </header>
+
+        <!-- Phase 1 -->
+        <section id="phase1" class="course-phase">
+            <span class="phase-num">PHASE 01</span>
+            <h2 class="phase-title">靈感發想：定位你的 AI 人設</h2>
+            <p>在開始規劃之前，最重要的一步是「賦予 AI 角色」。一個模糊的指令只會得到平庸的結果。</p>
+            <div class="tip-box">
+                <h4 class="font-bold mb-2">💡 關鍵咒語策略：</h4>
+                <p>「你現在是一位精通日本文化與極簡奢華旅行的策劃師。請為一對喜愛攝影的夫妻規劃一場為期 5 天的安靜賞楓之旅。」</p>
+            </div>
+        </section>
+
+        <!-- Phase 2 & 3 -->
+        <section id="phase2" class="course-phase">
+            <span class="phase-num">PHASE 02 & 03</span>
+            <h2 class="phase-title">深度規劃與防幻覺檢測</h2>
+            <p>利用 Gemini 進行多樣化景點探索，並使用 <strong>NotebookLM</strong> 檢索真實資料，防止 AI 因訓練資料過期而產生幻覺。</p>
+            <ul class="list-disc pl-6 space-y-4 mt-4">
+                <li><strong>資訊確認：</strong> 所有的餐廳營業時間與交通方式，務必請 AI 引述官方文件。</li>
+                <li><strong>邏輯檢查：</strong> 使用「請檢查這個行程在物理時間上是否合理」來驗證。</li>
+            </ul>
+        </section>
+
+        <!-- Phase 4 -->
+        <section id="phase4" class="course-phase">
+            <span class="phase-num">PHASE 04</span>
+            <h2 class="phase-title">視覺化地圖與社群傳播</h2>
+            <p>旅行規劃不只是文字，更是視覺的展現。利用繪圖 AI 產出專屬你的視覺行程地圖。</p>
+
+            <div class="visual-box">
+                <img src="visual_map_example_1770142990346.png" alt="Visual Map Example">
+                <div class="visual-caption">實作範例：AI 產出的手繪風格旅遊地圖</div>
+            </div>
+
+            <p>接著，將行程轉化為高品質的社群貼文。利用 <strong>Instagram-style</strong> 的構圖，吸引更多眼球。</p>
+
+            <div class="visual-box">
+                <img src="social_king_challenge_1770143007971.png" alt="Social Media Strategy">
+                <div class="visual-caption">社群力：如何打造讓人想瘋狂分享的旅遊動態</div>
+            </div>
+        </section>
+
+        <!-- Phase 5 & 6 -->
+        <section id="phase5" class="course-phase">
+            <span class="phase-num">PHASE 05 & 06</span>
+            <h2 class="phase-title">現場生存與商業變現</h2>
+            <p>在旅途中遇到意外？AI 是你的隨身對講機。學會如何即時翻譯、優化移動路徑。</p>
+            <p class="mt-4">最後，將這套規劃「產品化」。從代辦行程到旅遊部落客，AI 能幫你將經驗轉化為獲利。</p>
+        </section>
+
+        <footer class="mt-20 text-center text-stone-400 no-print">
+            <p>© 2026 AI Travel Workshop. All Rights Reserved.</p>
+            <div class="mt-8 flex justify-center gap-4">
+                <a href="index.html" class="btn btn-outline btn-sm">返回首頁</a>
+            </div>
+        </footer>
+
+        <button onclick="window.print()" class="btn btn-primary btn-print no-print">
+            🖨️ 列印講義 (PDF)
+        </button>
+    </div>
+</body>
+
+</html>

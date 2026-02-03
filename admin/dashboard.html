@@ -413,7 +413,7 @@
         function loadSettings() {
             const HARDCODED_GAS_URL = 'https://script.google.com/macros/s/AKfycbxOi_q-LhAj56riAhb_ufn2Ks_-t_a6Cw3-13SyDFj2uRFMo66S719OM5cLQKCxXVC1/exec';
             const gasUrl = localStorage.getItem('workshop_gas_url') || HARDCODED_GAS_URL;
-            const pdfUrl = localStorage.getItem('workshop_pdf_url');
+            const pdfUrl = localStorage.getItem('workshop_pdf_url') || 'handout.html';
             const participants = localStorage.getItem('workshop_participants');
 
             if (gasUrl) document.getElementById('gas-url').value = gasUrl;
