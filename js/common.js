@@ -8,7 +8,7 @@ const WorkshopState = {
     completedPhases: [],
     surveySubmitted: false,
     gasUrl: '',
-    
+
     // Load state from localStorage
     load() {
         const saved = localStorage.getItem('workshop_state');
@@ -20,7 +20,7 @@ const WorkshopState = {
             this.gasUrl = data.gasUrl || '';
         }
     },
-    
+
     // Save state to localStorage
     save() {
         localStorage.setItem('workshop_state', JSON.stringify({
@@ -30,7 +30,7 @@ const WorkshopState = {
             gasUrl: this.gasUrl
         }));
     },
-    
+
     // Mark a phase as completed
     completePhase(phaseNum) {
         if (!this.completedPhases.includes(phaseNum)) {
@@ -38,18 +38,18 @@ const WorkshopState = {
             this.save();
         }
     },
-    
+
     // Set current phase
     setCurrentPhase(phaseNum) {
         this.currentPhase = phaseNum;
         this.save();
     },
-    
+
     // Check if phase is completed
     isCompleted(phaseNum) {
         return this.completedPhases.includes(phaseNum);
     },
-    
+
     // Reset all progress (for testing)
     reset() {
         this.currentPhase = 1;
@@ -133,14 +133,14 @@ function showCopyToast(message, isError = false) {
         toast.className = 'copy-toast';
         document.body.appendChild(toast);
     }
-    
+
     toast.textContent = message;
     toast.style.background = isError ? '#ef4444' : '#292524';
-    
+
     // Show toast
     clearTimeout(toastTimeout);
     setTimeout(() => toast.classList.add('show'), 10);
-    
+
     // Hide after 2 seconds
     toastTimeout = setTimeout(() => {
         toast.classList.remove('show');
@@ -149,13 +149,15 @@ function showCopyToast(message, isError = false) {
 
 // --- Google Sheets Submission ---
 async function submitToGoogleSheets(data, onSuccess, onError) {
-    const scriptURL = WorkshopState.gasUrl || localStorage.getItem('workshop_gas_url');
-    
+    // 優先使用寫死的 URL，次之為 localStorage
+    const HARDCODED_GAS_URL = 'https://script.google.com/macros/s/AKfycbxOi_q-LhAj56riAhb_ufn2Ks_-t_a6Cw3-13SyDFj2uRFMo66S719OM5cLQKCxXVC1/exec';
+    const scriptURL = HARDCODED_GAS_URL || WorkshopState.gasUrl || localStorage.getItem('workshop_gas_url');
+
     if (!scriptURL) {
-        if (onError) onError('錯誤：講師尚未設定 Google Sheets 連結。');
+        if (onError) onError('錯誤：未設定 Google Sheets 連結。');
         return;
     }
-    
+
     try {
         await fetch(scriptURL, {
             method: 'POST',
@@ -163,7 +165,7 @@ async function submitToGoogleSheets(data, onSuccess, onError) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
         });
-        
+
         if (onSuccess) onSuccess();
     } catch (error) {
         console.error('Submission error:', error);
@@ -174,12 +176,12 @@ async function submitToGoogleSheets(data, onSuccess, onError) {
 // --- Prompt Generator Utilities ---
 function generateTravelPrompt(options) {
     const { destination, style, customRequests, role } = options;
-    
+
     let roleText = role ? `你是一位${role}。` : '你是一位專業的日本旅遊規劃師。';
-    let customText = customRequests 
-        ? `\n3. **特別需求與限制**：${customRequests}` 
+    let customText = customRequests
+        ? `\n3. **特別需求與限制**：${customRequests}`
         : '\n3. **特別需求**：無，請依照一般大眾建議即可。';
-    
+
     return `${roleText}請幫我規劃一個 5 天 4 夜的 **${destination}** 行程。
 
 我的旅行條件如下：
@@ -241,7 +243,7 @@ const mapStyles = {
 function generateMapPrompt(styleKey, itinerary = '[在此處貼上你剛剛生成的文字行程...]') {
     const style = mapStyles[styleKey];
     if (!style) return '';
-    
+
     return `# 角色與目標
 你是一位專業的插畫家。請將以下文字行程轉化為一幅資訊圖表地圖。
 
@@ -261,14 +263,14 @@ ${itinerary}`;
 // Social post generator
 function generateSocialPost(options) {
     const { platform, style, destination, hashtags } = options;
-    
+
     const styleText = {
         '炫耀型': '活潑有趣、充滿驚嘆號',
         '實用分享': '實用資訊為主、條列式',
         '文青低調': '文藝氣息、簡潔優雅',
         '邀約朋友': '輕鬆邀約、互動式'
     };
-    
+
     return `請幫我寫一篇 ${platform} 貼文，內容要包含：
 1. 我正在學用 AI 規劃${destination || '日本'}旅遊
 2. 這是我用 Gemini 生成的手繪地圖（超有質感！）
@@ -292,7 +294,7 @@ const animationEffects = {
 function generateAnimationPrompt(effectKey, description = '') {
     const effect = animationEffects[effectKey];
     if (!effect) return '';
-    
+
     return `請將這張靜態圖片轉換為動畫。
 
 動畫效果：${effect.prompt}
@@ -306,19 +308,19 @@ ${description ? `額外說明：${description}` : ''}
 function updateProgressDots(currentPhase, totalPhases = 6) {
     const dotsContainer = document.querySelector('.progress-dots');
     if (!dotsContainer) return;
-    
+
     dotsContainer.innerHTML = '';
-    
+
     for (let i = 1; i <= totalPhases; i++) {
         const dot = document.createElement('div');
         dot.className = 'progress-dot';
-        
+
         if (WorkshopState.isCompleted(i)) {
             dot.classList.add('completed');
         } else if (i === currentPhase) {
             dot.classList.add('active');
         }
-        
+
         dotsContainer.appendChild(dot);
     }
 }
@@ -338,12 +340,12 @@ function setButtonLoading(button, loading = true) {
 function updateCurrentTime() {
     const timeElement = document.getElementById('current-time');
     if (!timeElement) return;
-    
+
     const now = new Date();
-    const options = { 
-        hour: '2-digit', 
+    const options = {
+        hour: '2-digit',
         minute: '2-digit',
-        hour12: false 
+        hour12: false
     };
     timeElement.textContent = now.toLocaleTimeString('zh-TW', options);
 }
@@ -354,7 +356,7 @@ setInterval(updateCurrentTime, 60000);
 // --- Initialize Page ---
 document.addEventListener('DOMContentLoaded', () => {
     updateCurrentTime();
-    
+
     // Load GAS URL if exists
     const savedGasUrl = localStorage.getItem('workshop_gas_url');
     if (savedGasUrl) {

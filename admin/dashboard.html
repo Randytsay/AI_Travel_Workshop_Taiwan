@@ -409,8 +409,10 @@
             });
 
             function loadSettings() {
-                const gasUrl = localStorage.getItem('workshop_gas_url');
+                const HARDCODED_GAS_URL = 'https://script.google.com/macros/s/AKfycbxOi_q-LhAj56riAhb_ufn2Ks_-t_a6Cw3-13SyDFj2uRFMo66S719OM5cLQKCxXVC1/exec';
+                const gasUrl = localStorage.getItem('workshop_gas_url') || HARDCODED_GAS_URL;
                 const pdfUrl = localStorage.getItem('workshop_pdf_url');
+
                 if (gasUrl) document.getElementById('gas-url').value = gasUrl;
                 if (pdfUrl) document.getElementById('pdf-url').value = pdfUrl;
 
@@ -426,6 +428,13 @@
                 const pdfUrl = document.getElementById('pdf-url').value;
                 localStorage.setItem('workshop_gas_url', gasUrl);
                 localStorage.setItem('workshop_pdf_url', pdfUrl);
+
+                // 同步更新記憶體中的狀態
+                if (typeof WorkshopState !== 'undefined') {
+                    WorkshopState.gasUrl = gasUrl;
+                    WorkshopState.save();
+                }
+
                 showCopyToast('設定已儲存！');
             }
 
