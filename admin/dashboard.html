@@ -606,10 +606,28 @@
                     localStorage.setItem('workshop_participants', config.participants.join('\n'));
                 }
 
+                // 更新統計數據
+                if (config.stats) {
+                    updateDashboardStats(config.stats);
+                }
+
                 showCopyToast('✅ 同步成功！');
             } catch (err) {
                 console.error('Sync error:', err);
                 alert('同步失敗：' + err.message + '\n請確認 GAS 已重新部署且版本是最新的。');
+            }
+        }
+
+        function updateDashboardStats(stats) {
+            document.getElementById('stat-total').textContent = stats.total || 0;
+            document.getElementById('stat-guests').textContent = stats.guests || 0;
+            document.getElementById('stat-members').textContent = stats.members || 0;
+            document.getElementById('stat-surveys').textContent = stats.total || 0;
+
+            // 更新圖表
+            if (window.satisfactionChart && stats.chartData) {
+                window.satisfactionChart.data.datasets[0].data = stats.chartData;
+                window.satisfactionChart.update();
             }
         }
 
@@ -675,13 +693,13 @@
 
         function initChart() {
             const ctx = document.getElementById('satisfaction-chart').getContext('2d');
-            new Chart(ctx, {
+            window.satisfactionChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: ['整體滿意度', 'AI 實用度', '教學清晰度', '繼續學習興趣'],
+                    labels: ['整體滿意', 'AI 實用', '教學清晰', '推薦意願'],
                     datasets: [{
-                        label: '平均分數',
-                        data: [4.5, 4.7, 4.6, 4.2],
+                        label: '平均分數 (5分制)',
+                        data: [0, 0, 0, 0],
                         backgroundColor: [
                             '#be123c',
                             '#f59e0b',
