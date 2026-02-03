@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌸</text></svg>">
+    <title>階段二：深度規劃 | AI 旅遊規劃工作坊</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/main.css">
+</head>
+
+<body class="page-phase2">
+    <!-- Sakura Animation -->
+    <div class="sakura-container">
+        <div class="sakura"></div>
+        <div class="sakura"></div>
+        <div class="sakura"></div>
+        <div class="sakura"></div>
+        <div class="sakura"></div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container navbar-content">
+            <div class="navbar-brand">
+                <span style="font-size: 1.5rem;">📊</span>
+                <h1>階段二：深度規劃</h1>
+                <span class="badge">40分鐘</span>
+            </div>
+            <div class="navbar-links">
+                <span class="text-sm text-stone-500">2/6 階段</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Quick Nav -->
+    <div class="quick-nav">
+        <div class="container quick-nav-links">
+            <a href="../index.html" class="quick-nav-link">🏠 首頁</a>
+            <a href="phase1.html" class="quick-nav-link">1️⃣ 靈感</a>
+            <a href="phase2.html" class="quick-nav-link active">2️⃣ 規劃</a>
+            <a href="phase3.html" class="quick-nav-link">3️⃣ 驗證</a>
+            <a href="phase4.html" class="quick-nav-link">4️⃣ 視覺</a>
+            <a href="phase5.html" class="quick-nav-link">5️⃣ 生存</a>
+            <a href="phase6.html" class="quick-nav-link">6️⃣ 變現</a>
+            <a href="../survey.html" class="quick-nav-link">📝 問卷</a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container" style="padding-top: 2rem; padding-bottom: 6rem;">
+        <div class="fade-in">
+            <!-- Introduction -->
+            <div class="alert alert-info mb-6">
+                <strong>🎯 本階段目標：</strong>產出精準、可行且符合預算的詳細行程表。處理複雜的交通邏輯、預算控制與路線順暢度。
+            </div>
+
+            <!-- Quick Links -->
+            <div class="quick-links mb-6">
+                <a href="https://gemini.google.com/" target="_blank" class="quick-link">
+                    <img src="https://www.gstatic.com/lamda/images/gemini_sparkle_v002_d4735304ff6292a690345.svg"
+                        alt="Gemini">
+                    Gemini Deep Research
+                </a>
+                <a href="https://wonderplan.ai/" target="_blank" class="quick-link">
+                    🗺️ Wonderplan
+                </a>
+            </div>
+
+            <!-- Deep Research Section -->
+            <div class="card mb-6">
+                <div class="card-header">
+                    <h3>🔬 Deep Research 指令生成器</h3>
+                    <p class="text-xs text-stone-500 mt-1">七步結構化框架：主題、時間、人數、住宿、交通、預算、格式</p>
+                </div>
+                <div class="card-body">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Left Column -->
+                        <div>
+                            <div class="form-group">
+                                <label class="form-label">1. 主題/目的地</label>
+                                <input type="text" id="dr-theme" class="form-input" placeholder="例如：大阪美食深度遊"
+                                    value="大阪美食深度遊">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">2. 精確時間</label>
+                                <input type="text" id="dr-time" class="form-input" placeholder="例如：5天4夜" value="5天4夜">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">3. 人數與成員</label>
+                                <input type="text" id="dr-people" class="form-input" placeholder="例如：2大1小(5歲)，帶70歲長輩"
+                                    value="2大人">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">4. 住宿偏好</label>
+                                <select id="dr-hotel" class="form-select">
+                                    <option value="交通方便的連鎖商務旅館">交通方便的連鎖商務旅館</option>
+                                    <option value="有溫泉的日式旅館">有溫泉的日式旅館</option>
+                                    <option value="高級五星飯店">高級五星飯店</option>
+                                    <option value="便宜的青年旅館">便宜的青年旅館</option>
+                                    <option value="Airbnb 民宿">Airbnb 民宿</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- Right Column -->
+                        <div>
+                            <div class="form-group">
+                                <label class="form-label">5. 交通需求</label>
+                                <input type="text" id="dr-transport" class="form-input" placeholder="例如：避開爬坡，優先電梯"
+                                    value="大眾運輸為主">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">6. 預算上限 (每人)</label>
+                                <input type="text" id="dr-budget" class="form-input" placeholder="例如：3萬台幣" value="3萬台幣">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">7. 輸出格式要求</label>
+                                <select id="dr-format" class="form-select">
+                                    <option value="表格 + 地圖標記建議">表格 + 地圖標記建議</option>
+                                    <option value="純文字條列">純文字條列</option>
+                                    <option value="每日分開說明">每日分開說明</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">其他注意事項</label>
+                                <textarea id="dr-notes" class="form-textarea" rows="2"
+                                    placeholder="例如：不吃生食、需要無障礙設施"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="generateDeepResearch()" class="btn btn-secondary btn-full mt-4">
+                        ✨ 生成 Deep Research 提示詞
+                    </button>
+
+                    <div class="prompt-box mt-4">
+                        <span class="prompt-label">Deep Research 提示詞</span>
+                        <textarea id="dr-output" class="form-textarea"
+                            style="min-height: 200px; font-family: monospace;" readonly></textarea>
+                    </div>
+                    <button onclick="copyToClipboard('dr-output')" class="btn btn-primary btn-full mt-2">
+                        📋 複製提示詞
+                    </button>
+                </div>
+            </div>
+
+            <!-- JR Pass Calculator -->
+            <div class="card mb-6">
+                <div class="card-header" style="background: var(--color-accent-light);">
+                    <h3>🚃 交通損益計算器</h3>
+                    <p class="text-xs text-stone-500 mt-1">2023 年後 JR Pass 大漲，讓 AI 幫你算是否划算</p>
+                </div>
+                <div class="card-body">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="form-group">
+                            <label class="form-label">起點城市</label>
+                            <select id="jr-from" class="form-select">
+                                <option value="東京">東京</option>
+                                <option value="大阪">大阪</option>
+                                <option value="京都">京都</option>
+                                <option value="名古屋">名古屋</option>
+                                <option value="福岡">福岡</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">終點城市</label>
+                            <select id="jr-to" class="form-select">
+                                <option value="大阪">大阪</option>
+                                <option value="東京">東京</option>
+                                <option value="京都">京都</option>
+                                <option value="廣島">廣島</option>
+                                <option value="金澤">金澤</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">來回次數</label>
+                            <select id="jr-trips" class="form-select">
+                                <option value="單程">單程</option>
+                                <option value="來回">來回</option>
+                                <option value="來回加上市區多次移動">來回 + 市區多次移動</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button onclick="generateJRPrompt()" class="btn btn-accent btn-full mt-2">
+                        🧮 生成交通計算提示詞
+                    </button>
+
+                    <div class="prompt-box mt-4">
+                        <textarea id="jr-output" class="form-textarea" style="min-height: 80px; font-family: monospace;"
+                            readonly></textarea>
+                    </div>
+                    <button onclick="copyToClipboard('jr-output')" class="btn btn-outline btn-full mt-2">
+                        📋 複製
+                    </button>
+                </div>
+            </div>
+
+            <!-- Budget Stress Test -->
+            <div class="card mb-6">
+                <div class="card-header" style="background: var(--color-primary-light);">
+                    <h3>💰 預算壓力測試</h3>
+                    <p class="text-xs text-stone-500 mt-1">讓 AI 幫你分配住宿、交通與餐飲比例</p>
+                </div>
+                <div class="card-body">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="form-group">
+                            <label class="form-label">總預算 (每人)</label>
+                            <input type="text" id="budget-total" class="form-input" placeholder="例如：50000"
+                                value="50000">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">幣別</label>
+                            <select id="budget-currency" class="form-select">
+                                <option value="台幣">台幣</option>
+                                <option value="日圓">日圓</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">天數</label>
+                            <input type="text" id="budget-days" class="form-input" value="5">
+                        </div>
+                    </div>
+                    <button onclick="generateBudgetPrompt()" class="btn btn-primary btn-full mt-2">
+                        📊 生成預算分配提示詞
+                    </button>
+
+                    <div class="prompt-box mt-4">
+                        <textarea id="budget-output" class="form-textarea"
+                            style="min-height: 80px; font-family: monospace;" readonly></textarea>
+                    </div>
+                    <button onclick="copyToClipboard('budget-output')" class="btn btn-outline btn-full mt-2">
+                        📋 複製
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer Navigation -->
+    <div class="footer-nav">
+        <a href="phase1.html" class="nav-btn">
+            ← 上一階段
+        </a>
+        <a href="../index.html" class="nav-btn">
+            🏠 首頁
+        </a>
+        <a href="phase3.html" class="nav-btn primary">
+            下一階段 →
+        </a>
+    </div>
+
+    <script src="../js/common.js"></script>
+    <script>
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            WorkshopState.setCurrentPhase(2);
+        });
+
+        function generateDeepResearch() {
+            const theme = document.getElementById('dr-theme').value;
+            const time = document.getElementById('dr-time').value;
+            const people = document.getElementById('dr-people').value;
+            const hotel = document.getElementById('dr-hotel').value;
+            const transport = document.getElementById('dr-transport').value;
+            const budget = document.getElementById('dr-budget').value;
+            const format = document.getElementById('dr-format').value;
+            const notes = document.getElementById('dr-notes').value;
+
+            const prompt = `請使用深度研究模式，幫我規劃一個詳細的日本旅遊行程。
+
+## 七步結構化框架
+
+1. **主題**：${theme}
+2. **時間**：${time}
+3. **人數與成員**：${people}
+4. **住宿偏好**：${hotel}
+5. **交通需求**：${transport}
+6. **預算上限**：每人 ${budget}
+7. **輸出格式**：${format}
+
+${notes ? `## 特別注意事項\n${notes}` : ''}
+
+## 請包含以下內容
+- 每日詳細行程（含時間、交通方式、預估費用）
+- 餐廳推薦（請確認目前仍在營業）
+- 交通票券購買建議
+- 住宿地點建議（含價格範圍）
+- 總預算估算表`;
+
+            document.getElementById('dr-output').value = prompt;
+        }
+
+        function generateJRPrompt() {
+            const from = document.getElementById('jr-from').value;
+            const to = document.getElementById('jr-to').value;
+            const trips = document.getElementById('jr-trips').value;
+
+            const prompt = `請計算從 ${from} 到 ${to} 的交通費用：
+
+行程：${trips}
+
+請幫我分析：
+1. 單獨購票的總費用是多少日圓？
+2. 購買 7 日 JR Pass 全國版 (目前售價約 50,000 日圓) 是否划算？
+3. 是否有其他更省錢的交通票券選擇？（如區域 Pass）
+4. 請給我明確的購買建議。`;
+
+            document.getElementById('jr-output').value = prompt;
+        }
+
+        function generateBudgetPrompt() {
+            const total = document.getElementById('budget-total').value;
+            const currency = document.getElementById('budget-currency').value;
+            const days = document.getElementById('budget-days').value;
+
+            const prompt = `我的日本旅遊預算是每人 ${total} ${currency}，共 ${days} 天。
+
+請幫我做預算分配與壓力測試：
+
+1. **建議分配比例**：
+   - 機票：?%
+   - 住宿：?%
+   - 交通：?%
+   - 餐飲：?%
+   - 門票/體驗：?%
+   - 購物/備用：?%
+
+2. **每日預算上限**：
+   - 餐飲每日建議金額
+   - 交通每日建議金額
+
+3. **風險提醒**：
+   - 這個預算是否足夠舒適旅遊？
+   - 哪些項目最容易超支？
+   - 省錢建議有哪些？`;
+
+            document.getElementById('budget-output').value = prompt;
+        }
+
+        // Auto-generate on load
+        generateDeepResearch();
+    </script>
+</body>
+
+</html>

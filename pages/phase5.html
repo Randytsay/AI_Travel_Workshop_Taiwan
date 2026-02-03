@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌸</text></svg>">
+    <title>階段五：現場生存 | AI 旅遊規劃工作坊</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/main.css">
+</head>
+
+<body class="page-phase5">
+    <!-- Sakura Animation -->
+    <div class="sakura-container">
+        <div class="sakura"></div>
+        <div class="sakura"></div>
+        <div class="sakura"></div>
+        <div class="sakura"></div>
+        <div class="sakura"></div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container navbar-content">
+            <div class="navbar-brand">
+                <span style="font-size: 1.5rem;">🗾</span>
+                <h1>階段五：現場生存</h1>
+                <span class="badge">20分鐘</span>
+            </div>
+            <div class="navbar-links">
+                <span class="text-sm text-stone-500">5/6 階段</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Quick Nav -->
+    <div class="quick-nav">
+        <div class="container quick-nav-links">
+            <a href="../index.html" class="quick-nav-link">🏠 首頁</a>
+            <a href="phase1.html" class="quick-nav-link">1️⃣ 靈感</a>
+            <a href="phase2.html" class="quick-nav-link">2️⃣ 規劃</a>
+            <a href="phase3.html" class="quick-nav-link">3️⃣ 驗證</a>
+            <a href="phase4.html" class="quick-nav-link">4️⃣ 視覺</a>
+            <a href="phase5.html" class="quick-nav-link active">5️⃣ 生存</a>
+            <a href="phase6.html" class="quick-nav-link">6️⃣ 變現</a>
+            <a href="../survey.html" class="quick-nav-link">📝 問卷</a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container" style="padding-top: 2rem; padding-bottom: 6rem;">
+        <div class="fade-in">
+            <!-- Introduction -->
+            <div class="alert alert-info mb-6">
+                <strong>🎯 本階段目標：</strong>解決語言不通、點餐恐懼、購物決策與突發狀況。學會在旅途中善用 AI 助理！
+            </div>
+
+            <!-- Quick Links -->
+            <div class="quick-links mb-6">
+                <a href="https://aistudio.google.com/" target="_blank" class="quick-link">
+                    🎙️ Gemini Live
+                </a>
+                <a href="https://lens.google.com/" target="_blank" class="quick-link">
+                    📷 Google Lens
+                </a>
+            </div>
+
+            <!-- Section A: Gemini Live -->
+            <div class="card mb-6">
+                <div class="card-header" style="background: linear-gradient(135deg, #dbeafe 0%, #e0e7ff 100%);">
+                    <h3>🎙️ Section A：Gemini Live 即時口譯</h3>
+                    <p class="text-xs text-stone-500 mt-1">遇到外國人不敢開口？開啟即時雙向對話！</p>
+                </div>
+                <div class="card-body">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Instructions -->
+                        <div>
+                            <h4 class="font-bold mb-4">操作方式</h4>
+                            <ol
+                                style="list-style: decimal; margin-left: 1.5rem; display: flex; flex-direction: column; gap: 0.5rem;">
+                                <li>開啟 Gemini App 或 AI Studio</li>
+                                <li>點擊麥克風進入 Live 模式</li>
+                                <li>說出下方的口譯指令</li>
+                                <li>把手機放在中間，開始對話！</li>
+                            </ol>
+                            <a href="https://aistudio.google.com/" target="_blank"
+                                class="btn btn-secondary btn-full mt-4">
+                                🚀 開啟 AI Studio
+                            </a>
+                        </div>
+
+                        <!-- Prompt Cards -->
+                        <div>
+                            <div class="tool-card mb-4">
+                                <div class="tool-title mb-2">🗣️ 啟動口譯模式</div>
+                                <div class="tool-prompt" id="live-prompt-1">
+                                    請當我的中日文口譯，我說中文你翻譯成日文，對方說日文你翻譯成中文。請保持簡潔，直接翻譯即可。</div>
+                                <button onclick="copyText(document.getElementById('live-prompt-1').innerText)"
+                                    class="btn btn-outline btn-sm btn-full mt-2">複製</button>
+                            </div>
+                            <div class="tool-card">
+                                <div class="tool-title mb-2">🛒 退稅確認</div>
+                                <div class="tool-prompt" id="live-prompt-2">我現在要和店員確認這款商品的退稅規定，請幫我即時翻譯。</div>
+                                <button onclick="copyText(document.getElementById('live-prompt-2').innerText)"
+                                    class="btn btn-outline btn-sm btn-full mt-2">複製</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Menu Translation -->
+                    <div class="tool-card mt-4">
+                        <div class="flex items-center mb-2">
+                            <span class="tool-icon">🍽️</span>
+                            <span class="tool-title">菜單翻譯與推薦</span>
+                        </div>
+                        <p class="tool-desc mb-2">拍照上傳菜單，不只翻譯，還能問口感！</p>
+                        <div class="tool-prompt" id="menu-prompt">這張菜單上有什麼是『季節限定』的？請幫我翻譯並推薦兩道不辣的在地特色菜。我們有 3 人，預算 5000
+                            日圓，請列出給店員看的日文點餐清單。</div>
+                        <button onclick="copyText(document.getElementById('menu-prompt').innerText)"
+                            class="btn btn-outline btn-sm btn-full mt-2">複製</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section B: Google Lens Price Detective -->
+            <div class="card mb-6">
+                <div class="card-header" style="background: var(--color-accent-light);">
+                    <h3>💊 Section B：Google Lens 價格與成分偵探</h3>
+                    <p class="text-xs text-stone-500 mt-1">藥妝店的秘密武器！比價 + 成分分析</p>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-warning mb-4">
+                        <strong>💡 講師話術：</strong>「你看，現場賣 800，但網路上只要 600。這時候我們就可以教朋友，如果不急，透過 Shop.com 搜尋這款商品，說不定更便宜還有點數！」
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="tool-card">
+                            <div class="flex items-center mb-2">
+                                <span class="tool-icon">💰</span>
+                                <span class="tool-title">價格比對</span>
+                            </div>
+                            <p class="tool-desc mb-2">用 Google Lens 掃描商品，AI 會顯示網路價格</p>
+                            <div class="tool-prompt" id="price-prompt">這款保養品/藥品的日本 Amazon 或樂天市場平均售價是多少？我在店裡看到的價格是 [XXX
+                                日圓]，請告訴我買貴了嗎？</div>
+                            <button onclick="copyText(document.getElementById('price-prompt').innerText)"
+                                class="btn btn-accent btn-sm btn-full mt-2">複製</button>
+                        </div>
+
+                        <div class="tool-card">
+                            <div class="flex items-center mb-2">
+                                <span class="tool-icon">⚠️</span>
+                                <span class="tool-title">成分警示 (對長輩超有用！)</span>
+                            </div>
+                            <p class="tool-desc mb-2">拍藥品背面，問 AI 安全性</p>
+                            <div class="tool-prompt" id="ingredient-prompt">我有
+                                [高血壓/糖尿病/蠶豆症/過敏體質]，這款藥品/保健食品可以安全使用嗎？主要成分是什麼？有沒有需要注意的副作用？</div>
+                            <button onclick="copyText(document.getElementById('ingredient-prompt').innerText)"
+                                class="btn btn-primary btn-sm btn-full mt-2">複製</button>
+                        </div>
+                    </div>
+
+                    <div class="tool-card mt-4">
+                        <div class="flex items-center mb-2">
+                            <span class="tool-icon">💄</span>
+                            <span class="tool-title">保養品分析</span>
+                        </div>
+                        <div class="tool-prompt" id="skincare-prompt">這款保養品的成分適合敏感肌嗎？它的主要功效是什麼？請用簡單的語言解釋給我聽。</div>
+                        <button onclick="copyText(document.getElementById('skincare-prompt').innerText)"
+                            class="btn btn-outline btn-sm btn-full mt-2">複製</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section C: Luggage & Logistics -->
+            <div class="card mb-6">
+                <div class="card-header">
+                    <h3>🧳 Section C：行李與物流對策</h3>
+                    <p class="text-xs text-stone-500 mt-1">解放雙手，不要再拖著行李找置物櫃！</p>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-info mb-4">
+                        <strong>😫 痛點：</strong>拖著大行李在新宿車站迷路找置物櫃，這是帶長輩或小孩的家庭最崩潰的時刻...
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="tool-card">
+                            <div class="flex items-center mb-2">
+                                <span class="tool-icon">📍</span>
+                                <span class="tool-title">ecbo cloak 行李寄放</span>
+                            </div>
+                            <p class="tool-desc mb-2">可預約的行李寄放服務，比車站置物櫃更方便</p>
+                            <div class="tool-prompt" id="ecbo-prompt">請幫我找出 [新宿/澀谷/淺草/大阪難波] 附近的 ecbo cloak
+                                行李寄放服務點或大型置物櫃位置，並確認是否需要提前預約、營業時間、以及價格範圍。</div>
+                            <button onclick="copyText(document.getElementById('ecbo-prompt').innerText)"
+                                class="btn btn-secondary btn-sm btn-full mt-2">複製</button>
+                        </div>
+
+                        <div class="tool-card">
+                            <div class="flex items-center mb-2">
+                                <span class="tool-icon">🛍️</span>
+                                <span class="tool-title">商業連結：旅遊配件</span>
+                            </div>
+                            <p class="tool-desc">推薦透過 Shop.com 購買：</p>
+                            <ul
+                                style="list-style: disc; margin-left: 1.5rem; font-size: 0.875rem; color: var(--color-stone-600); margin-top: 0.5rem;">
+                                <li>行李秤（避免超重）</li>
+                                <li>旅遊不便險</li>
+                                <li>萬用轉接頭</li>
+                                <li>旅行收納袋組</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section D: Emergency -->
+            <div class="card mb-6">
+                <div class="card-header" style="background: #fee2e2;">
+                    <h3>🆘 Section D：緊急狀況處理</h3>
+                </div>
+                <div class="card-body">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="tool-card">
+                            <div class="flex items-center mb-2">
+                                <span class="tool-icon">🗺️</span>
+                                <span class="tool-title">迷路求助</span>
+                            </div>
+                            <div class="tool-prompt" id="lost-prompt">我在 [描述位置或分享 GPS]，請幫我找到最近的車站/地鐵/警察站（交番），並告訴我怎麼走。
+                            </div>
+                            <button onclick="copyText(document.getElementById('lost-prompt').innerText)"
+                                class="btn btn-outline btn-sm btn-full mt-2">複製</button>
+                        </div>
+
+                        <div class="tool-card">
+                            <div class="flex items-center mb-2">
+                                <span class="tool-icon">🏥</span>
+                                <span class="tool-title">就醫翻譯</span>
+                            </div>
+                            <div class="tool-prompt" id="medical-prompt">我
+                                [症狀描述，例如：頭痛發燒/肚子痛/扭傷腳]，請幫我用日文說明給醫生聽，並翻譯成書面文字讓我給醫生看。</div>
+                            <button onclick="copyText(document.getElementById('medical-prompt').innerText)"
+                                class="btn btn-primary btn-sm btn-full mt-2">複製</button>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 p-4" style="background: var(--color-stone-50); border-radius: var(--radius-lg);">
+                        <div class="font-bold text-sm mb-2">📞 日本緊急電話</div>
+                        <div class="grid grid-cols-3 gap-2 text-center">
+                            <div style="background: white; padding: 0.5rem; border-radius: var(--radius-md);">
+                                <div class="font-bold text-primary">110</div>
+                                <div class="text-xs text-stone-500">警察</div>
+                            </div>
+                            <div style="background: white; padding: 0.5rem; border-radius: var(--radius-md);">
+                                <div class="font-bold text-primary">119</div>
+                                <div class="text-xs text-stone-500">火災/救護車</div>
+                            </div>
+                            <div style="background: white; padding: 0.5rem; border-radius: var(--radius-md);">
+                                <div class="font-bold text-primary">03-5774-0992</div>
+                                <div class="text-xs text-stone-500">台北駐日代表處</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer Navigation -->
+    <div class="footer-nav">
+        <a href="phase4.html" class="nav-btn">
+            ← 上一階段
+        </a>
+        <a href="../index.html" class="nav-btn">
+            🏠 首頁
+        </a>
+        <a href="phase6.html" class="nav-btn primary">
+            下一階段 →
+        </a>
+    </div>
+
+    <script src="../js/common.js"></script>
+    <script>
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            WorkshopState.setCurrentPhase(5);
+        });
+    </script>
+</body>
+
+</html>

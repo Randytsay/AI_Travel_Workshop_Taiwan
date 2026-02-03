@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌸</text></svg>">
+    <title>階段四：視覺地圖 + 社群 | AI 旅遊規劃工作坊</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/main.css">
+    <!-- Firebase SDK (可選 - 如需跨裝置同步) -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <script src="../js/countdown-sync.js"></script>
+    <style>
+        .style-card {
+            border: 2px solid var(--color-stone-200);
+            border-radius: var(--radius-lg);
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .style-card:hover {
+            border-color: var(--color-primary-light);
+            transform: translateY(-2px);
+        }
+
+        .style-card.selected {
+            border-color: var(--color-primary);
+            background: var(--color-primary-light);
+        }
+
+        .style-card .emoji {
+            font-size: 2.5rem;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .style-card .name {
+            font-weight: 700;
+            font-size: 0.875rem;
+        }
+
+        .style-card .target {
+            font-size: 0.625rem;
+            color: var(--color-stone-500);
+            margin-top: 0.25rem;
+        }
+
+        .countdown {
+            background: linear-gradient(135deg, var(--color-accent) 0%, #d97706 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: var(--radius-lg);
+            text-align: center;
+        }
+
+        .countdown .time {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+    </style>
+</head>
+
+<body class="page-phase4">
+    <!-- Sakura Animation -->
+    <div class="sakura-container">
+        <div class="sakura"></div>
+        <div class="sakura"></div>
+        <div class="sakura"></div>
+        <div class="sakura"></div>
+        <div class="sakura"></div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container navbar-content">
+            <div class="navbar-brand">
+                <span style="font-size: 1.5rem;">🎨</span>
+                <h1>階段四：視覺地圖 + 社群</h1>
+                <span class="badge" style="background: var(--color-accent); color: white;">⭐ 課程高潮</span>
+            </div>
+            <div class="navbar-links">
+                <span class="text-sm text-stone-500">4/6 階段</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Quick Nav -->
+    <div class="quick-nav">
+        <div class="container quick-nav-links">
+            <a href="../index.html" class="quick-nav-link">🏠 首頁</a>
+            <a href="phase1.html" class="quick-nav-link">1️⃣ 靈感</a>
+            <a href="phase2.html" class="quick-nav-link">2️⃣ 規劃</a>
+            <a href="phase3.html" class="quick-nav-link">3️⃣ 驗證</a>
+            <a href="phase4.html" class="quick-nav-link active">4️⃣ 視覺</a>
+            <a href="phase5.html" class="quick-nav-link">5️⃣ 生存</a>
+            <a href="phase6.html" class="quick-nav-link">6️⃣ 變現</a>
+            <a href="../survey.html" class="quick-nav-link">📝 問卷</a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container" style="padding-top: 2rem; padding-bottom: 6rem;">
+        <div class="fade-in">
+            <!-- Social Challenge Banner -->
+            <div class="countdown mb-6">
+                <div class="font-bold">🏆 社群人氣王挑戰進行中！</div>
+                <div class="text-sm mt-1">發 FB/IG → 課程結束前統計讚數 → 前 3 名送獎品！</div>
+                <div class="time mt-2" id="challenge-countdown">--:--</div>
+                <div class="text-xs" id="countdown-label">等待講師開始計時</div>
+
+                <!-- 講師控制區 (密碼驗證後顯示) -->
+                <div id="instructor-controls"
+                    style="display: none; margin-top: 1rem; padding: 1rem; background: rgba(255,255,255,0.95); border-radius: 0.5rem; border: 1px solid #ddd;">
+                    <div style="font-size: 0.875rem; font-weight: 700; margin-bottom: 0.5rem; color: #44403c;">🎛️ 講師控制
+                    </div>
+                    <div
+                        style="display: flex; gap: 0.5rem; align-items: center; justify-content: center; flex-wrap: wrap;">
+                        <input type="number" id="countdown-minutes" value="30" min="1" max="120"
+                            style="width: 60px; padding: 0.5rem; border-radius: 0.5rem; border: 1px solid #ccc; text-align: center;">
+                        <span style="font-size: 0.875rem; color: #44403c;">分鐘</span>
+                        <button onclick="startGlobalCountdown()" class="btn btn-primary btn-sm">▶️ 開始</button>
+                        <button onclick="resetCountdown()" class="btn btn-outline btn-sm">🔄 重置</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="quick-links mb-6">
+                <a href="https://gemini.google.com/" target="_blank" class="quick-link">
+                    <img src="https://www.gstatic.com/lamda/images/gemini_sparkle_v002_d4735304ff6292a690345.svg"
+                        alt="Gemini">
+                    Gemini (生成地圖)
+                </a>
+                <a href="https://grok.com/" target="_blank" class="quick-link">
+                    🎬 Grok (轉動畫)
+                </a>
+                <a href="https://notebooklm.google.com/" target="_blank" class="quick-link">
+                    📓 NotebookLM (簡報/Podcast)
+                </a>
+            </div>
+
+            <!-- Section A: Map Style Selection -->
+            <div class="card mb-6">
+                <div class="card-header">
+                    <h3>🎨 Section A：風格化地圖生成</h3>
+                    <p class="text-xs text-stone-500 mt-1">根據你的目標受眾選擇最適合的風格</p>
+                </div>
+                <div class="card-body">
+                    <!-- Style Grid -->
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
+                        <div class="style-card" onclick="selectStyle('claymorphism')" id="style-claymorphism">
+                            <span class="emoji">🧸</span>
+                            <div class="name">親子黏土風</div>
+                            <div class="target">適合親子族群・媽媽會瘋傳</div>
+                        </div>
+                        <div class="style-card" onclick="selectStyle('pixel')" id="style-pixel">
+                            <span class="emoji">👾</span>
+                            <div class="name">像素復古風</div>
+                            <div class="target">適合動漫/年輕族群・IG 限動</div>
+                        </div>
+                        <div class="style-card" onclick="selectStyle('ukiyo')" id="style-ukiyo">
+                            <span class="emoji">🎎</span>
+                            <div class="name">浮世繪風</div>
+                            <div class="target">適合長輩/文青・超有質感</div>
+                        </div>
+                        <div class="style-card" onclick="selectStyle('cyberpunk')" id="style-cyberpunk">
+                            <span class="emoji">🌃</span>
+                            <div class="name">賽博龐克</div>
+                            <div class="target">適合都會年輕人・東京夜景</div>
+                        </div>
+                        <div class="style-card" onclick="selectStyle('minimalist')" id="style-minimalist">
+                            <span class="emoji">✏️</span>
+                            <div class="name">極簡線條</div>
+                            <div class="target">適合文青/極簡控・雜誌風</div>
+                        </div>
+                        <div class="style-card selected" onclick="selectStyle('watercolor')" id="style-watercolor">
+                            <span class="emoji">🌸</span>
+                            <div class="name">日式水彩</div>
+                            <div class="target">經典款・溫馨旅遊</div>
+                        </div>
+                    </div>
+
+                    <!-- Prompt Output -->
+                    <div class="prompt-box">
+                        <span class="prompt-label">Gemini Imagen 提示詞</span>
+                        <textarea id="map-prompt" class="form-textarea"
+                            style="min-height: 250px; font-family: monospace;"></textarea>
+                    </div>
+                    <button onclick="copyToClipboard('map-prompt')" class="btn btn-primary btn-full mt-4">
+                        📋 複製提示詞
+                    </button>
+                    <a href="https://gemini.google.com/" target="_blank" class="btn btn-outline btn-full mt-2">
+                        🚀 開啟 Gemini 生成地圖
+                    </a>
+                </div>
+            </div>
+
+            <!-- Section B: Social Post Generator -->
+            <div class="card mb-6">
+                <div class="card-header" style="background: linear-gradient(135deg, #fef3c7 0%, #fff1f2 100%);">
+                    <h3>🏆 Section B：社群人氣王挑戰</h3>
+                    <p class="text-xs text-stone-500 mt-1">用 AI 生成 FB 貼文，讓你輕鬆拉票！</p>
+                </div>
+                <div class="card-body">
+                    <!-- Challenge Rules -->
+                    <div class="alert alert-info mb-4">
+                        <strong>📢 遊戲規則：</strong>
+                        <ol style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                            <li>生成你的專屬手繪地圖</li>
+                            <li>用下方工具生成 FB 貼文</li>
+                            <li>發布到 FB/IG 並開始拉票</li>
+                            <li>課程結束前統計，前 3 名送獎品！</li>
+                        </ol>
+                        <div class="mt-2 text-sm"><strong>評分公式：</strong>讚數 ×1 + 留言數 ×3 + 講師加分</div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <div class="form-group">
+                            <label class="form-label">發文平台</label>
+                            <select id="social-platform" class="form-select" onchange="updateSocialPost()">
+                                <option value="Facebook">Facebook</option>
+                                <option value="Instagram">Instagram</option>
+                                <option value="Threads">Threads</option>
+                                <option value="LINE 動態">LINE 動態</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">發文調性</label>
+                            <select id="social-style" class="form-select" onchange="updateSocialPost()">
+                                <option value="炫耀型">🎉 炫耀型 (活潑驚嘆)</option>
+                                <option value="實用分享">📝 實用分享 (條列資訊)</option>
+                                <option value="文青低調">🍃 文青低調 (簡潔優雅)</option>
+                                <option value="邀約朋友">👋 邀約朋友 (互動式)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">你的目的地</label>
+                        <input type="text" id="social-destination" class="form-input" value="日本"
+                            onchange="updateSocialPost()">
+                    </div>
+
+                    <div class="prompt-box">
+                        <span class="prompt-label">FB 發文 AI 提示詞</span>
+                        <textarea id="social-prompt" class="form-textarea"
+                            style="min-height: 180px; font-family: monospace;" readonly></textarea>
+                    </div>
+                    <button onclick="copyToClipboard('social-prompt')" class="btn btn-accent btn-full mt-4">
+                        📋 複製提示詞，用 AI 生成貼文
+                    </button>
+
+                    <!-- Hashtags -->
+                    <div class="mt-4 p-4" style="background: var(--color-stone-50); border-radius: var(--radius-lg);">
+                        <div class="font-bold text-sm mb-2">📌 推薦 Hashtag (可直接複製)</div>
+                        <div id="hashtags" class="text-sm text-primary" style="cursor: pointer;"
+                            onclick="copyText(this.innerText)">
+                            #AI旅遊規劃 #Gemini #日本自由行 #我的AI地圖 #工作坊 #旅遊規劃師
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section C: Grok Animation -->
+            <div class="card mb-6">
+                <div class="card-header">
+                    <h3>🎬 Section C：靜態圖轉動畫 (Grok)</h3>
+                </div>
+                <div class="card-body">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Steps -->
+                        <div>
+                            <h4 class="font-bold mb-4">操作步驟</h4>
+                            <div style="display: flex; flex-direction: column; gap: 1rem;">
+                                <div style="display: flex; gap: 1rem; align-items: flex-start;">
+                                    <span
+                                        style="background: var(--color-stone-800); color: white; width: 2rem; height: 2rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</span>
+                                    <div>
+                                        <div class="font-bold">開啟 Grok</div>
+                                        <p class="text-sm text-stone-500">前往 grok.com</p>
+                                    </div>
+                                </div>
+                                <div style="display: flex; gap: 1rem; align-items: flex-start;">
+                                    <span
+                                        style="background: var(--color-stone-800); color: white; width: 2rem; height: 2rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</span>
+                                    <div>
+                                        <div class="font-bold">上傳你的手繪地圖</div>
+                                        <p class="text-sm text-stone-500">將 Gemini 生成的圖片上傳</p>
+                                    </div>
+                                </div>
+                                <div style="display: flex; gap: 1rem; align-items: flex-start;">
+                                    <span
+                                        style="background: var(--color-stone-800); color: white; width: 2rem; height: 2rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</span>
+                                    <div>
+                                        <div class="font-bold">選擇動畫效果</div>
+                                        <p class="text-sm text-stone-500">使用下方的動畫提示詞</p>
+                                    </div>
+                                </div>
+                                <div style="display: flex; gap: 1rem; align-items: flex-start;">
+                                    <span
+                                        style="background: var(--color-success); color: white; width: 2rem; height: 2rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">4</span>
+                                    <div>
+                                        <div class="font-bold">下載並分享</div>
+                                        <p class="text-sm text-stone-500">下載 MP4/GIF 發到社群</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="https://grok.com/" target="_blank" class="btn btn-secondary btn-full mt-4">
+                                🚀 開啟 Grok
+                            </a>
+                        </div>
+
+                        <!-- Animation Effects -->
+                        <div>
+                            <h4 class="font-bold mb-4">選擇動畫效果</h4>
+                            <div class="grid grid-cols-2 gap-2">
+                                <button onclick="selectAnimation('sakura')" class="btn btn-outline" id="anim-sakura">🌸
+                                    櫻花飄落</button>
+                                <button onclick="selectAnimation('clouds')" class="btn btn-outline" id="anim-clouds">☁️
+                                    雲朵移動</button>
+                                <button onclick="selectAnimation('train')" class="btn btn-outline" id="anim-train">🚃
+                                    電車駛過</button>
+                                <button onclick="selectAnimation('walking')" class="btn btn-outline"
+                                    id="anim-walking">🚶 人物走動</button>
+                                <button onclick="selectAnimation('lights')" class="btn btn-outline" id="anim-lights">✨
+                                    燈光閃爍</button>
+                            </div>
+
+                            <div class="prompt-box mt-4">
+                                <span class="prompt-label">動畫提示詞</span>
+                                <textarea id="animation-prompt" class="form-textarea"
+                                    style="min-height: 100px; font-family: monospace;" readonly></textarea>
+                            </div>
+                            <button onclick="copyToClipboard('animation-prompt')" class="btn btn-outline btn-full mt-2">
+                                📋 複製
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section D: Additional Tools -->
+            <div class="card mb-6">
+                <div class="card-header">
+                    <h3>📦 Section D：行前資料包</h3>
+                </div>
+                <div class="card-body">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="tool-card">
+                            <div class="flex items-center mb-2">
+                                <span class="tool-icon">📊</span>
+                                <span class="tool-title">自動生成簡報</span>
+                            </div>
+                            <p class="tool-desc">使用 NotebookLM Studio 的 Slide Deck 功能，一鍵將行程轉化為 10 頁簡報，說服家人或旅伴！</p>
+                            <a href="https://notebooklm.google.com/" target="_blank"
+                                class="btn btn-outline btn-sm mt-2">開啟 NotebookLM</a>
+                        </div>
+                        <div class="tool-card">
+                            <div class="flex items-center mb-2">
+                                <span class="tool-icon">🎧</span>
+                                <span class="tool-title">專屬 Podcast 導覽</span>
+                            </div>
+                            <p class="tool-desc">使用 NotebookLM Audio Overview，將行程與景點歷史轉化為雙人對談語音，在飛機上預習！</p>
+                            <a href="https://notebooklm.google.com/" target="_blank"
+                                class="btn btn-outline btn-sm mt-2">開啟 NotebookLM</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer Navigation -->
+    <div class="footer-nav">
+        <a href="phase3.html" class="nav-btn">
+            ← 上一階段
+        </a>
+        <a href="../index.html" class="nav-btn">
+            🏠 首頁
+        </a>
+        <a href="phase5.html" class="nav-btn primary">
+            下一階段 →
+        </a>
+    </div>
+
+    <script src="../js/common.js"></script>
+    <script>
+        let selectedStyle = 'watercolor';
+        let selectedAnimation = '';
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            WorkshopState.setCurrentPhase(4);
+            updateMapPrompt();
+            updateSocialPost();
+            startCountdown();
+        });
+
+        function selectStyle(style) {
+            // Remove previous selection
+            document.querySelectorAll('.style-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            // Add new selection
+            document.getElementById('style-' + style).classList.add('selected');
+            selectedStyle = style;
+            updateMapPrompt();
+        }
+
+        function updateMapPrompt() {
+            const styles = {
+                claymorphism: {
+                    prompt: '藝術風格: 3D 等距視角、黏土擬真質感 (Claymorphism)、馬卡龍色調，像微縮模型玩具。所有元素都像用黏土捏製而成，圓潤可愛。'
+                },
+                pixel: {
+                    prompt: '藝術風格: 16-bit 復古像素藝術 (Pixel Art)。類似 90 年代 RPG 遊戲畫面或超級瑪利歐地圖，將景點設為關卡。色彩鮮豔明快，邊緣鋸齒狀，帶有可愛與懷舊的感覺。'
+                },
+                ukiyo: {
+                    prompt: '藝術風格: 日本傳統浮世繪風格 (Ukiyo-e)。模仿葛飾北齋或歌川廣重的筆觸。使用大膽的輪廓線、平塗的色彩（普魯士藍、朱紅、赭黃）。背景加入海浪或富士山紋樣。泛黃紙張質感、靛藍與米色主調。'
+                },
+                cyberpunk: {
+                    prompt: '藝術風格: 賽博龐克 (Cyberpunk) 與未來主義。深色背景，搭配高對比的霓虹光（粉紅、青色、紫色）。建築物帶有科技感與發光招牌，營造東京夜景的科幻氛圍。'
+                },
+                minimalist: {
+                    prompt: '藝術風格: 現代極簡主義 (Minimalist Line Art)。類似 Kinfolk 雜誌風格。大量留白，使用黑色細線條描繪輪廓，僅在重點處點綴低飽和度的莫蘭迪色系。'
+                },
+                watercolor: {
+                    prompt: '藝術風格: 溫暖、迷人、手繪水彩插畫。絕非照片寫實風格。使用柔和的輪廓線、溫潤的紋理，以及舒適的色調（粉彩、暖黃、藍色與粉色，並帶有花卉裝飾）。氛圍：營造浪漫溫馨的感覺。'
+                }
+            };
+
+            const style = styles[selectedStyle];
+
+            const prompt = `# 角色與目標
+你是一位專業的插畫家。請將以下文字行程轉化為一幅資訊圖表地圖。
+
+# 視覺風格要求 (關鍵)
+- ${style.prompt}
+- 版面與動線: 一條蜿蜒的路徑，從上而下。使用虛線連接事件。
+- 文字標註: 使用繁體中文標註地名與時間。
+
+# 內容元素
+1. 時間: 清晰的時鐘圖示。
+2. 地點/活動: 具體的交通工具、建築外觀。
+3. 食物: 美味的食物插畫。
+
+# 行程內容：
+[在此處貼上你剛剛生成的文字行程...]`;
+
+            document.getElementById('map-prompt').value = prompt;
+        }
+
+        function updateSocialPost() {
+            const platform = document.getElementById('social-platform').value;
+            const style = document.getElementById('social-style').value;
+            const destination = document.getElementById('social-destination').value;
+
+            const styleText = {
+                '炫耀型': '活潑有趣、充滿驚嘆號和 emoji',
+                '實用分享': '實用資訊為主、條列式呈現',
+                '文青低調': '文藝氣息、簡潔優雅、少用驚嘆號',
+                '邀約朋友': '輕鬆邀約、互動式問句'
+            };
+
+            const prompt = `請幫我寫一篇 ${platform} 貼文，內容要包含：
+1. 我正在學用 AI 規劃${destination}旅遊
+2. 這是我用 Gemini 生成的手繪地圖（超有質感！）
+3. 這個工作坊真的很好玩
+4. 邀請朋友來按讚支持我
+
+風格：${styleText[style]}
+請加上 5 個相關 emoji 和以下 hashtag：
+#AI旅遊規劃 #Gemini #日本自由行 #我的AI地圖 #工作坊`;
+
+            document.getElementById('social-prompt').value = prompt;
+        }
+
+        function selectAnimation(effect) {
+            const effects = {
+                sakura: { name: '櫻花飄落', prompt: '櫻花花瓣緩緩從上方飄落，隨風輕輕擺動。' },
+                clouds: { name: '雲朵移動', prompt: '天空中的雲朵緩緩向右飄移。' },
+                train: { name: '電車駛過', prompt: '一輛電車從畫面左側駛向右側，帶有動態效果。' },
+                walking: { name: '人物走動', prompt: '地圖上的小人物沿著路線行走。' },
+                lights: { name: '燈光閃爍', prompt: '夜景中的霓虹燈有微微閃爍的動態效果。' }
+            };
+
+            // Update button styles
+            document.querySelectorAll('[id^="anim-"]').forEach(btn => {
+                btn.classList.remove('btn-primary');
+                btn.classList.add('btn-outline');
+            });
+            document.getElementById('anim-' + effect).classList.remove('btn-outline');
+            document.getElementById('anim-' + effect).classList.add('btn-primary');
+
+            const e = effects[effect];
+            const prompt = `請將這張靜態圖片轉換為動畫。
+
+動畫效果：${e.prompt}
+
+輸出格式：MP4 或 GIF
+長度：3-5 秒循環
+保持原圖的藝術風格不變。`;
+
+            document.getElementById('animation-prompt').value = prompt;
+            selectedAnimation = effect;
+        }
+
+        // ===== 倒數計時功能 (跨裝置同步) =====
+        let countdownInterval = null;
+
+        function startCountdown() {
+            // 檢查是否為講師 (從後台登入過)
+            if (sessionStorage.getItem('workshop_admin_auth') === 'true') {
+                document.getElementById('instructor-controls').style.display = 'block';
+            }
+
+            // 監聽跨裝置/跨分頁同步更新
+            if (typeof CountdownSync !== 'undefined') {
+                CountdownSync.onUpdate((data) => {
+                    updateCountdownDisplay();
+                });
+            }
+
+            // 開始監聽倒數
+            updateCountdownDisplay();
+            countdownInterval = setInterval(updateCountdownDisplay, 1000);
+        }
+
+        function updateCountdownDisplay() {
+            const deadline = typeof CountdownSync !== 'undefined'
+                ? CountdownSync.getDeadline()
+                : parseInt(localStorage.getItem('workshop_countdown_deadline'));
+
+            const countdownEl = document.getElementById('challenge-countdown');
+            const labelEl = document.getElementById('countdown-label');
+
+            if (!deadline) {
+                countdownEl.textContent = '--:--';
+                labelEl.textContent = '等待講師開始計時';
+                countdownEl.style.color = '';
+                return;
+            }
+
+            const now = Date.now();
+            const diff = deadline - now;
+
+            if (diff <= 0) {
+                countdownEl.textContent = '00:00';
+                labelEl.textContent = '⏰ 時間到！';
+                countdownEl.style.color = '#dc2626';
+                return;
+            }
+
+            const minutes = Math.floor(diff / 60000);
+            const seconds = Math.floor((diff % 60000) / 1000);
+            countdownEl.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            labelEl.textContent = '距離統計截止';
+            countdownEl.style.color = diff < 60000 ? '#dc2626' : '';
+        }
+
+        function startGlobalCountdown() {
+            const minutes = parseInt(document.getElementById('countdown-minutes').value) || 30;
+            const deadline = Date.now() + (minutes * 60 * 1000);
+
+            if (typeof CountdownSync !== 'undefined') {
+                CountdownSync.setDeadline(deadline);
+            } else {
+                localStorage.setItem('workshop_countdown_deadline', deadline.toString());
+            }
+
+            updateCountdownDisplay();
+        }
+
+        function resetCountdown() {
+            if (typeof CountdownSync !== 'undefined') {
+                CountdownSync.clear();
+            } else {
+                localStorage.removeItem('workshop_countdown_deadline');
+            }
+            updateCountdownDisplay();
+        }
+    </script>
+</body>
+
+</html>

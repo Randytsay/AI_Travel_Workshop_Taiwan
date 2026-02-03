@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌸</text></svg>">
+    <title>AI 旅遊規劃師工作坊 | 4 小時實戰</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+    <!-- Sakura Animation -->
+    <div class="sakura-container">
+        <div class="sakura"></div>
+        <div class="sakura"></div>
+        <div class="sakura"></div>
+        <div class="sakura"></div>
+        <div class="sakura"></div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container navbar-content">
+            <div class="navbar-brand">
+                <span style="font-size: 1.5rem;">🌸</span>
+                <h1>AI 旅遊規劃師工作坊</h1>
+                <span class="badge">4小時實戰</span>
+            </div>
+            <div class="navbar-links">
+                <a href="admin/dashboard.html" class="btn btn-outline btn-sm">講師後台</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Quick Nav -->
+    <div class="quick-nav">
+        <div class="container quick-nav-links">
+            <a href="index.html" class="quick-nav-link active">🏠 首頁</a>
+            <a href="pages/phase1.html" class="quick-nav-link">1️⃣ 靈感</a>
+            <a href="pages/phase2.html" class="quick-nav-link">2️⃣ 規劃</a>
+            <a href="pages/phase3.html" class="quick-nav-link">3️⃣ 驗證</a>
+            <a href="pages/phase4.html" class="quick-nav-link">4️⃣ 視覺</a>
+            <a href="pages/phase5.html" class="quick-nav-link">5️⃣ 生存</a>
+            <a href="pages/phase6.html" class="quick-nav-link">6️⃣ 變現</a>
+            <a href="survey.html" class="quick-nav-link">📝 問卷</a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container" style="padding-top: 2rem; padding-bottom: 6rem;">
+        <!-- Hero Section -->
+        <section class="hero fade-in">
+            <div class="hero-content">
+                <h2>👋 歡迎來到 AI 旅遊規劃師工作坊</h2>
+                <p>今天我們將運用 Google 最新 AI 工具，完成您的日本夢想行程、視覺地圖、社群發文，還有購物攻略！</p>
+
+                <!-- Progress Dots -->
+                <div class="progress-dots mt-6" id="progress-container">
+                    <!-- Will be populated by JS -->
+                </div>
+
+                <!-- Quick Links -->
+                <div class="quick-links mt-6">
+                    <a href="https://gemini.google.com/" target="_blank" class="quick-link">
+                        <img src="https://www.gstatic.com/lamda/images/gemini_sparkle_v002_d4735304ff6292a690345.svg"
+                            alt="Gemini">
+                        開啟 Gemini
+                    </a>
+                    <a href="https://aistudio.google.com/" target="_blank" class="quick-link">
+                        🎙️ AI Studio (Live)
+                    </a>
+                    <a href="https://notebooklm.google.com/" target="_blank" class="quick-link">
+                        📓 NotebookLM
+                    </a>
+                    <a href="https://grok.com/" target="_blank" class="quick-link">
+                        🎬 Grok (動畫)
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Current Time -->
+        <div class="text-center mt-6 text-stone-500 text-sm">
+            目前時間：<span id="current-time" class="font-bold">--:--</span>
+        </div>
+
+        <!-- Phase Cards -->
+        <section class="mt-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                <!-- Phase 1 -->
+                <div class="phase-card" onclick="goToPhase(1)" id="phase-card-1">
+                    <span class="phase-number">1</span>
+                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                        <span style="font-size: 1.5rem;">💡</span>
+                        <h3>靈感發想</h3>
+                    </div>
+                    <p class="text-sm text-stone-500">角色設定法、目的地與旅行風格選擇</p>
+                    <div class="mt-4 text-xs text-stone-400">
+                        ⏱️ 13:30 - 14:00 (30分鐘)
+                    </div>
+                </div>
+
+                <!-- Phase 2 -->
+                <div class="phase-card" onclick="goToPhase(2)" id="phase-card-2">
+                    <span class="phase-number">2</span>
+                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                        <span style="font-size: 1.5rem;">📊</span>
+                        <h3>深度規劃</h3>
+                    </div>
+                    <p class="text-sm text-stone-500">Deep Research、交通損益、預算測試</p>
+                    <div class="mt-4 text-xs text-stone-400">
+                        ⏱️ 14:00 - 14:40 (40分鐘)
+                    </div>
+                </div>
+
+                <!-- Phase 3 -->
+                <div class="phase-card" onclick="goToPhase(3)" id="phase-card-3">
+                    <span class="phase-number">3</span>
+                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                        <span style="font-size: 1.5rem;">🔍</span>
+                        <h3>驗證防幻覺</h3>
+                    </div>
+                    <p class="text-sm text-stone-500">NotebookLM 交叉比對、避雷針</p>
+                    <div class="mt-4 text-xs text-stone-400">
+                        ⏱️ 14:40 - 15:00 (20分鐘)
+                    </div>
+                </div>
+
+                <!-- Phase 4 - Highlight -->
+                <div class="phase-card" onclick="goToPhase(4)" id="phase-card-4"
+                    style="border-color: var(--color-accent); background: linear-gradient(135deg, #fef3c7 0%, white 100%);">
+                    <span class="phase-number" style="background: var(--color-accent);">4</span>
+                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                        <span style="font-size: 1.5rem;">🎨</span>
+                        <h3>視覺地圖 + 社群</h3>
+                        <span
+                            style="background: var(--color-accent); color: white; font-size: 0.625rem; padding: 0.125rem 0.5rem; border-radius: 9999px;">⭐
+                            課程高潮</span>
+                    </div>
+                    <p class="text-sm text-stone-500">手繪地圖、社群人氣王挑戰、Grok 動畫</p>
+                    <div class="mt-4 text-xs text-stone-400">
+                        ⏱️ 15:10 - 16:00 (50分鐘)
+                    </div>
+                </div>
+
+                <!-- Phase 5 -->
+                <div class="phase-card" onclick="goToPhase(5)" id="phase-card-5">
+                    <span class="phase-number">5</span>
+                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                        <span style="font-size: 1.5rem;">🗾</span>
+                        <h3>現場生存</h3>
+                    </div>
+                    <p class="text-sm text-stone-500">即時翻譯、價格偵探、行李物流</p>
+                    <div class="mt-4 text-xs text-stone-400">
+                        ⏱️ 16:00 - 16:20 (20分鐘)
+                    </div>
+                </div>
+
+                <!-- Phase 6 -->
+                <div class="phase-card" onclick="goToPhase(6)" id="phase-card-6">
+                    <span class="phase-number">6</span>
+                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                        <span style="font-size: 1.5rem;">💰</span>
+                        <h3>商業變現</h3>
+                    </div>
+                    <p class="text-sm text-stone-500">Shop.com 消費轉收入</p>
+                    <div class="mt-4 text-xs text-stone-400">
+                        ⏱️ 16:20 - 16:30 (10分鐘)
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Bottom Actions -->
+        <section class="mt-8 flex justify-center gap-4 flex-wrap">
+            <a href="survey.html" class="btn btn-secondary btn-lg">
+                📋 課後問卷
+            </a>
+            <button onclick="showPrizeWheel()" class="btn btn-accent btn-lg">
+                🎰 抽獎輪盤 (講師)
+            </button>
+        </section>
+
+        <!-- Interactive Events Info -->
+        <section class="mt-8 mb-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3>🎁 互動與抽獎時間</h3>
+                </div>
+                <div class="card-body">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="flex items-center gap-4 p-4"
+                            style="background: var(--color-stone-50); border-radius: var(--radius-lg);">
+                            <span style="font-size: 2rem;">🎤</span>
+                            <div>
+                                <div class="font-bold">13:20 破冰自介</div>
+                                <div class="text-xs text-stone-500">「你想去日本哪裡」最有創意前3名</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 p-4"
+                            style="background: var(--color-stone-50); border-radius: var(--radius-lg);">
+                            <span style="font-size: 2rem;">🧠</span>
+                            <div>
+                                <div class="font-bold">14:35 AI 幻覺挑戰</div>
+                                <div class="text-xs text-stone-500">搶答哪個行程是 AI 亂編的</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 p-4"
+                            style="background: var(--color-accent-light); border-radius: var(--radius-lg);">
+                            <span style="font-size: 2rem;">🏆</span>
+                            <div>
+                                <div class="font-bold">15:40 社群人氣王開跑</div>
+                                <div class="text-xs text-stone-500">發 FB/IG 開始拉票！</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 p-4"
+                            style="background: var(--color-primary-light); border-radius: var(--radius-lg);">
+                            <span style="font-size: 2rem;">🎰</span>
+                            <div>
+                                <div class="font-bold">16:45 終極大抽獎</div>
+                                <div class="text-xs text-stone-500">填問卷抽大獎！</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Copy Toast -->
+    <div class="copy-toast" id="copy-toast"></div>
+
+    <!-- Prize Wheel Modal -->
+    <div id="prize-wheel-modal"
+        style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 100; align-items: center; justify-content: center;">
+        <div
+            style="background: white; border-radius: 1rem; padding: 2rem; max-width: 400px; width: 90%; text-align: center;">
+            <h2 style="margin-bottom: 1rem;">🎰 抽獎輪盤</h2>
+            <div id="wheel-result" style="font-size: 4rem; margin: 2rem 0;">🎁</div>
+            <p id="wheel-result-text" style="font-size: 1.5rem; font-weight: bold; color: var(--color-primary);">
+                點擊下方按鈕開始抽獎！</p>
+            <div style="margin-top: 2rem; display: flex; gap: 1rem; justify-content: center;">
+                <button onclick="spinWheel()" class="btn btn-primary btn-lg">🎲 開始抽獎</button>
+                <button onclick="closePrizeWheel()" class="btn btn-outline">關閉</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/common.js"></script>
+    <script>
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', () => {
+            updateProgressDots(WorkshopState.currentPhase);
+            updatePhaseCardStates();
+        });
+
+        function updatePhaseCardStates() {
+            for (let i = 1; i <= 6; i++) {
+                const card = document.getElementById(`phase-card-${i}`);
+                if (!card) continue;
+
+                if (WorkshopState.isCompleted(i)) {
+                    card.classList.add('completed');
+                }
+                if (WorkshopState.currentPhase === i) {
+                    card.classList.add('active');
+                }
+            }
+        }
+
+        function goToPhase(phaseNum) {
+            WorkshopState.setCurrentPhase(phaseNum);
+            window.location.href = `pages/phase${phaseNum}.html`;
+        }
+
+        // Prize Wheel
+        const prizes = [
+            { emoji: '🎁', text: '日本零食包' },
+            { emoji: '✨', text: '日本面膜組' },
+            { emoji: '📝', text: '日本文具' },
+            { emoji: '🎫', text: 'Shop.com 禮券' },
+            { emoji: '🍬', text: '日本糖果' },
+            { emoji: '🧴', text: '日本保養品' },
+            { emoji: '🎌', text: '日本小物' },
+            { emoji: '💝', text: '神秘大獎' }
+        ];
+
+        function showPrizeWheel() {
+            document.getElementById('prize-wheel-modal').style.display = 'flex';
+        }
+
+        function closePrizeWheel() {
+            document.getElementById('prize-wheel-modal').style.display = 'none';
+        }
+
+        function spinWheel() {
+            const resultEl = document.getElementById('wheel-result');
+            const textEl = document.getElementById('wheel-result-text');
+
+            // Animation
+            let spins = 0;
+            const totalSpins = 20 + Math.floor(Math.random() * 10);
+
+            const interval = setInterval(() => {
+                const randomPrize = prizes[Math.floor(Math.random() * prizes.length)];
+                resultEl.textContent = randomPrize.emoji;
+                textEl.textContent = randomPrize.text;
+                spins++;
+
+                if (spins >= totalSpins) {
+                    clearInterval(interval);
+                    // Final result
+                    const finalPrize = prizes[Math.floor(Math.random() * prizes.length)];
+                    resultEl.textContent = finalPrize.emoji;
+                    textEl.textContent = `🎉 恭喜獲得：${finalPrize.text}！`;
+                    textEl.style.color = 'var(--color-primary)';
+                }
+            }, 100 - (spins * 2));
+        }
+    </script>
+</body>
+
+</html>

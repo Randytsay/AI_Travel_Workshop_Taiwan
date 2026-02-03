@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌸</text></svg>">
+    <title>階段一：靈感發想 | AI 旅遊規劃工作坊</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/main.css">
+</head>
+
+<body class="page-phase1">
+    <!-- Sakura Animation -->
+    <div class="sakura-container">
+        <div class="sakura"></div>
+        <div class="sakura"></div>
+        <div class="sakura"></div>
+        <div class="sakura"></div>
+        <div class="sakura"></div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container navbar-content">
+            <div class="navbar-brand">
+                <span style="font-size: 1.5rem;">💡</span>
+                <h1>階段一：靈感發想</h1>
+                <span class="badge">30分鐘</span>
+            </div>
+            <div class="navbar-links">
+                <span class="text-sm text-stone-500">1/6 階段</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Quick Nav -->
+    <div class="quick-nav">
+        <div class="container quick-nav-links">
+            <a href="../index.html" class="quick-nav-link">🏠 首頁</a>
+            <a href="phase1.html" class="quick-nav-link active">1️⃣ 靈感</a>
+            <a href="phase2.html" class="quick-nav-link">2️⃣ 規劃</a>
+            <a href="phase3.html" class="quick-nav-link">3️⃣ 驗證</a>
+            <a href="phase4.html" class="quick-nav-link">4️⃣ 視覺</a>
+            <a href="phase5.html" class="quick-nav-link">5️⃣ 生存</a>
+            <a href="phase6.html" class="quick-nav-link">6️⃣ 變現</a>
+            <a href="../survey.html" class="quick-nav-link">📝 問卷</a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container" style="padding-top: 2rem; padding-bottom: 6rem;">
+        <div class="fade-in">
+            <!-- Introduction -->
+            <div class="alert alert-info mb-6">
+                <strong>🎯 本階段目標：</strong>從模糊的想法變成具體的「主題式」旅遊雛形，擺脫大眾景點，挖掘特色主題。
+            </div>
+
+            <!-- Two Column Layout -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <!-- Left: Settings -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>🎛️ 行程設定</h3>
+                    </div>
+                    <div class="card-body">
+                        <!-- Role Selection -->
+                        <div class="form-group">
+                            <label class="form-label">1. AI 專家角色</label>
+                            <select id="role-select" class="form-select" onchange="updatePrompt()">
+                                <option value="">-- 選擇角色 (可選) --</option>
+                                <option value="日本鐵道旅遊專家">🚃 日本鐵道旅遊專家</option>
+                                <option value="米其林美食評論家">🍽️ 米其林美食評論家</option>
+                                <option value="日本秘境獵人">🏔️ 日本秘境獵人</option>
+                                <option value="動漫聖地巡禮達人">🎌 動漫聖地巡禮達人</option>
+                                <option value="親子旅遊規劃師">👨‍👩‍👧 親子旅遊規劃師</option>
+                                <option value="攝影旅遊顧問">📸 攝影旅遊顧問</option>
+                                <option value="日本溫泉達人">♨️ 日本溫泉達人</option>
+                            </select>
+                        </div>
+
+                        <!-- Destination -->
+                        <div class="form-group">
+                            <label class="form-label">2. 目的地</label>
+                            <select id="dest-select" class="form-select" onchange="updatePrompt()">
+                                <option value="東京">東京 (都會購物)</option>
+                                <option value="大阪與京都">大阪與京都 (美食古蹟)</option>
+                                <option value="北海道">北海道 (自然雪景)</option>
+                                <option value="沖繩">沖繩 (海島度假)</option>
+                                <option value="福岡">福岡 (九州門戶)</option>
+                                <option value="北陸金澤">北陸金澤 (小京都)</option>
+                            </select>
+                            <input type="text" id="dest-custom" class="form-input mt-2" placeholder="或自訂目的地..."
+                                onchange="updatePrompt()">
+                        </div>
+
+                        <!-- Travel Style -->
+                        <div class="form-group">
+                            <label class="form-label">3. 旅行風格</label>
+                            <select id="style-select" class="form-select" onchange="updatePrompt()">
+                                <option value="經典觀光 (初次造訪必去景點)">1. 經典觀光 (初訪必去)</option>
+                                <option value="親子友善 (行程寬鬆、少走路、有公園)">2. 親子友善 (少走路)</option>
+                                <option value="米其林美食之旅 (預算不限，專注美食)">3. 米其林美食之旅 (奢華)</option>
+                                <option value="小資窮遊 (高CP值、大眾運輸、免費景點)">4. 小資窮遊 (高CP值)</option>
+                                <option value="特種兵行程 (高強度，打卡越多越好)">5. 特種兵行程 (高強度)</option>
+                                <option value="慢活度假 (睡到自然醒、咖啡廳、泡湯)">6. 慢活度假 (放鬆)</option>
+                                <option value="動漫流行朝聖 (秋葉原、聖地巡禮、主題店)">7. 動漫/流行文化朝聖</option>
+                                <option value="歷史文化深度遊 (古蹟、寺廟、博物館)">8. 歷史文化深度遊</option>
+                                <option value="秘境探險 (避開觀光客、自然絕景)">9. 秘境探險 (避開人潮)</option>
+                                <option value="攝影打卡 (專注於好拍的景點與光線)">10. 攝影打卡 (網美風)</option>
+                            </select>
+                        </div>
+
+                        <!-- Season -->
+                        <div class="form-group">
+                            <label class="form-label">4. 旅遊月份 (季節活動)</label>
+                            <select id="month-select" class="form-select" onchange="updatePrompt()">
+                                <option value="">-- 選擇月份 (可選) --</option>
+                                <option value="1月">1月 (新年/雪景)</option>
+                                <option value="2月">2月 (梅花/情人節)</option>
+                                <option value="3月">3月 (早櫻)</option>
+                                <option value="4月">4月 (櫻花滿開)</option>
+                                <option value="5月">5月 (黃金週)</option>
+                                <option value="6月">6月 (紫陽花)</option>
+                                <option value="7月">7月 (夏祭/花火)</option>
+                                <option value="8月">8月 (盂蘭盆節)</option>
+                                <option value="9月">9月 (初秋)</option>
+                                <option value="10月">10月 (楓葉)</option>
+                                <option value="11月">11月 (紅葉)</option>
+                                <option value="12月">12月 (聖誕/點燈)</option>
+                            </select>
+                        </div>
+
+                        <!-- Custom Requests -->
+                        <div class="form-group">
+                            <label class="form-label">5. 特別需求 (選填)</label>
+                            <textarea id="custom-input" class="form-textarea" rows="3"
+                                placeholder="例如：一定要去環球影城、不吃生魚片、隨行有坐輪椅的長輩..." onchange="updatePrompt()"></textarea>
+                        </div>
+
+                        <button onclick="updatePrompt()" class="btn btn-secondary btn-full">
+                            ✨ 生成專屬提示詞
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Right: Prompt Output -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>📝 Gemini 提示詞</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="prompt-box">
+                            <span class="prompt-label">可編輯</span>
+                            <textarea id="prompt-output" class="form-textarea"
+                                style="min-height: 350px; font-family: monospace; font-size: 0.875rem;">請選擇左側選項，然後點擊「生成專屬提示詞」...</textarea>
+                        </div>
+                        <button onclick="copyToClipboard('prompt-output')" class="btn btn-primary btn-full mt-4">
+                            📋 複製提示詞
+                        </button>
+                        <a href="https://gemini.google.com/" target="_blank" class="btn btn-outline btn-full mt-2">
+                            🚀 開啟 Gemini 貼上使用
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Advanced Tips -->
+            <div class="card mt-6">
+                <div class="card-header">
+                    <h3>💡 進階技巧：視覺化搜尋</h3>
+                </div>
+                <div class="card-body">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="tool-card">
+                            <div class="flex items-center mb-2">
+                                <span class="tool-icon">🔍</span>
+                                <span class="tool-title">Layla AI</span>
+                            </div>
+                            <p class="tool-desc">看到喜歡的日本旅遊 IG/Reels？直接貼連結給 Layla AI，它能辨識地點並轉化為初步行程！</p>
+                            <a href="https://justasklayla.com/" target="_blank" class="btn btn-outline btn-sm mt-2">開啟
+                                Layla AI</a>
+                        </div>
+                        <div class="tool-card">
+                            <div class="flex items-center mb-2">
+                                <span class="tool-icon">✈️</span>
+                                <span class="tool-title">Expedia Trip Matching</span>
+                            </div>
+                            <p class="tool-desc">使用 Expedia 的 AI 功能，根據你的偏好配對最適合的行程組合。</p>
+                            <a href="https://www.expedia.com/" target="_blank" class="btn btn-outline btn-sm mt-2">開啟
+                                Expedia</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Season Query Helper -->
+            <div class="card mt-6" id="season-card" style="display: none;">
+                <div class="card-header" style="background: var(--color-accent-light);">
+                    <h3>🌸 季節活動查詢提示詞</h3>
+                </div>
+                <div class="card-body">
+                    <div class="prompt-box">
+                        <textarea id="season-prompt" class="form-textarea"
+                            style="min-height: 100px; font-family: monospace;" readonly></textarea>
+                    </div>
+                    <button onclick="copyToClipboard('season-prompt')" class="btn btn-accent btn-full mt-2">
+                        📋 複製季節活動查詢
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer Navigation -->
+    <div class="footer-nav">
+        <a href="../index.html" class="nav-btn">
+            🏠 回首頁
+        </a>
+        <div class="text-sm text-stone-500">
+            階段 1/6
+        </div>
+        <a href="phase2.html" class="nav-btn primary">
+            下一階段 →
+        </a>
+    </div>
+
+    <script src="../js/common.js"></script>
+    <script>
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            WorkshopState.setCurrentPhase(1);
+            updatePrompt();
+        });
+
+        function updatePrompt() {
+            const role = document.getElementById('role-select').value;
+            const destSelect = document.getElementById('dest-select').value;
+            const destCustom = document.getElementById('dest-custom').value.trim();
+            const style = document.getElementById('style-select').value;
+            const month = document.getElementById('month-select').value;
+            const custom = document.getElementById('custom-input').value.trim();
+
+            const destination = destCustom || destSelect;
+
+            // Build prompt
+            let roleText = role ? `你是一位${role}。` : '你是一位專業的日本旅遊規劃師。';
+
+            let customText = '';
+            if (custom) {
+                customText = `\n3. **特別需求與限制**：${custom}`;
+            } else {
+                customText = '\n3. **特別需求**：無，請依照一般大眾建議即可。';
+            }
+
+            let monthText = '';
+            if (month) {
+                monthText = `\n4. **旅遊時間**：預計在 ${month} 出發，請特別推薦該季節的限定活動與景觀。`;
+            }
+
+            const prompt = `${roleText}請幫我規劃一個 5 天 4 夜的 **${destination}** 行程。
+
+我的旅行條件如下：
+1. **旅行風格**：${style}
+2. **主要目標**：體驗當地最道地的氛圍。${customText}${monthText}
+
+請幫我生成一份詳細的行程表，格式要求如下：
+- 請以**表格**方式呈現。
+- 欄位包含：日期、時間（上午/下午/晚上）、景點/活動、交通方式（含預估時間與轉乘建議）、以及推薦的當地美食。
+- 在表格下方，請額外列出這個行程的 **3 個必去亮點** 與 **1 個在地人須知的小提醒**。`;
+
+            document.getElementById('prompt-output').value = prompt;
+
+            // Update season card
+            if (month) {
+                document.getElementById('season-card').style.display = 'block';
+                document.getElementById('season-prompt').value = `2026 年 ${month} ${destination} 有哪些季節限定活動、祭典或自然景觀？請列出活動名稱、日期、地點以及觀賞建議。`;
+            } else {
+                document.getElementById('season-card').style.display = 'none';
+            }
+        }
+    </script>
+</body>
+
+</html>

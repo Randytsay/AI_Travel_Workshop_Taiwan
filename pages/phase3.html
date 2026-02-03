@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌸</text></svg>">
+    <title>階段三：驗證防幻覺 | AI 旅遊規劃工作坊</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/main.css">
+</head>
+
+<body class="page-phase3">
+    <!-- Sakura Animation -->
+    <div class="sakura-container">
+        <div class="sakura"></div>
+        <div class="sakura"></div>
+        <div class="sakura"></div>
+        <div class="sakura"></div>
+        <div class="sakura"></div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container navbar-content">
+            <div class="navbar-brand">
+                <span style="font-size: 1.5rem;">🔍</span>
+                <h1>階段三：驗證防幻覺</h1>
+                <span class="badge">20分鐘</span>
+            </div>
+            <div class="navbar-links">
+                <span class="text-sm text-stone-500">3/6 階段</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Quick Nav -->
+    <div class="quick-nav">
+        <div class="container quick-nav-links">
+            <a href="../index.html" class="quick-nav-link">🏠 首頁</a>
+            <a href="phase1.html" class="quick-nav-link">1️⃣ 靈感</a>
+            <a href="phase2.html" class="quick-nav-link">2️⃣ 規劃</a>
+            <a href="phase3.html" class="quick-nav-link active">3️⃣ 驗證</a>
+            <a href="phase4.html" class="quick-nav-link">4️⃣ 視覺</a>
+            <a href="phase5.html" class="quick-nav-link">5️⃣ 生存</a>
+            <a href="phase6.html" class="quick-nav-link">6️⃣ 變現</a>
+            <a href="../survey.html" class="quick-nav-link">📝 問卷</a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container" style="padding-top: 2rem; padding-bottom: 6rem;">
+        <div class="fade-in">
+            <!-- Introduction -->
+            <div class="alert alert-warning mb-6">
+                <strong>⚠️ 重要提醒：</strong>AI 有時會「胡說八道」！本階段教你如何確認景點真實存在且仍在營業，避免踩雷。
+            </div>
+
+            <!-- Quick Links -->
+            <div class="quick-links mb-6">
+                <a href="https://notebooklm.google.com/" target="_blank" class="quick-link">
+                    📓 NotebookLM
+                </a>
+                <a href="https://tabelog.com/" target="_blank" class="quick-link">
+                    🍽️ Tabelog
+                </a>
+                <a href="https://www.google.com/maps" target="_blank" class="quick-link">
+                    🗺️ Google Maps
+                </a>
+            </div>
+
+            <!-- Common AI Hallucinations -->
+            <div class="card mb-6">
+                <div class="card-header" style="background: #fee2e2;">
+                    <h3>🚨 常見 AI 幻覺案例</h3>
+                </div>
+                <div class="card-body">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div
+                            style="background: #fef2f2; padding: 1rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444;">
+                            <div class="font-bold text-red-800 mb-2">❌ 不存在的設施</div>
+                            <p class="text-sm text-stone-600">AI 曾編造「從新宿到河口湖的纜車」，但這條纜車根本不存在！</p>
+                        </div>
+                        <div
+                            style="background: #fef2f2; padding: 1rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444;">
+                            <div class="font-bold text-red-800 mb-2">❌ 已歇業的餐廳</div>
+                            <p class="text-sm text-stone-600">AI 推薦的「百年老店」可能已經在疫情期間倒閉了。</p>
+                        </div>
+                        <div
+                            style="background: #fef2f2; padding: 1rem; border-radius: var(--radius-lg); border-left: 4px solid #ef4444;">
+                            <div class="font-bold text-red-800 mb-2">❌ 錯誤的交通時間</div>
+                            <p class="text-sm text-stone-600">AI 說「步行 5 分鐘」，實際上可能要走 20 分鐘。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NotebookLM Tutorial -->
+            <div class="card mb-6">
+                <div class="card-header">
+                    <h3>📓 NotebookLM 驗證教學</h3>
+                </div>
+                <div class="card-body">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Steps -->
+                        <div>
+                            <h4 class="font-bold mb-4">操作步驟</h4>
+                            <div style="display: flex; flex-direction: column; gap: 1rem;">
+                                <div style="display: flex; gap: 1rem; align-items: flex-start;">
+                                    <span
+                                        style="background: var(--color-primary); color: white; width: 2rem; height: 2rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</span>
+                                    <div>
+                                        <div class="font-bold">開啟 NotebookLM</div>
+                                        <p class="text-sm text-stone-500">前往 notebooklm.google.com</p>
+                                    </div>
+                                </div>
+                                <div style="display: flex; gap: 1rem; align-items: flex-start;">
+                                    <span
+                                        style="background: var(--color-primary); color: white; width: 2rem; height: 2rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</span>
+                                    <div>
+                                        <div class="font-bold">使用 Discover Sources</div>
+                                        <p class="text-sm text-stone-500">點擊「探索來源」功能</p>
+                                    </div>
+                                </div>
+                                <div style="display: flex; gap: 1rem; align-items: flex-start;">
+                                    <span
+                                        style="background: var(--color-primary); color: white; width: 2rem; height: 2rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</span>
+                                    <div>
+                                        <div class="font-bold">輸入搜尋關鍵字</div>
+                                        <p class="text-sm text-stone-500">例如：「2026 大阪必吃美食 真實評論」</p>
+                                    </div>
+                                </div>
+                                <div style="display: flex; gap: 1rem; align-items: flex-start;">
+                                    <span
+                                        style="background: var(--color-primary); color: white; width: 2rem; height: 2rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">4</span>
+                                    <div>
+                                        <div class="font-bold">匯入 5-10 個真實來源</div>
+                                        <p class="text-sm text-stone-500">選擇部落格、官網等可靠來源</p>
+                                    </div>
+                                </div>
+                                <div style="display: flex; gap: 1rem; align-items: flex-start;">
+                                    <span
+                                        style="background: var(--color-success); color: white; width: 2rem; height: 2rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">5</span>
+                                    <div>
+                                        <div class="font-bold">貼入 Gemini 行程並詢問</div>
+                                        <p class="text-sm text-stone-500">讓 NotebookLM 幫你交叉比對</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Prompt Templates -->
+                        <div>
+                            <h4 class="font-bold mb-4">交叉比對提示詞</h4>
+
+                            <div class="tool-card mb-4">
+                                <div class="tool-title mb-2">🔍 行程驗證</div>
+                                <div class="tool-prompt" id="verify-prompt-1">根據匯入的來源，請檢查這個行程中：
+                                    1. 餐廳是否已歇業或搬遷？
+                                    2. 交通時間估算是否合理？
+                                    3. 景點的營業時間是否正確？
+                                    4. 有沒有需要提前預約的地方？</div>
+                                <button onclick="copyText(document.getElementById('verify-prompt-1').innerText)"
+                                    class="btn btn-outline btn-sm btn-full">複製</button>
+                            </div>
+
+                            <div class="tool-card">
+                                <div class="tool-title mb-2">🍽️ 餐廳驗證</div>
+                                <div class="tool-prompt" id="verify-prompt-2">請幫我確認以下餐廳的最新狀況：
+                                    [貼上餐廳名稱]
+
+                                    需要確認：
+                                    1. 目前是否仍在營業？
+                                    2. 是否需要預約？如何預約？
+                                    3. 對外國遊客友善嗎？有英文/中文菜單嗎？
+                                    4. 平均消費大約多少？</div>
+                                <button onclick="copyText(document.getElementById('verify-prompt-2').innerText)"
+                                    class="btn btn-outline btn-sm btn-full">複製</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabelog Analysis -->
+            <div class="card mb-6">
+                <div class="card-header" style="background: #fef3c7;">
+                    <h3>🍽️ Tabelog 避雷針分析</h3>
+                    <p class="text-xs text-stone-500 mt-1">日本最權威的餐廳評價網站</p>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-info mb-4">
+                        <strong>💡 小知識：</strong>Tabelog 評分 3.5 以上就算不錯，3.8 以上是名店，4.0 以上是超級名店！
+                    </div>
+
+                    <div class="tool-card">
+                        <div class="tool-title mb-2">📊 Tabelog 評論分析提示詞</div>
+                        <div class="tool-prompt" id="tabelog-prompt">請幫我分析這家餐廳在 Tabelog 上的評論：
+                            [貼上餐廳名稱或 Tabelog 連結]
+
+                            請告訴我：
+                            1. 評分是多少？在當地算高還是低？
+                            2. 日本消費者的評價重點是什麼？
+                            3. 對外國遊客友善嗎？
+                            4. 有什麼必點菜色？
+                            5. 需要預約嗎？可以接受當天排隊嗎？
+                            6. 有什麼要注意的地雷？</div>
+                        <button onclick="copyText(document.getElementById('tabelog-prompt').innerText)"
+                            class="btn btn-accent btn-full mt-2">複製提示詞</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Verification Checklist -->
+            <div class="card mb-6">
+                <div class="card-header">
+                    <h3>✅ 快速驗證清單</h3>
+                </div>
+                <div class="card-body">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <label
+                            style="display: flex; align-items: center; gap: 0.75rem; padding: 1rem; background: var(--color-stone-50); border-radius: var(--radius-lg); cursor: pointer;">
+                            <input type="checkbox" style="width: 1.25rem; height: 1.25rem;">
+                            <span>用 Google Maps 確認景點位置正確</span>
+                        </label>
+                        <label
+                            style="display: flex; align-items: center; gap: 0.75rem; padding: 1rem; background: var(--color-stone-50); border-radius: var(--radius-lg); cursor: pointer;">
+                            <input type="checkbox" style="width: 1.25rem; height: 1.25rem;">
+                            <span>查詢餐廳官網確認營業時間</span>
+                        </label>
+                        <label
+                            style="display: flex; align-items: center; gap: 0.75rem; padding: 1rem; background: var(--color-stone-50); border-radius: var(--radius-lg); cursor: pointer;">
+                            <input type="checkbox" style="width: 1.25rem; height: 1.25rem;">
+                            <span>用 Tabelog 確認餐廳評價</span>
+                        </label>
+                        <label
+                            style="display: flex; align-items: center; gap: 0.75rem; padding: 1rem; background: var(--color-stone-50); border-radius: var(--radius-lg); cursor: pointer;">
+                            <input type="checkbox" style="width: 1.25rem; height: 1.25rem;">
+                            <span>確認交通票券是否仍有販售</span>
+                        </label>
+                        <label
+                            style="display: flex; align-items: center; gap: 0.75rem; padding: 1rem; background: var(--color-stone-50); border-radius: var(--radius-lg); cursor: pointer;">
+                            <input type="checkbox" style="width: 1.25rem; height: 1.25rem;">
+                            <span>查詢景點是否需要預約</span>
+                        </label>
+                        <label
+                            style="display: flex; align-items: center; gap: 0.75rem; padding: 1rem; background: var(--color-stone-50); border-radius: var(--radius-lg); cursor: pointer;">
+                            <input type="checkbox" style="width: 1.25rem; height: 1.25rem;">
+                            <span>確認季節性活動的確切日期</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer Navigation -->
+    <div class="footer-nav">
+        <a href="phase2.html" class="nav-btn">
+            ← 上一階段
+        </a>
+        <a href="../index.html" class="nav-btn">
+            🏠 首頁
+        </a>
+        <a href="phase4.html" class="nav-btn primary">
+            下一階段 →
+        </a>
+    </div>
+
+    <script src="../js/common.js"></script>
+    <script>
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            WorkshopState.setCurrentPhase(3);
+        });
+    </script>
+</body>
+
+</html>
