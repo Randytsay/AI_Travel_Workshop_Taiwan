@@ -273,6 +273,14 @@
                             <h3>🎰 抽獎管理</h3>
                         </div>
                         <div class="card-body">
+                            <!-- 抽獎名單設定 -->
+                            <div class="form-group mb-4">
+                                <label class="form-label">🎫 參與抽獎名單 (每行一個姓名)</label>
+                                <textarea id="participant-list" class="form-textarea" rows="5"
+                                    placeholder="請貼入參與抽獎的學員名單..."></textarea>
+                                <p class="text-xs text-stone-500 mt-1">可以直接從 Excel 或 Google Sheets 複製姓名並貼上</p>
+                            </div>
+
                             <div id="prize-list">
                                 <!-- Default prizes -->
                             </div>
@@ -412,9 +420,11 @@
                 const HARDCODED_GAS_URL = 'https://script.google.com/macros/s/AKfycbxOi_q-LhAj56riAhb_ufn2Ks_-t_a6Cw3-13SyDFj2uRFMo66S719OM5cLQKCxXVC1/exec';
                 const gasUrl = localStorage.getItem('workshop_gas_url') || HARDCODED_GAS_URL;
                 const pdfUrl = localStorage.getItem('workshop_pdf_url');
+                const participants = localStorage.getItem('workshop_participants');
 
                 if (gasUrl) document.getElementById('gas-url').value = gasUrl;
                 if (pdfUrl) document.getElementById('pdf-url').value = pdfUrl;
+                if (participants) document.getElementById('participant-list').value = participants;
 
                 // Load saved data
                 const savedPrizes = localStorage.getItem('workshop_prizes');
@@ -426,8 +436,11 @@
             function saveSettings() {
                 const gasUrl = document.getElementById('gas-url').value;
                 const pdfUrl = document.getElementById('pdf-url').value;
+                const participants = document.getElementById('participant-list').value;
+
                 localStorage.setItem('workshop_gas_url', gasUrl);
                 localStorage.setItem('workshop_pdf_url', pdfUrl);
+                localStorage.setItem('workshop_participants', participants);
 
                 // 同步更新記憶體中的狀態
                 if (typeof WorkshopState !== 'undefined') {
@@ -552,9 +565,19 @@
 
             // Prize Draw Functions
             let currentPrize = null;
-            const participants = ['學員 A', '學員 B', '學員 C', '學員 D', '學員 E', '學員 F'];
+
+            function getParticipants() {
+                const text = document.getElementById('participant-list').value;
+                return text.split('\n').map(name => name.trim()).filter(name => name !== '');
+            }
 
             function startPrizeDraw() {
+                const participants = getParticipants();
+                if (participants.length === 0) {
+                    alert('請先在設定中輸入參與抽獎的名單！');
+                    return;
+                }
+
                 // Find first undrawn prize
                 currentPrize = prizes.find(p => !p.drawn);
                 if (!currentPrize) {
@@ -569,6 +592,7 @@
             }
 
             function spinPrize() {
+                const participants = getParticipants();
                 const resultEl = document.getElementById('prize-result');
                 const winnerEl = document.getElementById('prize-winner');
                 const spinBtn = document.getElementById('spin-btn');
