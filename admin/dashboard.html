@@ -187,313 +187,302 @@
                         <input type="text" id="pdf-url" class="form-input" placeholder="https://...">
                     </div>
 
-                    <!-- Firebase 設定 -->
-                    <div class="form-group"
-                        style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--color-stone-200);">
-                        <label class="form-label">🔥 Firebase 即時同步（選用）</label>
-                        <p class="text-xs text-stone-500 mb-2">啟用後，倒數計時可跨裝置即時同步</p>
-                        <details style="background: var(--color-stone-50); padding: 1rem; border-radius: 0.5rem;">
-                            <summary style="cursor: pointer; font-weight: 500;">如何設定 Firebase？</summary>
-                            <ol class="text-sm mt-2" style="padding-left: 1.5rem;">
-                                <li>前往 <a href="https://console.firebase.google.com/" target="_blank"
-                                        style="color: var(--color-primary);">Firebase Console</a></li>
-                                <li>建立新專案（免費方案即可）</li>
-                                <li>建立 Realtime Database，規則設為公開測試模式</li>
-                                <li>取得 Web 應用程式的配置資訊</li>
-                                <li>修改 <code>js/countdown-sync.js</code> 的 firebaseConfig</li>
-                            </ol>
-                        </details>
-                    </div>
-
                     <button onclick="saveSettings()" class="btn btn-primary">💾 儲存設定</button>
                 </div>
             </div>
+    </div>
+    </div>
 
-            <!-- Stats Overview -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-                <div class="stat-card">
-                    <div class="value" id="stat-total">0</div>
-                    <div class="label">總參加人數</div>
+    <!-- Stats Overview -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+        <div class="stat-card">
+            <div class="value" id="stat-total">0</div>
+            <div class="label">總參加人數</div>
+        </div>
+        <div class="stat-card">
+            <div class="value" id="stat-guests">0</div>
+            <div class="label">新朋友</div>
+        </div>
+        <div class="stat-card">
+            <div class="value" id="stat-members">0</div>
+            <div class="label">夥伴</div>
+        </div>
+        <div class="stat-card">
+            <div class="value" id="stat-surveys">0</div>
+            <div class="label">已填問卷</div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Left Column -->
+        <div>
+            <!-- Time Schedule -->
+            <div class="card mb-6">
+                <div class="card-header">
+                    <h3>⏱️ 課程時間表</h3>
                 </div>
-                <div class="stat-card">
-                    <div class="value" id="stat-guests">0</div>
-                    <div class="label">新朋友</div>
-                </div>
-                <div class="stat-card">
-                    <div class="value" id="stat-members">0</div>
-                    <div class="label">夥伴</div>
-                </div>
-                <div class="stat-card">
-                    <div class="value" id="stat-surveys">0</div>
-                    <div class="label">已填問卷</div>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Left Column -->
-                <div>
-                    <!-- Time Schedule -->
-                    <div class="card mb-6">
-                        <div class="card-header">
-                            <h3>⏱️ 課程時間表</h3>
-                        </div>
-                        <div class="card-body" id="schedule-container">
-                            <!-- Will be populated by JS -->
-                        </div>
-                    </div>
-
-                    <!-- Social Challenge Leaderboard -->
-                    <div class="card mb-6">
-                        <div class="card-header" style="background: var(--color-accent-light);">
-                            <h3>🏆 社群人氣王排行榜</h3>
-                        </div>
-                        <div class="card-body">
-                            <div id="leaderboard">
-                                <div class="text-center text-stone-500 p-4">
-                                    尚無資料，請手動新增
-                                </div>
-                            </div>
-                            <div class="mt-4">
-                                <div class="flex gap-2">
-                                    <input type="text" id="new-name" class="form-input" placeholder="姓名">
-                                    <input type="number" id="new-likes" class="form-input" placeholder="讚數"
-                                        style="width: 100px;">
-                                    <button onclick="addLeaderboardEntry()" class="btn btn-accent">新增</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Right Column -->
-                <div>
-                    <!-- Prize Draw -->
-                    <div class="card mb-6">
-                        <div class="card-header" style="background: var(--color-primary-light);">
-                            <h3>🎰 抽獎管理</h3>
-                        </div>
-                        <div class="card-body">
-                            <!-- 抽獎名單設定 -->
-                            <div class="form-group mb-4">
-                                <label class="form-label">🎫 參與抽獎名單 (每行一個姓名)</label>
-                                <textarea id="participant-list" class="form-textarea" rows="5"
-                                    placeholder="請貼入參與抽獎的學員名單..."></textarea>
-                                <p class="text-xs text-stone-500 mt-1">可以直接從 Excel 或 Google Sheets 複製姓名並貼上</p>
-                            </div>
-
-                            <div id="prize-list">
-                                <!-- Default prizes -->
-                            </div>
-                            <div class="mt-4">
-                                <div class="flex gap-2 mb-4">
-                                    <input type="text" id="new-prize" class="form-input" placeholder="新增獎品名稱">
-                                    <button onclick="addPrize()" class="btn btn-outline">新增</button>
-                                </div>
-                                <button onclick="startPrizeDraw()" class="btn btn-primary btn-lg btn-full">
-                                    🎲 開始抽獎
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Quick Actions -->
-                    <div class="card mb-6">
-                        <div class="card-header">
-                            <h3>⚡ 快速操作</h3>
-                        </div>
-                        <div class="card-body">
-                            <div class="grid grid-cols-2 gap-2">
-                                <button onclick="resetAllProgress()" class="btn btn-outline">🔄 重置所有進度</button>
-                                <button onclick="exportData()" class="btn btn-outline">📥 匯出資料</button>
-                                <a href="../survey.html" target="_blank" class="btn btn-outline">📋 開啟問卷頁</a>
-                                <a href="../index.html" target="_blank" class="btn btn-outline">🏠 開啟首頁</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Satisfaction Chart -->
-                    <div class="card">
-                        <div class="card-header">
-                            <h3>📊 滿意度概覽</h3>
-                        </div>
-                        <div class="card-body">
-                            <canvas id="satisfaction-chart" height="200"></canvas>
-                        </div>
-                    </div>
+                <div class="card-body" id="schedule-container">
+                    <!-- Will be populated by JS -->
                 </div>
             </div>
-        </main>
 
-        <!-- Prize Draw Modal -->
-        <div id="prize-modal"
-            style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 100; align-items: center; justify-content: center;">
-            <div
-                style="background: white; border-radius: 1.5rem; padding: 3rem; max-width: 500px; width: 90%; text-align: center;">
-                <h2 style="font-size: 1.5rem; margin-bottom: 1rem;">🎰 抽獎中...</h2>
-                <div id="prize-result" style="font-size: 6rem; margin: 2rem 0;">🎁</div>
-                <p id="prize-winner" style="font-size: 2rem; font-weight: bold; color: var(--color-primary);">準備抽獎...
-                </p>
-                <p id="prize-name" style="font-size: 1.25rem; color: var(--color-stone-600); margin-top: 0.5rem;"></p>
-                <div style="margin-top: 2rem; display: flex; gap: 1rem; justify-content: center;">
-                    <button onclick="spinPrize()" class="btn btn-primary btn-lg" id="spin-btn">🎲 開始</button>
-                    <button onclick="closePrizeModal()" class="btn btn-outline btn-lg">關閉</button>
+            <!-- Social Challenge Leaderboard -->
+            <div class="card mb-6">
+                <div class="card-header" style="background: var(--color-accent-light);">
+                    <h3>🏆 社群人氣王排行榜</h3>
+                </div>
+                <div class="card-body">
+                    <div id="leaderboard">
+                        <div class="text-center text-stone-500 p-4">
+                            尚無資料，請手動新增
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <div class="flex gap-2">
+                            <input type="text" id="new-name" class="form-input" placeholder="姓名">
+                            <input type="number" id="new-likes" class="form-input" placeholder="讚數"
+                                style="width: 100px;">
+                            <button onclick="addLeaderboardEntry()" class="btn btn-accent">新增</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <script src="../js/common.js"></script>
-        <script>
-            // ========== 密碼保護功能 ==========
-            const ADMIN_PASSWORD = '2026'; // 預設密碼，可在這裡修改
-            const AUTH_KEY = 'workshop_admin_auth';
+        <!-- Right Column -->
+        <div>
+            <!-- Prize Draw -->
+            <div class="card mb-6">
+                <div class="card-header" style="background: var(--color-primary-light);">
+                    <h3>🎰 抽獎管理</h3>
+                </div>
+                <div class="card-body">
+                    <!-- 抽獎名單設定 -->
+                    <div class="form-group mb-4">
+                        <label class="form-label">🎫 參與抽獎名單 (每行一個姓名)</label>
+                        <textarea id="participant-list" class="form-textarea" rows="5"
+                            placeholder="請貼入參與抽獎的學員名單..."></textarea>
+                        <p class="text-xs text-stone-500 mt-1">可以直接從 Excel 或 Google Sheets 複製姓名並貼上</p>
+                    </div>
 
-            function checkPassword(e) {
-                e.preventDefault();
-                const input = document.getElementById('admin-password').value;
-                const errorEl = document.getElementById('auth-error');
+                    <div id="prize-list">
+                        <!-- Default prizes -->
+                    </div>
+                    <div class="mt-4">
+                        <div class="flex gap-2 mb-4">
+                            <input type="text" id="new-prize" class="form-input" placeholder="新增獎品名稱">
+                            <button onclick="addPrize()" class="btn btn-outline">新增</button>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="syncFromGoogleSheets()" class="btn btn-secondary">
+                                🔄 從 Google Sheets 更新
+                            </button>
+                            <button onclick="startPrizeDraw()" class="btn btn-primary">
+                                🎲 開始抽獎
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-                if (input === ADMIN_PASSWORD) {
-                    sessionStorage.setItem(AUTH_KEY, 'true');
-                    showAdminContent();
-                } else {
-                    errorEl.style.display = 'block';
-                    document.getElementById('admin-password').value = '';
-                }
+            <!-- Quick Actions -->
+            <div class="card mb-6">
+                <div class="card-header">
+                    <h3>⚡ 快速操作</h3>
+                </div>
+                <div class="card-body">
+                    <div class="grid grid-cols-2 gap-2">
+                        <button onclick="resetAllProgress()" class="btn btn-outline">🔄 重置所有進度</button>
+                        <button onclick="exportData()" class="btn btn-outline">📥 匯出資料</button>
+                        <a href="../survey.html" target="_blank" class="btn btn-outline">📋 開啟問卷頁</a>
+                        <a href="../index.html" target="_blank" class="btn btn-outline">🏠 開啟首頁</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Satisfaction Chart -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>📊 滿意度概覽</h3>
+                </div>
+                <div class="card-body">
+                    <canvas id="satisfaction-chart" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    </main>
+
+    <!-- Prize Draw Modal -->
+    <div id="prize-modal"
+        style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 100; align-items: center; justify-content: center;">
+        <div
+            style="background: white; border-radius: 1.5rem; padding: 3rem; max-width: 500px; width: 90%; text-align: center;">
+            <h2 style="font-size: 1.5rem; margin-bottom: 1rem;">🎰 抽獎中...</h2>
+            <div id="prize-result" style="font-size: 6rem; margin: 2rem 0;">🎁</div>
+            <p id="prize-winner" style="font-size: 2rem; font-weight: bold; color: var(--color-primary);">準備抽獎...
+            </p>
+            <p id="prize-name" style="font-size: 1.25rem; color: var(--color-stone-600); margin-top: 0.5rem;"></p>
+            <div style="margin-top: 2rem; display: flex; gap: 1rem; justify-content: center;">
+                <button onclick="spinPrize()" class="btn btn-primary btn-lg" id="spin-btn">🎲 開始</button>
+                <button onclick="closePrizeModal()" class="btn btn-outline btn-lg">關閉</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/common.js"></script>
+    <script>
+        // ========== 密碼保護功能 ==========
+        const ADMIN_PASSWORD = '2026'; // 預設密碼，可在這裡修改
+        const AUTH_KEY = 'workshop_admin_auth';
+
+        function checkPassword(e) {
+            e.preventDefault();
+            const input = document.getElementById('admin-password').value;
+            const errorEl = document.getElementById('auth-error');
+
+            if (input === ADMIN_PASSWORD) {
+                sessionStorage.setItem(AUTH_KEY, 'true');
+                showAdminContent();
+            } else {
+                errorEl.style.display = 'block';
+                document.getElementById('admin-password').value = '';
+            }
+        }
+
+        function showAdminContent() {
+            document.getElementById('auth-screen').style.display = 'none';
+            document.getElementById('admin-content').style.display = 'block';
+        }
+
+        function logout() {
+            sessionStorage.removeItem(AUTH_KEY);
+            location.reload();
+        }
+
+        function checkAuth() {
+            if (sessionStorage.getItem(AUTH_KEY) === 'true') {
+                showAdminContent();
+            }
+        }
+
+        // ========== 課程資料 ==========
+        // Schedule data
+        const schedule = [
+            { time: '13:00 - 13:30', content: '開場/暖場/帳號設定', phase: 0 },
+            { time: '13:30 - 14:00', content: '階段一：靈感發想', phase: 1 },
+            { time: '14:00 - 14:40', content: '階段二：深度規劃', phase: 2 },
+            { time: '14:40 - 15:00', content: '階段三：驗證防幻覺', phase: 3 },
+            { time: '15:00 - 15:10', content: '☕ 休息', phase: 0 },
+            { time: '15:10 - 16:00', content: '⭐ 階段四：視覺地圖+社群', phase: 4 },
+            { time: '16:00 - 16:20', content: '階段五：現場生存', phase: 5 },
+            { time: '16:20 - 16:30', content: '階段六：商業變現', phase: 6 },
+            { time: '16:30 - 16:45', content: '社群人氣王統計', phase: 0 },
+            { time: '16:45 - 17:00', content: '🎰 抽獎/Q&A/結尾', phase: 0 }
+        ];
+
+        // Default prizes
+        let prizes = [
+            { name: '日本零食包', emoji: '🎁', drawn: false },
+            { name: '日本面膜組', emoji: '✨', drawn: false },
+            { name: '日本文具', emoji: '📝', drawn: false },
+            { name: 'Shop.com 禮券', emoji: '🎫', drawn: false },
+            { name: '神秘大獎', emoji: '💝', drawn: false }
+        ];
+
+        // Leaderboard data
+        let leaderboard = [];
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            checkAuth(); // 先檢查是否已登入
+            loadSettings();
+            renderSchedule();
+            renderPrizes();
+            renderLeaderboard();
+            initChart();
+            updateTime();
+            setInterval(updateTime, 60000);
+        });
+
+        function loadSettings() {
+            const HARDCODED_GAS_URL = 'https://script.google.com/macros/s/AKfycbxOi_q-LhAj56riAhb_ufn2Ks_-t_a6Cw3-13SyDFj2uRFMo66S719OM5cLQKCxXVC1/exec';
+            const gasUrl = localStorage.getItem('workshop_gas_url') || HARDCODED_GAS_URL;
+            const pdfUrl = localStorage.getItem('workshop_pdf_url');
+            const participants = localStorage.getItem('workshop_participants');
+
+            if (gasUrl) document.getElementById('gas-url').value = gasUrl;
+            if (pdfUrl) document.getElementById('pdf-url').value = pdfUrl;
+            if (participants) document.getElementById('participant-list').value = participants;
+
+            // Load saved data
+            const savedPrizes = localStorage.getItem('workshop_prizes');
+            const savedLeaderboard = localStorage.getItem('workshop_leaderboard');
+            if (savedPrizes) prizes = JSON.parse(savedPrizes);
+            if (savedLeaderboard) leaderboard = JSON.parse(savedLeaderboard);
+        }
+
+        function saveSettings() {
+            const gasUrl = document.getElementById('gas-url').value;
+            const pdfUrl = document.getElementById('pdf-url').value;
+            const participants = document.getElementById('participant-list').value;
+
+            localStorage.setItem('workshop_gas_url', gasUrl);
+            localStorage.setItem('workshop_pdf_url', pdfUrl);
+            localStorage.setItem('workshop_participants', participants);
+
+            // 同步更新記憶體中的狀態
+            if (typeof WorkshopState !== 'undefined') {
+                WorkshopState.gasUrl = gasUrl;
+                WorkshopState.save();
             }
 
-            function showAdminContent() {
-                document.getElementById('auth-screen').style.display = 'none';
-                document.getElementById('admin-content').style.display = 'block';
-            }
+            showCopyToast('設定已儲存！');
+        }
 
-            function logout() {
-                sessionStorage.removeItem(AUTH_KEY);
-                location.reload();
-            }
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('current-time').textContent =
+                now.toLocaleTimeString('zh-TW', { hour: '2-digit', minute: '2-digit' });
 
-            function checkAuth() {
-                if (sessionStorage.getItem(AUTH_KEY) === 'true') {
-                    showAdminContent();
-                }
-            }
+            // Update schedule highlighting
+            renderSchedule();
+        }
 
-            // ========== 課程資料 ==========
-            // Schedule data
-            const schedule = [
-                { time: '13:00 - 13:30', content: '開場/暖場/帳號設定', phase: 0 },
-                { time: '13:30 - 14:00', content: '階段一：靈感發想', phase: 1 },
-                { time: '14:00 - 14:40', content: '階段二：深度規劃', phase: 2 },
-                { time: '14:40 - 15:00', content: '階段三：驗證防幻覺', phase: 3 },
-                { time: '15:00 - 15:10', content: '☕ 休息', phase: 0 },
-                { time: '15:10 - 16:00', content: '⭐ 階段四：視覺地圖+社群', phase: 4 },
-                { time: '16:00 - 16:20', content: '階段五：現場生存', phase: 5 },
-                { time: '16:20 - 16:30', content: '階段六：商業變現', phase: 6 },
-                { time: '16:30 - 16:45', content: '社群人氣王統計', phase: 0 },
-                { time: '16:45 - 17:00', content: '🎰 抽獎/Q&A/結尾', phase: 0 }
-            ];
+        function renderSchedule() {
+            const container = document.getElementById('schedule-container');
+            const now = new Date();
+            const currentMinutes = now.getHours() * 60 + now.getMinutes();
 
-            // Default prizes
-            let prizes = [
-                { name: '日本零食包', emoji: '🎁', drawn: false },
-                { name: '日本面膜組', emoji: '✨', drawn: false },
-                { name: '日本文具', emoji: '📝', drawn: false },
-                { name: 'Shop.com 禮券', emoji: '🎫', drawn: false },
-                { name: '神秘大獎', emoji: '💝', drawn: false }
-            ];
+            container.innerHTML = schedule.map((item, index) => {
+                const [start] = item.time.split(' - ');
+                const [startH, startM] = start.split(':').map(Number);
+                const startMinutes = startH * 60 + startM;
 
-            // Leaderboard data
-            let leaderboard = [];
-
-            // Initialize
-            document.addEventListener('DOMContentLoaded', () => {
-                checkAuth(); // 先檢查是否已登入
-                loadSettings();
-                renderSchedule();
-                renderPrizes();
-                renderLeaderboard();
-                initChart();
-                updateTime();
-                setInterval(updateTime, 60000);
-            });
-
-            function loadSettings() {
-                const HARDCODED_GAS_URL = 'https://script.google.com/macros/s/AKfycbxOi_q-LhAj56riAhb_ufn2Ks_-t_a6Cw3-13SyDFj2uRFMo66S719OM5cLQKCxXVC1/exec';
-                const gasUrl = localStorage.getItem('workshop_gas_url') || HARDCODED_GAS_URL;
-                const pdfUrl = localStorage.getItem('workshop_pdf_url');
-                const participants = localStorage.getItem('workshop_participants');
-
-                if (gasUrl) document.getElementById('gas-url').value = gasUrl;
-                if (pdfUrl) document.getElementById('pdf-url').value = pdfUrl;
-                if (participants) document.getElementById('participant-list').value = participants;
-
-                // Load saved data
-                const savedPrizes = localStorage.getItem('workshop_prizes');
-                const savedLeaderboard = localStorage.getItem('workshop_leaderboard');
-                if (savedPrizes) prizes = JSON.parse(savedPrizes);
-                if (savedLeaderboard) leaderboard = JSON.parse(savedLeaderboard);
-            }
-
-            function saveSettings() {
-                const gasUrl = document.getElementById('gas-url').value;
-                const pdfUrl = document.getElementById('pdf-url').value;
-                const participants = document.getElementById('participant-list').value;
-
-                localStorage.setItem('workshop_gas_url', gasUrl);
-                localStorage.setItem('workshop_pdf_url', pdfUrl);
-                localStorage.setItem('workshop_participants', participants);
-
-                // 同步更新記憶體中的狀態
-                if (typeof WorkshopState !== 'undefined') {
-                    WorkshopState.gasUrl = gasUrl;
-                    WorkshopState.save();
-                }
-
-                showCopyToast('設定已儲存！');
-            }
-
-            function updateTime() {
-                const now = new Date();
-                document.getElementById('current-time').textContent =
-                    now.toLocaleTimeString('zh-TW', { hour: '2-digit', minute: '2-digit' });
-
-                // Update schedule highlighting
-                renderSchedule();
-            }
-
-            function renderSchedule() {
-                const container = document.getElementById('schedule-container');
-                const now = new Date();
-                const currentMinutes = now.getHours() * 60 + now.getMinutes();
-
-                container.innerHTML = schedule.map((item, index) => {
-                    const [start] = item.time.split(' - ');
-                    const [startH, startM] = start.split(':').map(Number);
-                    const startMinutes = startH * 60 + startM;
-
-                    let className = 'time-block';
-                    if (currentMinutes >= startMinutes && index < schedule.length - 1) {
-                        const nextStart = schedule[index + 1].time.split(' - ')[0];
-                        const [nextH, nextM] = nextStart.split(':').map(Number);
-                        const nextMinutes = nextH * 60 + nextM;
-                        if (currentMinutes < nextMinutes) {
-                            className += ' current';
-                        } else if (currentMinutes >= nextMinutes) {
-                            className += ' completed';
-                        }
+                let className = 'time-block';
+                if (currentMinutes >= startMinutes && index < schedule.length - 1) {
+                    const nextStart = schedule[index + 1].time.split(' - ')[0];
+                    const [nextH, nextM] = nextStart.split(':').map(Number);
+                    const nextMinutes = nextH * 60 + nextM;
+                    if (currentMinutes < nextMinutes) {
+                        className += ' current';
+                    } else if (currentMinutes >= nextMinutes) {
+                        className += ' completed';
                     }
+                }
 
-                    return `
+                return `
                     <div class="${className}">
                         <div class="time">${item.time}</div>
                         <div class="content">${item.content}</div>
                     </div>
                 `;
-                }).join('');
-            }
+            }).join('');
+        }
 
-            function renderPrizes() {
-                const container = document.getElementById('prize-list');
-                container.innerHTML = prizes.map((prize, index) => `
+        function renderPrizes() {
+            const container = document.getElementById('prize-list');
+            container.innerHTML = prizes.map((prize, index) => `
                 <div class="prize-item ${prize.drawn ? 'drawn' : ''}">
                     <span style="font-size: 1.5rem;">${prize.emoji}</span>
                     <span style="flex-grow: 1;">${prize.name}</span>
@@ -502,37 +491,37 @@
                 </div>
             `).join('');
 
-                // Save to localStorage
-                localStorage.setItem('workshop_prizes', JSON.stringify(prizes));
-            }
+            // Save to localStorage
+            localStorage.setItem('workshop_prizes', JSON.stringify(prizes));
+        }
 
-            function addPrize() {
-                const input = document.getElementById('new-prize');
-                const name = input.value.trim();
-                if (name) {
-                    prizes.push({ name, emoji: '🎁', drawn: false });
-                    input.value = '';
-                    renderPrizes();
-                }
-            }
-
-            function removePrize(index) {
-                prizes.splice(index, 1);
+        function addPrize() {
+            const input = document.getElementById('new-prize');
+            const name = input.value.trim();
+            if (name) {
+                prizes.push({ name, emoji: '🎁', drawn: false });
+                input.value = '';
                 renderPrizes();
             }
+        }
 
-            function renderLeaderboard() {
-                const container = document.getElementById('leaderboard');
-                if (leaderboard.length === 0) {
-                    container.innerHTML = '<div class="text-center text-stone-500 p-4">尚無資料，請手動新增</div>';
-                    return;
-                }
+        function removePrize(index) {
+            prizes.splice(index, 1);
+            renderPrizes();
+        }
 
-                // Sort by likes descending
-                const sorted = [...leaderboard].sort((a, b) => b.likes - a.likes);
-                const medals = ['🥇', '🥈', '🥉'];
+        function renderLeaderboard() {
+            const container = document.getElementById('leaderboard');
+            if (leaderboard.length === 0) {
+                container.innerHTML = '<div class="text-center text-stone-500 p-4">尚無資料，請手動新增</div>';
+                return;
+            }
 
-                container.innerHTML = sorted.map((item, index) => `
+            // Sort by likes descending
+            const sorted = [...leaderboard].sort((a, b) => b.likes - a.likes);
+            const medals = ['🥇', '🥈', '🥉'];
+
+            container.innerHTML = sorted.map((item, index) => `
                 <div class="leaderboard-item">
                     <div class="rank">${medals[index] || (index + 1)}</div>
                     <div class="name">${item.name}</div>
@@ -541,149 +530,182 @@
                 </div>
             `).join('');
 
-                localStorage.setItem('workshop_leaderboard', JSON.stringify(leaderboard));
-            }
+            localStorage.setItem('workshop_leaderboard', JSON.stringify(leaderboard));
+        }
 
-            function addLeaderboardEntry() {
-                const nameInput = document.getElementById('new-name');
-                const likesInput = document.getElementById('new-likes');
-                const name = nameInput.value.trim();
-                const likes = parseInt(likesInput.value) || 0;
+        function addLeaderboardEntry() {
+            const nameInput = document.getElementById('new-name');
+            const likesInput = document.getElementById('new-likes');
+            const name = nameInput.value.trim();
+            const likes = parseInt(likesInput.value) || 0;
 
-                if (name) {
-                    leaderboard.push({ name, likes });
-                    nameInput.value = '';
-                    likesInput.value = '';
-                    renderLeaderboard();
-                }
-            }
-
-            function removeLeaderboardEntry(index) {
-                leaderboard.splice(index, 1);
+            if (name) {
+                leaderboard.push({ name, likes });
+                nameInput.value = '';
+                likesInput.value = '';
                 renderLeaderboard();
             }
+        }
 
-            // Prize Draw Functions
-            let currentPrize = null;
+        function removeLeaderboardEntry(index) {
+            leaderboard.splice(index, 1);
+            renderLeaderboard();
+        }
 
-            function getParticipants() {
-                const text = document.getElementById('participant-list').value;
-                return text.split('\n').map(name => name.trim()).filter(name => name !== '');
+        // Prize Draw Functions
+        let currentPrize = null;
+
+        function getParticipants() {
+            const text = document.getElementById('participant-list').value;
+            return text.split('\n').map(name => name.trim()).filter(name => name !== '');
+        }
+
+        function startPrizeDraw() {
+            const participants = getParticipants();
+            if (participants.length === 0) {
+                alert('請先在設定中輸入參與抽獎的名單！');
+                return;
             }
 
-            function startPrizeDraw() {
-                const participants = getParticipants();
-                if (participants.length === 0) {
-                    alert('請先在設定中輸入參與抽獎的名單！');
-                    return;
+            // Find first undrawn prize
+            currentPrize = prizes.find(p => !p.drawn);
+            if (!currentPrize) {
+                alert('所有獎品都已抽完！');
+                return;
+            }
+
+            document.getElementById('prize-modal').style.display = 'flex';
+            document.getElementById('prize-result').textContent = currentPrize.emoji;
+            document.getElementById('prize-winner').textContent = '準備抽獎...';
+            document.getElementById('prize-name').textContent = currentPrize.name;
+        }
+
+        async function syncFromGoogleSheets() {
+            const gasUrl = document.getElementById('gas-url').value;
+            if (!gasUrl) {
+                alert('請先填寫 GAS 網址！');
+                return;
+            }
+
+            showCopyToast('正在從雲端抓取資料...');
+
+            try {
+                const response = await fetch(`${gasUrl}?action=getConfig`);
+                const config = await response.json();
+
+                if (config.error) throw new Error(config.error);
+
+                if (config.prizes && config.prizes.length > 0) {
+                    prizes = config.prizes;
+                    renderPrizes();
                 }
 
-                // Find first undrawn prize
-                currentPrize = prizes.find(p => !p.drawn);
-                if (!currentPrize) {
-                    alert('所有獎品都已抽完！');
-                    return;
+                if (config.participants && config.participants.length > 0) {
+                    document.getElementById('participant-list').value = config.participants.join('\n');
+                    // 自動儲存到 LocalStorage
+                    localStorage.setItem('workshop_participants', config.participants.join('\n'));
                 }
 
-                document.getElementById('prize-modal').style.display = 'flex';
-                document.getElementById('prize-result').textContent = currentPrize.emoji;
-                document.getElementById('prize-winner').textContent = '準備抽獎...';
-                document.getElementById('prize-name').textContent = currentPrize.name;
+                showCopyToast('✅ 同步成功！');
+            } catch (err) {
+                console.error('Sync error:', err);
+                alert('同步失敗：' + err.message + '\n請確認 GAS 已重新部署且版本是最新的。');
             }
+        }
 
-            function spinPrize() {
-                const participants = getParticipants();
-                const resultEl = document.getElementById('prize-result');
-                const winnerEl = document.getElementById('prize-winner');
-                const spinBtn = document.getElementById('spin-btn');
+        function spinPrize() {
+            const participants = getParticipants();
+            const resultEl = document.getElementById('prize-result');
+            const winnerEl = document.getElementById('prize-winner');
+            const spinBtn = document.getElementById('spin-btn');
 
-                spinBtn.disabled = true;
+            spinBtn.disabled = true;
 
-                // Animation
-                let spins = 0;
-                const totalSpins = 20 + Math.floor(Math.random() * 10);
+            // Animation
+            let spins = 0;
+            const totalSpins = 20 + Math.floor(Math.random() * 10);
 
-                const interval = setInterval(() => {
-                    const randomName = participants[Math.floor(Math.random() * participants.length)];
-                    winnerEl.textContent = randomName;
-                    resultEl.style.transform = `rotate(${spins * 36}deg)`;
-                    spins++;
+            const interval = setInterval(() => {
+                const randomName = participants[Math.floor(Math.random() * participants.length)];
+                winnerEl.textContent = randomName;
+                resultEl.style.transform = `rotate(${spins * 36}deg)`;
+                spins++;
 
-                    if (spins >= totalSpins) {
-                        clearInterval(interval);
-                        const winner = participants[Math.floor(Math.random() * participants.length)];
-                        winnerEl.textContent = `🎉 ${winner}`;
-                        resultEl.style.transform = 'rotate(0deg) scale(1.2)';
+                if (spins >= totalSpins) {
+                    clearInterval(interval);
+                    const winner = participants[Math.floor(Math.random() * participants.length)];
+                    winnerEl.textContent = `🎉 ${winner}`;
+                    resultEl.style.transform = 'rotate(0deg) scale(1.2)';
 
-                        // Mark prize as drawn
-                        currentPrize.drawn = true;
-                        currentPrize.winner = winner;
-                        renderPrizes();
+                    // Mark prize as drawn
+                    currentPrize.drawn = true;
+                    currentPrize.winner = winner;
+                    renderPrizes();
 
-                        spinBtn.disabled = false;
-                        spinBtn.textContent = '🎲 繼續抽';
-                    }
-                }, 80);
-            }
-
-            function closePrizeModal() {
-                document.getElementById('prize-modal').style.display = 'none';
-            }
-
-            function resetAllProgress() {
-                if (confirm('確定要重置所有學員進度嗎？這將清除所有 localStorage 資料。')) {
-                    localStorage.clear();
-                    location.reload();
+                    spinBtn.disabled = false;
+                    spinBtn.textContent = '🎲 繼續抽';
                 }
-            }
+            }, 80);
+        }
 
-            function exportData() {
-                const data = {
-                    leaderboard,
-                    prizes,
-                    exportedAt: new Date().toISOString()
-                };
-                const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `workshop-data-${new Date().toISOString().slice(0, 10)}.json`;
-                a.click();
-            }
+        function closePrizeModal() {
+            document.getElementById('prize-modal').style.display = 'none';
+        }
 
-            function initChart() {
-                const ctx = document.getElementById('satisfaction-chart').getContext('2d');
-                new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: ['整體滿意度', 'AI 實用度', '教學清晰度', '繼續學習興趣'],
-                        datasets: [{
-                            label: '平均分數',
-                            data: [4.5, 4.7, 4.6, 4.2],
-                            backgroundColor: [
-                                '#be123c',
-                                '#f59e0b',
-                                '#22c55e',
-                                '#3b82f6'
-                            ],
-                            borderRadius: 8
-                        }]
+        function resetAllProgress() {
+            if (confirm('確定要重置所有學員進度嗎？這將清除所有 localStorage 資料。')) {
+                localStorage.clear();
+                location.reload();
+            }
+        }
+
+        function exportData() {
+            const data = {
+                leaderboard,
+                prizes,
+                exportedAt: new Date().toISOString()
+            };
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `workshop-data-${new Date().toISOString().slice(0, 10)}.json`;
+            a.click();
+        }
+
+        function initChart() {
+            const ctx = document.getElementById('satisfaction-chart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['整體滿意度', 'AI 實用度', '教學清晰度', '繼續學習興趣'],
+                    datasets: [{
+                        label: '平均分數',
+                        data: [4.5, 4.7, 4.6, 4.2],
+                        backgroundColor: [
+                            '#be123c',
+                            '#f59e0b',
+                            '#22c55e',
+                            '#3b82f6'
+                        ],
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false }
                     },
-                    options: {
-                        responsive: true,
-                        plugins: {
-                            legend: { display: false }
-                        },
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                max: 5
-                            }
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 5
                         }
                     }
-                });
-            }
-        </script>
+                }
+            });
+        }
+    </script>
     </div> <!-- Close admin-content -->
 </body>
 
