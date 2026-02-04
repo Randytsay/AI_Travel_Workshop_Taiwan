@@ -375,6 +375,26 @@ document.addEventListener('DOMContentLoaded', () => {
     if (savedGasUrl) {
         WorkshopState.gasUrl = savedGasUrl;
     }
+
+    // 全域動態櫻花效果
+    if (!document.querySelector('.no-sakura')) {
+        function createSakura() {
+            const sakura = document.createElement('div');
+            sakura.className = 'sakura';
+            sakura.innerHTML = '🌸';
+            sakura.style.left = Math.random() * 100 + 'vw';
+            sakura.style.top = '-20px';
+            sakura.style.fontSize = (Math.random() * 15 + 10) + 'px';
+            sakura.style.animationDuration = (Math.random() * 5 + 8) + 's';
+            sakura.style.opacity = Math.random() * 0.6 + 0.4;
+            document.body.appendChild(sakura);
+
+            setTimeout(() => {
+                sakura.remove();
+            }, 13000);
+        }
+        setInterval(createSakura, 800);
+    }
 });
 
 // --- Export for modules (if needed) ---
