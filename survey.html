@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-TW">
 
 <head>
@@ -33,16 +33,38 @@
         }
 
         /* 選項樣式優化 */
+        .rating-group-10 {
+            display: flex !important;
+            flex-direction: row !important;
+            flex-wrap: wrap !important;
+            gap: 8px !important;
+            justify-content: center !important;
+        }
+
         .rating-btn-10 {
+            width: 52px !important;
+            height: 52px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            border-radius: 50% !important;
+            padding: 0 !important;
             border: 2px solid #e8e8e8 !important;
-            background: #fafafa !important;
+            background: white !important;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            color: #333;
+            transition: all 0.2s ease;
         }
 
         .rating-btn-10.selected {
-            background: linear-gradient(135deg, #fff5f5 0%, #ffe8e8 100%) !important;
-            border-color: #c41e3a !important;
-            color: #c41e3a !important;
+            background: var(--color-primary) !important;
+            color: white !important;
+            border-color: var(--color-primary) !important;
+            transform: scale(1.1);
             font-weight: bold;
+            box-shadow: 0 0 15px rgba(196, 30, 58, 0.4);
         }
 
         .checkbox-item {
@@ -79,17 +101,33 @@
         }
 
         .role-toggle {
+            display: flex !important;
             border: 2px solid #c41e3a !important;
-            background: white;
+            background: white !important;
             padding: 4px;
+            border-radius: var(--radius-lg) !important;
+            gap: 4px;
         }
 
         .role-toggle button {
+            flex: 1;
+            padding: 0.75rem 1.5rem !important;
             border-radius: var(--radius-md) !important;
+            border: none !important;
+            background: white !important;
+            color: #c41e3a !important;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
         }
 
         .role-toggle button.active {
             background: #c41e3a !important;
+            color: white !important;
+        }
+
+        .role-toggle button:hover:not(.active) {
+            background: #fff5f5 !important;
         }
     </style>
 </head>

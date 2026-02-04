@@ -393,7 +393,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 sakura.remove();
             }, 13000);
         }
-        setInterval(createSakura, 800);
+        setInterval(createSakura, 2200);
     }
 });
 

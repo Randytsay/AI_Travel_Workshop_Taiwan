@@ -1,5 +1,5 @@
 /* ============================================
-   AI 旅遊規劃工作坊 - 共用樣式系統
+   AI ??閬?撌乩???- ?梁璅??蝟餌絞
    ============================================ */
 
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+JP:wght@400;700&display=swap');
@@ -79,15 +79,15 @@ body {
 }
 
 body::before {
-    content: '';
+    content: '🌸';
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
     background-image:
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23ffb7c5' opacity='0.3' d='M50 0c5 25 25 45 50 50-25 5-45 25-50 50-5-25-25-45-50-50 25-5 45-25 50-50z'/%3E%3C/svg%3E"),
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23ffc0cb' opacity='0.2' d='M50 0c5 25 25 45 50 50-25 5-45 25-50 50-5-25-25-45-50-50 25-5 45-25 50-50z'/%3E%3C/svg%3E");
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23ffb7c5' opacity='0.08' d='M50 0c5 25 25 45 50 50-25 5-45 25-50 50-5-25-25-45-50-50 25-5 45-25 50-50z'/%3E%3C/svg%3E"),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23ffc0cb' opacity='0.05' d='M50 0c5 25 25 45 50 50-25 5-45 25-50 50-5-25-25-45-50-50 25-5 45-25 50-50z'/%3E%3C/svg%3E");
     background-size: 80px 80px, 120px 120px;
     background-position: 0 0, 60px 60px;
     pointer-events: none;
@@ -533,7 +533,7 @@ a:hover {
 
 /* --- Cards --- */
 .card {
-    background: white;
+    background: #ffffff !important;
     border: 1px solid var(--color-stone-200);
     border-radius: var(--radius-xl);
     box-shadow: var(--shadow-sm);
@@ -643,11 +643,12 @@ a:hover {
 
 /* --- Prompt Box --- */
 .prompt-box {
-    background: var(--color-stone-100);
-    border: 1px solid var(--color-stone-200);
+    background: #ffffff;
+    border: 2px solid var(--color-stone-200);
     border-radius: var(--radius-lg);
     padding: var(--spacing-md);
     position: relative;
+    box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.03);
 }
 
 .prompt-box .prompt-label {
@@ -684,9 +685,11 @@ a:hover {
 }
 
 .alert-info {
-    background: #dbeafe;
-    border-left: 4px solid var(--color-info);
+    background: #f8faff;
+    border: 1px solid #bfdbfe;
+    border-left: 6px solid var(--color-info);
     color: #1e40af;
+    font-weight: 500;
 }
 
 .alert-success {
@@ -1091,7 +1094,7 @@ main {
 }
 
 .hero::after {
-    content: '';
+    content: '🌸';
     position: absolute;
     right: 0;
     top: 0;
@@ -1186,4 +1189,115 @@ main {
 .copy-toast.show {
     transform: translateX(-50%) translateY(0);
     opacity: 1;
+}
+
+/* --- Readability Enhancements --- */
+.timer-container {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1.25rem;
+    background: white;
+    border: 1px solid var(--color-stone-200);
+    border-radius: var(--radius-full);
+    box-shadow: var(--shadow-sm);
+    margin-top: 1rem;
+}
+
+.countdown.readability-fix {
+    background: white !important;
+    border: 2px solid var(--color-accent) !important;
+    color: var(--color-stone-800) !important;
+    box-shadow: var(--shadow-md);
+}
+
+.countdown.readability-fix .time {
+    color: var(--color-accent) !important;
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.05);
+}
+
+.countdown.readability-fix .font-bold {
+    color: var(--color-stone-800);
+}
+
+.countdown.readability-fix .text-sm {
+    color: var(--color-stone-500);
+}
+
+/* --- Global Contrast & Readability Fixes --- */
+.card-header h3 {
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+}
+
+.card-header p,
+.section-header p {
+    color: rgba(255, 255, 255, 0.95) !important;
+    font-size: 0.875rem !important;
+    font-weight: 500 !important;
+    margin-top: 0.5rem !important;
+    opacity: 1 !important;
+}
+
+.card {
+    background: #ffffff !important;
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* --- Shop.com Logo Integration --- */
+.shop-logo-inline {
+    height: 1.1em;
+    vertical-align: middle;
+    display: inline-block;
+    margin: 0 0.2rem;
+    margin-top: -0.15em;
+    filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.05));
+    transition: transform 0.2s ease;
+}
+
+.shop-logo-inline:hover {
+    transform: scale(1.05);
+}
+
+
+/* --- Homepage Hero Premium Theme --- */
+.hero {
+    background: linear-gradient(145deg, #0f172a 0%, #1e293b 100%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    color: white !important;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3) !important;
+}
+
+.hero h2 {
+    color: white !important;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5) !important;
+}
+
+.hero p {
+    color: rgba(255, 255, 255, 0.9) !important;
+    font-weight: 500 !important;
+}
+
+.hero::after {
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.05)) !important;
+}
+
+/* --- Shop.com Logo Legibility Fixes --- */
+.shop-logo-pill {
+    display: inline-flex !important;
+    align-items: center !important;
+    background: white !important;
+    padding: 2px 10px !important;
+    border-radius: 999px !important;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2) !important;
+    margin: 0 0.2rem !important;
+    vertical-align: middle !important;
+    transition: transform 0.2s ease !important;
+}
+
+.shop-logo-pill:hover {
+    transform: translateY(-1px) scale(1.02) !important;
+}
+
+.shop-logo-light {
+    filter: brightness(0) invert(1) drop-shadow(0 1px 2px rgba(0,0,0,0.3)) !important;
 }

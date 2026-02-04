@@ -29,10 +29,10 @@ const CountdownSync = {
 
         // 監聽 localStorage 變化（跨分頁同步的後備方案）
         window.addEventListener('storage', (e) => {
-            if (e.key === 'workshop_countdown_deadline') {
+            if (e.key === 'workshop_countdown_data') {
                 this.notifyCallbacks({
                     type: 'update',
-                    deadline: e.newValue ? parseInt(e.newValue) : null
+                    ...JSON.parse(e.newValue)
                 });
             }
         });
@@ -52,9 +52,10 @@ const CountdownSync = {
                 if (data) {
                     this.notifyCallbacks({
                         type: 'update',
-                        deadline: data.deadline
+                        ...data
                     });
                     // 同步到 localStorage
+                    localStorage.setItem('workshop_countdown_data', JSON.stringify(data));
                     if (data.deadline) {
                         localStorage.setItem('workshop_countdown_deadline', data.deadline.toString());
                     } else {
@@ -76,8 +77,16 @@ const CountdownSync = {
         this.callbacks.forEach(cb => cb(data));
     },
 
-    setDeadline(deadline) {
+    setDeadline(deadline, paused = false, remainingTime = null) {
+        const data = {
+            deadline,
+            paused,
+            remainingTime,
+            updatedAt: Date.now()
+        };
+
         // 儲存到 localStorage
+        localStorage.setItem('workshop_countdown_data', JSON.stringify(data));
         if (deadline) {
             localStorage.setItem('workshop_countdown_deadline', deadline.toString());
         } else {
@@ -86,22 +95,43 @@ const CountdownSync = {
 
         // 透過 BroadcastChannel 通知其他分頁
         if (this.channel) {
-            this.channel.postMessage({ type: 'update', deadline });
+            this.channel.postMessage({ type: 'update', ...data });
         }
 
         // 透過 Firebase 同步到其他裝置
         if (this.firebase) {
-            this.firebase.set({ deadline, updatedAt: Date.now() });
+            this.firebase.set(data);
         }
     },
 
+    getData() {
+        const stored = localStorage.getItem('workshop_countdown_data');
+        return stored ? JSON.parse(stored) : { deadline: null, paused: false, remainingTime: null };
+    },
+
     getDeadline() {
-        const stored = localStorage.getItem('workshop_countdown_deadline');
-        return stored ? parseInt(stored) : null;
+        const data = this.getData();
+        return data.deadline;
+    },
+
+    pause() {
+        const data = this.getData();
+        if (data.deadline && !data.paused) {
+            const remainingTime = data.deadline - Date.now();
+            this.setDeadline(null, true, remainingTime);
+        }
+    },
+
+    resume() {
+        const data = this.getData();
+        if (data.paused && data.remainingTime) {
+            const newDeadline = Date.now() + data.remainingTime;
+            this.setDeadline(newDeadline, false, null);
+        }
     },
 
     clear() {
-        this.setDeadline(null);
+        this.setDeadline(null, false, null);
     }
 };
 
