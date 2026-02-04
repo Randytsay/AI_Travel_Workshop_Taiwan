@@ -2,6 +2,9 @@
    AI 旅遊規劃工作坊 - 共用樣式系統
    ============================================ */
 
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+JP:wght@400;700&display=swap');
+
+
 /* --- CSS Variables --- */
 :root {
     /* Colors - Red-Gold Japanese Theme */
