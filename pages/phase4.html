@@ -150,7 +150,8 @@
                         <input type="number" id="countdown-minutes" value="30" min="1" max="120"
                             style="width: 60px; padding: 0.5rem; border-radius: 0.5rem; border: 1px solid #ccc; text-align: center;">
                         <span style="font-size: 0.875rem; color: #44403c;">分鐘</span>
-                        <button onclick="startGlobalCountdown()" class="btn btn-primary btn-sm">▶️ 開始</button>
+                        <button onclick="toggleCountdown()" id="toggle-btn" class="btn btn-primary btn-sm">▶️
+                            開始</button>
                         <button onclick="resetCountdown()" class="btn btn-outline btn-sm">🔄 重置</button>
                     </div>
                 </div>
@@ -742,14 +743,64 @@
             countdownEl.style.color = diff < 60000 ? '#dc2626' : '';
         }
 
-        function startGlobalCountdown() {
-            const minutes = parseInt(document.getElementById('countdown-minutes').value) || 30;
-            const deadline = Date.now() + (minutes * 60 * 1000);
+        // Countdown state: 'stopped', 'running', 'paused'
+        let countdownState = 'stopped';
+        let pausedRemainingTime = null;
 
-            if (typeof CountdownSync !== 'undefined') {
-                CountdownSync.setDeadline(deadline);
-            } else {
-                localStorage.setItem('workshop_countdown_deadline', deadline.toString());
+        function toggleCountdown() {
+            const toggleBtn = document.getElementById('toggle-btn');
+
+            if (countdownState === 'stopped') {
+                // Start countdown
+                const minutes = parseInt(document.getElementById('countdown-minutes').value) || 30;
+                const deadline = Date.now() + (minutes * 60 * 1000);
+
+                if (typeof CountdownSync !== 'undefined') {
+                    CountdownSync.setDeadline(deadline);
+                } else {
+                    localStorage.setItem('workshop_countdown_deadline', deadline.toString());
+                }
+
+                countdownState = 'running';
+                toggleBtn.innerHTML = '⏸️ 暫停';
+                toggleBtn.classList.remove('btn-outline');
+                toggleBtn.classList.add('btn-primary');
+
+            } else if (countdownState === 'running') {
+                // Pause countdown
+                const data = typeof CountdownSync !== 'undefined' ? CountdownSync.getData() : { deadline: parseInt(localStorage.getItem('workshop_countdown_deadline')) };
+                if (data.deadline) {
+                    pausedRemainingTime = data.deadline - Date.now();
+                    if (typeof CountdownSync !== 'undefined') {
+                        CountdownSync.setDeadline(null, true, pausedRemainingTime);
+                    } else {
+                        localStorage.removeItem('workshop_countdown_deadline');
+                        localStorage.setItem('workshop_paused_time', pausedRemainingTime.toString());
+                    }
+                }
+
+                countdownState = 'paused';
+                toggleBtn.innerHTML = '▶️ 繼續';
+                toggleBtn.classList.remove('btn-primary');
+                toggleBtn.classList.add('btn-outline');
+                document.getElementById('countdown-label').textContent = '已暫停';
+
+            } else if (countdownState === 'paused') {
+                // Resume countdown
+                if (pausedRemainingTime && pausedRemainingTime > 0) {
+                    const newDeadline = Date.now() + pausedRemainingTime;
+                    if (typeof CountdownSync !== 'undefined') {
+                        CountdownSync.setDeadline(newDeadline);
+                    } else {
+                        localStorage.setItem('workshop_countdown_deadline', newDeadline.toString());
+                        localStorage.removeItem('workshop_paused_time');
+                    }
+                }
+
+                countdownState = 'running';
+                toggleBtn.innerHTML = '⏸️ 暫停';
+                toggleBtn.classList.remove('btn-outline');
+                toggleBtn.classList.add('btn-primary');
             }
 
             updateCountdownDisplay();
@@ -760,7 +811,18 @@
                 CountdownSync.clear();
             } else {
                 localStorage.removeItem('workshop_countdown_deadline');
+                localStorage.removeItem('workshop_paused_time');
             }
+
+            countdownState = 'stopped';
+            pausedRemainingTime = null;
+            const toggleBtn = document.getElementById('toggle-btn');
+            if (toggleBtn) {
+                toggleBtn.innerHTML = '▶️ 開始';
+                toggleBtn.classList.remove('btn-outline');
+                toggleBtn.classList.add('btn-primary');
+            }
+
             updateCountdownDisplay();
         }
     </script>
