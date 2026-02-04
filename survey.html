@@ -100,34 +100,79 @@
             box-shadow: 0 0 0 4px rgba(196, 30, 58, 0.1) !important;
         }
 
-        .role-toggle {
-            display: flex !important;
-            border: 2px solid #c41e3a !important;
-            background: white !important;
-            padding: 4px;
-            border-radius: var(--radius-lg) !important;
-            gap: 4px;
+        /* 緊湊型身分切換器 */
+        .role-switcher {
+            display: inline-flex !important;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 3px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(4px);
+            align-self: flex-start;
         }
 
-        .role-toggle button {
-            flex: 1;
-            padding: 0.75rem 1.5rem !important;
-            border-radius: var(--radius-md) !important;
+        .role-switcher button {
+            background: transparent !important;
             border: none !important;
-            background: white !important;
-            color: #c41e3a !important;
-            font-weight: 600;
+            color: rgba(255, 255, 255, 0.7) !important;
+            padding: 5px 14px !important;
+            border-radius: 50px !important;
+            font-size: 0.75rem !important;
+            font-weight: 600 !important;
             cursor: pointer;
             transition: all 0.2s ease;
+            white-space: nowrap;
         }
 
-        .role-toggle button.active {
-            background: #c41e3a !important;
-            color: white !important;
+        .role-switcher button.active {
+            background: white !important;
+            color: #c41e3a !important;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
-        .role-toggle button:hover:not(.active) {
-            background: #fff5f5 !important;
+        @media (max-width: 480px) {
+            .card-header-flex {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .role-switcher {
+                width: 100%;
+            }
+
+            .role-switcher button {
+                flex: 1;
+            }
+        }
+
+        /* 畫面切換與佈局修正 */
+        .form-screen.hide {
+            display: none !important;
+        }
+
+        .success-screen {
+            display: none;
+        }
+
+        .success-screen.show {
+            display: block !important;
+        }
+
+        .checkbox-group {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 12px;
+            width: 100%;
+        }
+
+        .checkbox-item {
+            display: block !important;
+            width: 100%;
+            margin: 0 0 8px 0 !important;
+            padding: 14px 18px !important;
+            border-radius: 12px !important;
+            cursor: pointer;
+            box-sizing: border-box !important;
         }
     </style>
 </head>
@@ -162,12 +207,7 @@
 
     <!-- Main Content -->
     <main class="container" style="padding-top: 2rem; padding-bottom: 6rem;">
-        <!-- Role Toggle -->
         <div class="survey-form">
-            <div class="role-toggle mb-6">
-                <button onclick="switchRole('guest')" class="active" id="role-guest">👋 新朋友</button>
-                <button onclick="switchRole('member')" id="role-member">🤝 夥伴</button>
-            </div>
 
             <!-- Form Screen -->
             <div class="form-screen" id="form-screen">
@@ -182,8 +222,18 @@
                 </div>
                 <div class="card">
                     <div class="card-header" id="form-header">
-                        <h3>🌸 新朋友體驗回饋</h3>
-                        <p class="text-xs text-stone-500 mt-1">填完問卷即可領取完整講義！</p>
+                        <div class="card-header-flex"
+                            style="display: flex; justify-content: space-between; align-items: center; gap: 1rem;">
+                            <div>
+                                <h3>🌸 新朋友體驗回饋</h3>
+                                <p class="text-xs mt-1" style="color: rgba(255,255,255,0.7) !important;">填完問卷即可領取完整講義！
+                                </p>
+                            </div>
+                            <div class="role-switcher">
+                                <button onclick="switchRole('guest')" class="active" id="role-guest">👋 新朋友</button>
+                                <button onclick="switchRole('member')" id="role-member">🤝 夥伴</button>
+                            </div>
+                        </div>
                     </div>
                     <div class="card-body">
                         <form id="survey-form">
@@ -335,8 +385,8 @@
                 </div>
             </div>
 
-            <!-- Success Screen -->
-            <div class="success-screen" id="success-screen">
+            <!-- Success Screen (預設隱藏) -->
+            <div class="success-screen" id="success-screen" style="display: none;">
                 <div class="card">
                     <div class="card-body" style="padding: 3rem;">
                         <div style="font-size: 4rem; margin-bottom: 1rem;">🎉</div>
@@ -398,15 +448,25 @@
         function switchRole(role) {
             currentRole = role;
 
-            // Update toggle UI
+            // 更新按鈕狀態
             document.getElementById('role-guest').classList.toggle('active', role === 'guest');
             document.getElementById('role-member').classList.toggle('active', role === 'member');
 
-            // Update form header
+            // 更新標題與副標題
             const header = document.querySelector('#form-header h3');
-            header.textContent = role === 'guest' ? '🌸 新朋友體驗回饋' : '🤝 夥伴流程優化回饋';
+            const subtitle = document.querySelector('#form-header p');
 
-            // Show/hide question sections
+            if (role === 'guest') {
+                header.textContent = '🌸 新朋友體驗回饋';
+                subtitle.textContent = '填完問卷即可領取完整講義！';
+                subtitle.style.color = 'rgba(255,255,255,0.7)';
+            } else {
+                header.textContent = '🤝 夥伴流程優化回饋';
+                subtitle.textContent = '感謝您的協助，讓活動越來越好！';
+                subtitle.style.color = 'rgba(255,255,255,0.7)';
+            }
+
+            // 切換題目顯示
             document.getElementById('guest-questions').style.display = role === 'guest' ? 'block' : 'none';
             document.getElementById('member-questions').style.display = role === 'member' ? 'block' : 'none';
 
@@ -465,8 +525,8 @@
             await submitToGoogleSheets(data,
                 () => {
                     // Success
-                    document.getElementById('form-screen').classList.add('hide');
-                    document.getElementById('success-screen').classList.add('show');
+                    document.getElementById('form-screen').style.display = 'none';
+                    document.getElementById('success-screen').style.display = 'block';
                     WorkshopState.surveySubmitted = true;
                     WorkshopState.save();
                 },
@@ -481,6 +541,14 @@
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', () => {
             initRatingButtons();
+
+            // 如果已經提交過，且非強制重新填寫，可以顯示成功畫面 (可選)
+            /*
+            if (WorkshopState.surveySubmitted) {
+                document.getElementById('form-screen').classList.add('hide');
+                document.getElementById('success-screen').classList.add('show');
+            }
+            */
         });
     </script>
 </body>

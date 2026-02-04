@@ -33,6 +33,9 @@
     --color-error: #ef4444;
     --color-info: #3b82f6;
 
+    --color-accent: #f59e0b;
+    --color-accent-light: #fef3c7;
+    --color-accent-dark: #d97706;
     /* Typography */
     --font-serif: 'Noto Serif JP', serif;
     --font-sans: 'Noto Sans TC', sans-serif;
@@ -134,16 +137,25 @@ h3,
 }
 
 .card-header {
-    background: linear-gradient(180deg, var(--color-primary-red) 0%, var(--color-primary-dark-red) 100%) !important;
-    border-bottom: 2px solid var(--color-gold) !important;
+    background: linear-gradient(180deg, var(--color-primary-red) 0%, var(--color-primary-dark-red) 100%);
+    border-bottom: 2px solid var(--color-gold);
+    padding: var(--spacing-lg);
+    color: white;
 }
 
 .card-header h3 {
-    color: white !important;
+    color: inherit;
+    margin: 0;
+}
+
+.card-header p {
+    color: inherit;
+    opacity: 0.9;
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, var(--color-primary-red) 0%, var(--color-primary-dark-red) 100%) !important;
+    background: linear-gradient(135deg, var(--color-primary-red) 0%, var(--color-primary-dark-red) 100%);
+    color: white;
 }
 
 .sakura::before {
@@ -540,12 +552,6 @@ a:hover {
     overflow: hidden;
 }
 
-.card-header {
-    padding: var(--spacing-lg);
-    border-bottom: 1px solid var(--color-stone-200);
-    background: var(--color-stone-50);
-}
-
 .card-body {
     padding: var(--spacing-lg);
 }
@@ -600,6 +606,98 @@ a:hover {
 
 .phase-card.completed .phase-number {
     background: var(--color-success);
+}
+
+/* --- Phase Card Themes --- */
+#phase-card-1 {
+    border-color: #0ea5e9;
+    background: linear-gradient(135deg, #f0f9ff 0%, white 100%);
+}
+
+#phase-card-1 .phase-number {
+    background: #0ea5e9;
+}
+
+#phase-card-2 {
+    border-color: #6366f1;
+    background: linear-gradient(135deg, #eef2ff 0%, white 100%);
+}
+
+#phase-card-2 .phase-number {
+    background: #6366f1;
+}
+
+#phase-card-3 {
+    border-color: #f43f5e;
+    background: linear-gradient(135deg, #fff1f2 0%, white 100%);
+}
+
+#phase-card-3 .phase-number {
+    background: #f43f5e;
+}
+
+#phase-card-4 {
+    border-color: #f59e0b;
+    background: linear-gradient(135deg, #fffbeb 0%, white 100%);
+}
+
+#phase-card-4 .phase-number {
+    background: #f59e0b;
+}
+
+#phase-card-5 {
+    border-color: #10b981;
+    background: linear-gradient(135deg, #ecfdf5 0%, white 100%);
+}
+
+#phase-card-5 .phase-number {
+    background: #10b981;
+}
+
+#phase-card-6 {
+    border-color: #8b5cf6;
+    background: linear-gradient(135deg, #f5f3ff 0%, white 100%);
+}
+
+#phase-card-6 .phase-number {
+    background: #8b5cf6;
+}
+
+/* --- Card Header Themes --- */
+.card-header-amber {
+    background: linear-gradient(135deg, #fef3c7 0%, #fffbeb 100%) !important;
+    border-bottom: 3px solid #f59e0b !important;
+    color: var(--color-stone-800) !important;
+}
+
+.card-header-blue {
+    background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%) !important;
+    border-bottom: 3px solid #0ea5e9 !important;
+    color: var(--color-stone-800) !important;
+}
+
+.card-header-rose {
+    background: linear-gradient(135deg, #fee2e2 0%, #fef2f2 100%) !important;
+    border-bottom: 3px solid #f43f5e !important;
+    color: var(--color-stone-800) !important;
+}
+
+.card-header-emerald {
+    background: linear-gradient(135deg, #dcfce7 0%, #f0fdf4 100%) !important;
+    border-bottom: 3px solid #10b981 !important;
+    color: var(--color-stone-800) !important;
+}
+
+.card-header-indigo {
+    background: linear-gradient(135deg, #e0e7ff 0%, #eef2ff 100%) !important;
+    border-bottom: 3px solid #6366f1 !important;
+    color: var(--color-stone-800) !important;
+}
+
+.card-header-primary-light {
+    background: linear-gradient(135deg, #fff1f2 0%, #fef2f2 100%) !important;
+    border-bottom: 3px solid var(--color-primary) !important;
+    color: var(--color-stone-800) !important;
 }
 
 /* --- Forms --- */
@@ -927,8 +1025,16 @@ main {
     margin-top: 0.5rem;
 }
 
+.mt-3 {
+    margin-top: 0.75rem;
+}
+
 .mt-4 {
     margin-top: 1rem;
+}
+
+.mt-5 {
+    margin-top: 1.25rem;
 }
 
 .mt-6 {
@@ -1229,6 +1335,7 @@ main {
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
 }
 
+/* Standard headers (Red/Dark) still need white text */
 .card-header p,
 .section-header p {
     color: rgba(255, 255, 255, 0.95) !important;
@@ -1236,6 +1343,19 @@ main {
     font-weight: 500 !important;
     margin-top: 0.5rem !important;
     opacity: 1 !important;
+}
+
+/* FINAL OVERRIDE for Light Themes - ensures they are NEVER white */
+.card-header-amber p,
+.card-header-blue p,
+.card-header-rose p,
+.card-header-emerald p,
+.card-header-indigo p,
+.card-header-primary-light p {
+    color: #44403c !important;
+    /* Force a dark grey */
+    opacity: 1 !important;
+    text-shadow: none !important;
 }
 
 .card {
@@ -1288,7 +1408,7 @@ main {
     background: white !important;
     padding: 2px 10px !important;
     border-radius: 999px !important;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.2) !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2) !important;
     margin: 0 0.2rem !important;
     vertical-align: middle !important;
     transition: transform 0.2s ease !important;
@@ -1299,5 +1419,5 @@ main {
 }
 
 .shop-logo-light {
-    filter: brightness(0) invert(1) drop-shadow(0 1px 2px rgba(0,0,0,0.3)) !important;
+    filter: brightness(0) invert(1) drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3)) !important;
 }
