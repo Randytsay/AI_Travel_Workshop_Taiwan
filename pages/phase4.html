@@ -719,6 +719,15 @@
             const labelEl = document.getElementById('countdown-label');
 
             if (!deadline) {
+                // Check if paused - preserve display
+                if (countdownState === 'paused' && pausedRemainingTime > 0) {
+                    const minutes = Math.floor(pausedRemainingTime / 60000);
+                    const seconds = Math.floor((pausedRemainingTime % 60000) / 1000);
+                    countdownEl.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+                    labelEl.textContent = '已暫停';
+                    countdownEl.style.color = '#f59e0b';
+                    return;
+                }
                 countdownEl.textContent = '--:--';
                 labelEl.textContent = '等待講師開始計時';
                 countdownEl.style.color = '';
