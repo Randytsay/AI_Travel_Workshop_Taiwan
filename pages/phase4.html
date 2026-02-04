@@ -63,6 +63,40 @@
             font-size: 2rem;
             font-weight: 700;
         }
+
+        .scenario-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .scenario-btn {
+            padding: 0.75rem;
+            border: 1px solid var(--color-stone-200);
+            border-radius: var(--radius-lg);
+            background: white;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .scenario-btn.active {
+            border-color: var(--color-primary);
+            background: var(--color-primary-light);
+            box-shadow: 0 0 0 2px var(--color-primary-light);
+        }
+
+        .scenario-btn .icon {
+            font-size: 1.25rem;
+            margin-bottom: 0.25rem;
+            display: block;
+        }
+
+        .scenario-btn .title {
+            font-size: 0.875rem;
+            font-weight: 700;
+        }
     </style>
 </head>
 
@@ -345,30 +379,69 @@
                 </div>
             </div>
 
-            <!-- Section D: Additional Tools -->
+            <!-- Section D: Smart Prompts for NotebookLM -->
             <div class="card mb-6">
-                <div class="card-header">
-                    <h3>📦 Section D：行前資料包</h3>
+                <div class="card-header"
+                    style="background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%); border-bottom: 1px solid #bae6fd;">
+                    <h3>📓 Section D：NotebookLM 智慧導覽生成</h3>
+                    <p class="text-xs text-stone-500 mt-1">透過 NotebookLM 的「自訂指令」功能，生成專屬於你的輸出</p>
                 </div>
                 <div class="card-body">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="tool-card">
-                            <div class="flex items-center mb-2">
-                                <span class="tool-icon">📊</span>
-                                <span class="tool-title">自動生成簡報</span>
+                    <div class="mb-6">
+                        <label class="form-label">Step 1：選擇對象與情境</label>
+                        <div class="scenario-grid">
+                            <div class="scenario-btn active" onclick="setScenario('family')" id="btn-family">
+                                <span class="icon">🏠</span>
+                                <span class="title">家族親情版</span>
                             </div>
-                            <p class="tool-desc">使用 NotebookLM Studio 的 Slide Deck 功能，一鍵將行程轉化為 10 頁簡報，說服家人或旅伴！</p>
-                            <a href="https://notebooklm.google.com/" target="_blank"
-                                class="btn btn-outline btn-sm mt-2">開啟 NotebookLM</a>
+                            <div class="scenario-btn" onclick="setScenario('business')" id="btn-business">
+                                <span class="icon">💼</span>
+                                <span class="title">商務考察版</span>
+                            </div>
+                            <div class="scenario-btn" onclick="setScenario('friends')" id="btn-friends">
+                                <span class="icon">🥂</span>
+                                <span class="title">熱血好友版</span>
+                            </div>
+                            <div class="scenario-btn" onclick="setScenario('kids')" id="btn-kids">
+                                <span class="icon">🎈</span>
+                                <span class="title">親子探險版</span>
+                            </div>
                         </div>
-                        <div class="tool-card">
-                            <div class="flex items-center mb-2">
-                                <span class="tool-icon">🎧</span>
-                                <span class="tool-title">專屬 Podcast 導覽</span>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Presentation Prompt -->
+                            <div>
+                                <div class="flex items-center gap-2 mb-3">
+                                    <span style="font-size: 1.25rem;">📊</span>
+                                    <h4 class="font-bold">16 頁 YAML 簡報指令</h4>
+                                </div>
+                                <div class="prompt-box">
+                                    <textarea id="ppt-prompt" class="form-textarea"
+                                        style="min-height: 250px; font-size: 0.8rem; font-family: monospace;"
+                                        readonly></textarea>
+                                </div>
+                                <button onclick="copyToClipboard('ppt-prompt')" class="btn btn-primary btn-full mt-3">📋
+                                    複製簡報指令</button>
+                                <p class="text-xs text-stone-500 mt-2">貼到 NotebookLM Studio 的 "Help me create a slide
+                                    deck" 指令框中</p>
                             </div>
-                            <p class="tool-desc">使用 NotebookLM Audio Overview，將行程與景點歷史轉化為雙人對談語音，在飛機上預習！</p>
-                            <a href="https://notebooklm.google.com/" target="_blank"
-                                class="btn btn-outline btn-sm mt-2">開啟 NotebookLM</a>
+
+                            <!-- Podcast Prompt -->
+                            <div>
+                                <div class="flex items-center gap-2 mb-3">
+                                    <span style="font-size: 1.25rem;">🎧</span>
+                                    <h4 class="font-bold">Podcast 專屬地陪指令</h4>
+                                </div>
+                                <div class="prompt-box">
+                                    <textarea id="podcast-prompt" class="form-textarea"
+                                        style="min-height: 250px; font-size: 0.8rem; font-family: monospace;"
+                                        readonly></textarea>
+                                </div>
+                                <button onclick="copyToClipboard('podcast-prompt')"
+                                    class="btn btn-outline btn-full mt-3">📋 複製 Podcast 指令</button>
+                                <p class="text-xs text-stone-500 mt-2">貼到 NotebookLM Audio Overview 的 "Customize" 指令框中
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -399,8 +472,123 @@
             WorkshopState.setCurrentPhase(4);
             updateMapPrompt();
             updateSocialPost();
+            setScenario('family'); // Initialize Smart Prompts
             startCountdown();
         });
+
+        // ===== Smart Prompts Logic =====
+        function setScenario(id) {
+            document.querySelectorAll('.scenario-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('btn-' + id).classList.add('active');
+
+            const pptPromptEl = document.getElementById('ppt-prompt');
+            const podcastPromptEl = document.getElementById('podcast-prompt');
+
+            const scenarios = {
+                family: {
+                    ppt: `請讀取我提供的行程資料，並撰寫一份 16 頁的簡報大綱。要求如下：
+1. 輸出格式：必須為 YAML 程式碼區塊。
+2. 頁數限制：嚴格執行 16 頁。
+3. 目標觀眾：長輩與家人。
+4. 情境設定：向家人說明這次旅遊的舒適度、安全性與溫馨亮點。
+5. 分頁結構建議：
+   - Slide 1: 封面 (溫暖的家族旅行主題)
+   - Slide 2: 為什麼選擇這條路線 (強調安全、節奏慢、不累人)
+   - Slide 3: 住宿亮點 (重點介紹寬敞與便利性)
+   - Slide 4-10: 每日精選行程 (每日一頁，強調美食、美景與少步行)
+   - Slide 11: 交通銜接說明 (強調包車或免提行李的舒適感)
+   - Slide 12: 美食特輯 (針對長輩口味挑選的餐廳)
+   - Slide 13: 預算概覽 (開銷分析，強調價值感)
+   - Slide 14: 健康與安全保障 (醫藥準備、溫差提醒)
+   - Slide 15: 準備清單 (行李建議、換匯、網卡)
+   - Slide 16: 結語與 Q&A (充滿心意的邀請)`,
+                    podcast: `請根據我的行程資料，撰寫一段 Podcast 導覽腳本。針對目標觀眾「家人/長輩」，請兩位主持人（一男一女）展現以下風格：
+- 主持人 A (引導者): 語氣成熟穩重，充滿耐心地解說行程中的舒適亮點與文化內涵。
+- 主持人 B (體驗者): 語氣溫暖親切，像是孝順的子女在分享有趣的小細節。
+- 內容要求：
+  * 強調行程中的「不趕時間」與「五感慢體驗」。
+  * 深入淺出地解說景點背後的歷史小故事（例如神社參拜方式）。
+  * 像是在自家客廳聊天一樣，營造出溫馨、安心的期待感。`
+                },
+                business: {
+                    ppt: `請讀取我提供的行程資料，並撰寫一份 16 頁的簡報大綱。要求如下：
+1. 輸出格式：必須為 YAML 程式碼區塊。
+2. 頁數限制：嚴格執行 16 頁。
+3. 目標觀眾：公司同事或上司。
+4. 情境設定：為了考察、團體建設或商務合作，展示行程的效率、CP 值與產業連結亮點。
+5. 分頁結構建議：
+   - Slide 1: 執行摘要 (Executive Summary)
+   - Slide 2: 規劃願景與關鍵指標 (節省時間 vs 體驗價值)
+   - Slide 3-9: 每日路徑分析 (強調地理銜接優化、推薦考察點)
+   - Slide 10: 關鍵地標與其產業意義 (或團隊合影推薦點)
+   - Slide 11: 交通工具與動線管理 (Logic & Efficiency)
+   - Slide 12: 科技應用 (我們如何運用 AI 優化此行程)
+   - Slide 13: 成本結構分析 (ROI 分析)
+   - Slide 14: 後勤支援與應變計畫 (風險控管)
+   - Slide 15: 回國後的加值產出目標
+   - Slide 16: 行動呼籲與決策請求 (Next Steps)`,
+                    podcast: `請根據我的行程資料，撰寫一段 Podcast 導覽腳本。針對目標觀眾「商務考察/同事」，請兩位主持人（一男一女）展現以下風格：
+- 主持人 A (分析師): 理性、語速適中，強調行程中的效率、CP 值與特殊的地理佈局。
+- 主持人 B (亮點採集員): 專業且敏銳，捕捉行程中具有產業靈感或適合團隊交流的特殊景點。
+- 內容要求：
+  * 使用較多產業術語或專業詞彙。
+  * 討論行程如何幫助團隊達成目標。
+  * 整體氛圍像是專業的商務談話節目，資訊密度較高。`
+                },
+                friends: {
+                    ppt: `請讀取我提供的行程資料，並撰寫一份 16 頁的簡報大綱。要求如下：
+1. 輸出格式：必須為 YAML 程式碼區塊。
+2. 頁數限制：嚴格執行 16 頁。
+3. 目標觀眾：熱血好友或死黨。
+4. 情境設定：點燃大家的旅遊魂！強調必拍位、極限美食、潮流體驗與 IG 爆紅點。
+5. 分頁結構建議：
+   - Slide 1: 最終出團公告 (超酷視覺風格)
+   - Slide 2: 全場最期待 3 大亮點 (High Lights)
+   - Slide 3-10: 每日狂暴行程 (Emphasis on activities, vibes, photo spots)
+   - Slide 11: 隱藏版深夜食堂與酒吧 (Secret Slots)
+   - Slide 12: 社群素材攻略 (哪些點必錄 Reels/限動)
+   - Slide 13: 敗家清單預測 (Must-buy)
+   - Slide 14: 總預算分析 (窮遊 vs 豪遊)
+   - Slide 15: 行前注意事項 (穿搭建議、必帶小物)
+   - Slide 16: 出發口號與群組連結`,
+                    podcast: `請根據我的行程資料，撰寫一段 Podcast 導覽腳本。針對目標觀眾「好友/死黨」，請兩位主持人（一男一女）展現以下風格：
+- 背景：兩位主持人像是那種很有默契、愛開玩笑的好友組合。
+- 風格：幽默、高能量、充滿期待感，甚至會為了哪個行程最讚而小吵架。
+- 內容要求：
+  * 大量使用時下流行語，強調「必去、真香、哭啊、太扯了」。
+  * 著重介紹「哪裡好拍照」、「哪裡好買」、「哪裡好吃」。
+  * 營造出「我們明天就要飛了」那種極度興奮的派對氛圍。`
+                },
+                kids: {
+                    ppt: `請讀取我提供的行程資料，並撰寫一份 16 頁的簡報大綱。要求如下：
+1. 輸出格式：必須為 YAML 程式碼區塊。
+2. 頁數限制：嚴格執行 16 頁。
+3. 目標觀眾：兒童與親子家庭。
+4. 情境設定：將旅遊包裝成一場「史詩冒險挑戰」，讓孩子充滿參與感。
+5. 分頁結構建議：
+   - Slide 1: 冒險地圖開啟 (Adventure Awaits!)
+   - Slide 2: 我們的超能力與隊友 (角色分配)
+   - Slide 3-10: 每日冒險地圖 (每日一關卡，尋寶景點、任務關鍵字)
+   - Slide 11: 動物與魔法世界 (行程中的主題樂園或動物驚喜)
+   - Slide 12: 補給站大解析 (孩子最愛的甜點與特色餐廳)
+   - Slide 13: 收集印章與貼紙任務區
+   - Slide 14: 冒險小百科 (當地的簡單常識與語言教學)
+   - Slide 15: 英雄行李打包清單 (兒童專屬)
+   - Slide 16: 冒險家宣誓與啟程`,
+                    podcast: `請根據我的行程資料，撰寫一段 Podcast 導覽腳本。針對目標觀眾「兒童/親子」，請兩位主持人（一男一女）展現以下風格：
+- 主持人 A (冒險隊長): 充滿活力、語氣像在主持兒童節目，稱呼聽眾為「小小冒險家」。
+- 主持人 B (好奇小夥伴): 語氣單純、好奇，會提出許多「十萬個為什麼」。
+- 內容要求：
+  * 將景點擬人化或奇幻化（例如：東京鐵塔是發光的守護神）。
+  * 加入許多與聽眾互動的問句：「大家知道日本的交通工具是哪一種最快嗎？」
+  * 音樂感強，充滿童心與想像力。`
+                }
+            };
+
+            const data = scenarios[id];
+            pptPromptEl.value = data.ppt;
+            podcastPromptEl.value = data.podcast;
+        }
 
         function selectStyle(style) {
             // Remove previous selection
