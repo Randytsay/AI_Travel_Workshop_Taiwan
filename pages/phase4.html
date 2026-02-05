@@ -161,9 +161,9 @@
                     <img src="../image/logo-notebooklm.png" alt="NotebookLM" style="height: 20px; width: auto;">
                     NotebookLM
                 </a>
-                <a href="https://grok.com/" target="_blank" class="quick-link">
+                <a href="https://grok.com/imagine" target="_blank" class="quick-link">
                     <img src="../image/logo-grok.png" alt="Grok" style="height: 20px; width: auto;">
-                    Grok (動畫)
+                    Grok (讓圖動起來)
                 </a>
                 <a href="https://aistudio.google.com/live" target="_blank" class="quick-link">
                     <img src="../image/logo-aistudio.png" alt="AI Studio" style="height: 20px; width: auto;">
@@ -218,7 +218,7 @@
 
                     <!-- Prompt Output -->
                     <div class="prompt-box">
-                        <span class="prompt-label">Gemini Imagen 提示詞</span>
+                        <span class="prompt-label">Nano Banana 提示詞</span>
                         <textarea id="map-prompt" class="form-textarea"
                             style="min-height: 250px; font-family: monospace;"></textarea>
                     </div>
@@ -231,10 +231,88 @@
                 </div>
             </div>
 
-            <!-- Section B: Social Post Generator -->
+            <!-- Section B: Grok Animation -->
+            <div class="card mb-6">
+                <div class="card-header">
+                    <h3>🎬 Section B：靜態圖轉動畫 (Grok)</h3>
+                </div>
+                <div class="card-body">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Steps -->
+                        <div>
+                            <h4 class="font-bold mb-4">操作步驟</h4>
+                            <div style="display: flex; flex-direction: column; gap: 1rem;">
+                                <div style="display: flex; gap: 1rem; align-items: flex-start;">
+                                    <span
+                                        style="background: var(--color-stone-800); color: white; width: 2rem; height: 2rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</span>
+                                    <div>
+                                        <div class="font-bold">開啟 Grok</div>
+                                        <p class="text-sm text-stone-500">前往 grok.com</p>
+                                    </div>
+                                </div>
+                                <div style="display: flex; gap: 1rem; align-items: flex-start;">
+                                    <span
+                                        style="background: var(--color-stone-800); color: white; width: 2rem; height: 2rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</span>
+                                    <div>
+                                        <div class="font-bold">上傳你的手繪地圖</div>
+                                        <p class="text-sm text-stone-500">將 Gemini 生成的圖片上傳</p>
+                                    </div>
+                                </div>
+                                <div style="display: flex; gap: 1rem; align-items: flex-start;">
+                                    <span
+                                        style="background: var(--color-stone-800); color: white; width: 2rem; height: 2rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</span>
+                                    <div>
+                                        <div class="font-bold">選擇動畫效果</div>
+                                        <p class="text-sm text-stone-500">使用下方的動畫提示詞</p>
+                                    </div>
+                                </div>
+                                <div style="display: flex; gap: 1rem; align-items: flex-start;">
+                                    <span
+                                        style="background: var(--color-success); color: white; width: 2rem; height: 2rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">4</span>
+                                    <div>
+                                        <div class="font-bold">下載並分享</div>
+                                        <p class="text-sm text-stone-500">下載 MP4/GIF 發到社群</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="https://grok.com/imagine" target="_blank" class="btn btn-secondary btn-full mt-4">
+                                🚀 開啟 Grok
+                            </a>
+                        </div>
+
+                        <!-- Animation Effects -->
+                        <div>
+                            <h4 class="font-bold mb-4">選擇動畫效果</h4>
+                            <div class="grid grid-cols-2 gap-2">
+                                <button onclick="selectAnimation('sakura')" class="btn btn-outline" id="anim-sakura">🌸
+                                    櫻花飄落</button>
+                                <button onclick="selectAnimation('clouds')" class="btn btn-outline" id="anim-clouds">☁️
+                                    雲朵移動</button>
+                                <button onclick="selectAnimation('train')" class="btn btn-outline" id="anim-train">🚃
+                                    電車駛過</button>
+                                <button onclick="selectAnimation('walking')" class="btn btn-outline"
+                                    id="anim-walking">🚶 人物走動</button>
+                                <button onclick="selectAnimation('lights')" class="btn btn-outline" id="anim-lights">✨
+                                    燈光閃爍</button>
+                            </div>
+
+                            <div class="prompt-box mt-4">
+                                <span class="prompt-label">動畫提示詞</span>
+                                <textarea id="animation-prompt" class="form-textarea"
+                                    style="min-height: 100px; font-family: monospace;" readonly></textarea>
+                            </div>
+                            <button onclick="copyToClipboard('animation-prompt')" class="btn btn-outline btn-full mt-2">
+                                📋 複製
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section C: Social Post Generator -->
             <div class="card mb-6">
                 <div class="card-header card-header-amber">
-                    <h3>🏆 Section B：社群人氣王挑戰</h3>
+                    <h3>🏆 Section C：社群人氣王挑戰</h3>
                     <p class="text-xs mt-1">用 AI 生成 FB 貼文，讓你輕鬆拉票！</p>
                 </div>
                 <div class="card-body">
@@ -297,83 +375,7 @@
                 </div>
             </div>
 
-            <!-- Section C: Grok Animation -->
-            <div class="card mb-6">
-                <div class="card-header">
-                    <h3>🎬 Section C：靜態圖轉動畫 (Grok)</h3>
-                </div>
-                <div class="card-body">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <!-- Steps -->
-                        <div>
-                            <h4 class="font-bold mb-4">操作步驟</h4>
-                            <div style="display: flex; flex-direction: column; gap: 1rem;">
-                                <div style="display: flex; gap: 1rem; align-items: flex-start;">
-                                    <span
-                                        style="background: var(--color-stone-800); color: white; width: 2rem; height: 2rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</span>
-                                    <div>
-                                        <div class="font-bold">開啟 Grok</div>
-                                        <p class="text-sm text-stone-500">前往 grok.com</p>
-                                    </div>
-                                </div>
-                                <div style="display: flex; gap: 1rem; align-items: flex-start;">
-                                    <span
-                                        style="background: var(--color-stone-800); color: white; width: 2rem; height: 2rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</span>
-                                    <div>
-                                        <div class="font-bold">上傳你的手繪地圖</div>
-                                        <p class="text-sm text-stone-500">將 Gemini 生成的圖片上傳</p>
-                                    </div>
-                                </div>
-                                <div style="display: flex; gap: 1rem; align-items: flex-start;">
-                                    <span
-                                        style="background: var(--color-stone-800); color: white; width: 2rem; height: 2rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</span>
-                                    <div>
-                                        <div class="font-bold">選擇動畫效果</div>
-                                        <p class="text-sm text-stone-500">使用下方的動畫提示詞</p>
-                                    </div>
-                                </div>
-                                <div style="display: flex; gap: 1rem; align-items: flex-start;">
-                                    <span
-                                        style="background: var(--color-success); color: white; width: 2rem; height: 2rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">4</span>
-                                    <div>
-                                        <div class="font-bold">下載並分享</div>
-                                        <p class="text-sm text-stone-500">下載 MP4/GIF 發到社群</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <a href="https://grok.com/" target="_blank" class="btn btn-secondary btn-full mt-4">
-                                🚀 開啟 Grok
-                            </a>
-                        </div>
 
-                        <!-- Animation Effects -->
-                        <div>
-                            <h4 class="font-bold mb-4">選擇動畫效果</h4>
-                            <div class="grid grid-cols-2 gap-2">
-                                <button onclick="selectAnimation('sakura')" class="btn btn-outline" id="anim-sakura">🌸
-                                    櫻花飄落</button>
-                                <button onclick="selectAnimation('clouds')" class="btn btn-outline" id="anim-clouds">☁️
-                                    雲朵移動</button>
-                                <button onclick="selectAnimation('train')" class="btn btn-outline" id="anim-train">🚃
-                                    電車駛過</button>
-                                <button onclick="selectAnimation('walking')" class="btn btn-outline"
-                                    id="anim-walking">🚶 人物走動</button>
-                                <button onclick="selectAnimation('lights')" class="btn btn-outline" id="anim-lights">✨
-                                    燈光閃爍</button>
-                            </div>
-
-                            <div class="prompt-box mt-4">
-                                <span class="prompt-label">動畫提示詞</span>
-                                <textarea id="animation-prompt" class="form-textarea"
-                                    style="min-height: 100px; font-family: monospace;" readonly></textarea>
-                            </div>
-                            <button onclick="copyToClipboard('animation-prompt')" class="btn btn-outline btn-full mt-2">
-                                📋 複製
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
             <!-- Section D: Smart Prompts for NotebookLM -->
             <div class="card mb-6">
@@ -417,8 +419,7 @@
                                 </div>
                                 <button onclick="copyToClipboard('ppt-prompt')" class="btn btn-primary btn-full mt-3">📋
                                     複製簡報指令</button>
-                                <p class="text-xs text-stone-500 mt-2">貼到 NotebookLM Studio 的 "Help me create a slide
-                                    deck" 指令框中</p>
+                                <p class="text-xs text-stone-500 mt-2">貼到 NotebookLM 「簡報」旁的筆 "說明要建立的簡報" 指令框中</p>
                             </div>
 
                             <!-- Podcast Prompt -->
@@ -434,7 +435,8 @@
                                 </div>
                                 <button onclick="copyToClipboard('podcast-prompt')"
                                     class="btn btn-outline btn-full mt-3">📋 複製 Podcast 指令</button>
-                                <p class="text-xs text-stone-500 mt-2">貼到 NotebookLM Audio Overview 的 "Customize" 指令框中
+                                <p class="text-xs text-stone-500 mt-2">貼到 NotebookLM 「語音摘要」旁的筆 "在本集中，AI 主持人應著重哪些部分？"
+                                    指令框中
                                 </p>
                             </div>
                         </div>
