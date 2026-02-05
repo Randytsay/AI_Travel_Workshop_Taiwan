@@ -68,26 +68,27 @@
                     <p class="text-xs text-stone-500 mt-1">七步結構化框架：主題、時間、人數、住宿、交通、預算、格式</p>
                 </div>
                 <div class="card-body">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <!-- Left Column -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Left Column: Inputs -->
                         <div>
                             <div class="form-group">
                                 <label class="form-label">1. 主題/目的地</label>
                                 <input type="text" id="dr-theme" class="form-input" placeholder="例如：大阪美食深度遊"
-                                    value="大阪美食深度遊">
+                                    value="大阪美食深度遊" oninput="generateDeepResearch()">
                             </div>
                             <div class="form-group">
                                 <label class="form-label">2. 精確時間</label>
-                                <input type="text" id="dr-time" class="form-input" placeholder="例如：5天4夜" value="5天4夜">
+                                <input type="text" id="dr-time" class="form-input" placeholder="例如：5天4夜" value="5天4夜"
+                                    oninput="generateDeepResearch()">
                             </div>
                             <div class="form-group">
                                 <label class="form-label">3. 人數與成員</label>
                                 <input type="text" id="dr-people" class="form-input" placeholder="例如：2大1小(5歲)，帶70歲長輩"
-                                    value="2大人">
+                                    value="2大人" oninput="generateDeepResearch()">
                             </div>
                             <div class="form-group">
                                 <label class="form-label">4. 住宿偏好</label>
-                                <select id="dr-hotel" class="form-select">
+                                <select id="dr-hotel" class="form-select" onchange="generateDeepResearch()">
                                     <option value="交通方便的連鎖商務旅館">交通方便的連鎖商務旅館</option>
                                     <option value="有溫泉的日式旅館">有溫泉的日式旅館</option>
                                     <option value="高級五星飯店">高級五星飯店</option>
@@ -95,21 +96,19 @@
                                     <option value="Airbnb 民宿">Airbnb 民宿</option>
                                 </select>
                             </div>
-                        </div>
-                        <!-- Right Column -->
-                        <div>
                             <div class="form-group">
                                 <label class="form-label">5. 交通需求</label>
                                 <input type="text" id="dr-transport" class="form-input" placeholder="例如：避開爬坡，優先電梯"
-                                    value="大眾運輸為主">
+                                    value="大眾運輸為主" oninput="generateDeepResearch()">
                             </div>
                             <div class="form-group">
                                 <label class="form-label">6. 預算上限 (每人)</label>
-                                <input type="text" id="dr-budget" class="form-input" placeholder="例如：3萬台幣" value="3萬台幣">
+                                <input type="text" id="dr-budget" class="form-input" placeholder="例如：3萬台幣" value="3萬台幣"
+                                    oninput="generateDeepResearch()">
                             </div>
                             <div class="form-group">
                                 <label class="form-label">7. 輸出格式要求</label>
-                                <select id="dr-format" class="form-select">
+                                <select id="dr-format" class="form-select" onchange="generateDeepResearch()">
                                     <option value="表格 + 地圖標記建議">表格 + 地圖標記建議</option>
                                     <option value="純文字條列">純文字條列</option>
                                     <option value="每日分開說明">每日分開說明</option>
@@ -117,37 +116,39 @@
                             </div>
                             <div class="form-group">
                                 <label class="form-label">其他注意事項</label>
-                                <textarea id="dr-notes" class="form-textarea" rows="2"
-                                    placeholder="例如：不吃生食、需要無障礙設施"></textarea>
+                                <textarea id="dr-notes" class="form-textarea" rows="2" placeholder="例如：不吃生食、需要無障礙設施"
+                                    oninput="generateDeepResearch()"></textarea>
                             </div>
                         </div>
-                    </div>
-                    <button onclick="generateDeepResearch()" class="btn btn-secondary btn-full mt-4">
-                        ✨ 生成 Deep Research 提示詞
-                    </button>
 
-                    <div class="prompt-box mt-4">
-                        <span class="prompt-label">Deep Research 提示詞</span>
-                        <textarea id="dr-output" class="form-textarea"
-                            style="min-height: 200px; font-family: monospace;" readonly></textarea>
+                        <!-- Right Column: Output -->
+                        <div>
+                            <div class="prompt-box">
+                                <span class="prompt-label">即時預覽</span>
+                                <textarea id="dr-output" class="form-textarea"
+                                    style="min-height: 480px; font-family: monospace;" readonly></textarea>
+                            </div>
+                            <button onclick="copyToClipboard('dr-output')" class="btn btn-blue btn-full mt-4">
+                                📋 複製 Deep Research 提示詞
+                            </button>
+                            <a href="https://gemini.google.com/" target="_blank" class="btn btn-outline btn-full mt-2">
+                                🚀 開啟 Gemini
+                            </a>
+                        </div>
                     </div>
-                    <button onclick="copyToClipboard('dr-output')" class="btn btn-primary btn-full mt-2">
-                        📋 複製提示詞
-                    </button>
                 </div>
             </div>
 
-            <!-- JR Pass Calculator -->
-            <div class="card mb-6">
-                <div class="card-header card-header-amber">
-                    <h3>🚃 交通損益計算器</h3>
-                    <p class="text-xs mt-1">2023 年後 JR Pass 大漲，讓 AI 幫你算是否划算</p>
-                </div>
-                <div class="card-body">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- JR Pass Calculator -->
+                <div class="card">
+                    <div class="card-header card-header-amber">
+                        <h3>🚃 交通損益計算器</h3>
+                    </div>
+                    <div class="card-body">
                         <div class="form-group">
                             <label class="form-label">起點城市</label>
-                            <select id="jr-from" class="form-select">
+                            <select id="jr-from" class="form-select" onchange="generateJRPrompt()">
                                 <option value="東京">東京</option>
                                 <option value="大阪">大阪</option>
                                 <option value="京都">京都</option>
@@ -157,7 +158,7 @@
                         </div>
                         <div class="form-group">
                             <label class="form-label">終點城市</label>
-                            <select id="jr-to" class="form-select">
+                            <select id="jr-to" class="form-select" onchange="generateJRPrompt()">
                                 <option value="大阪">大阪</option>
                                 <option value="東京">東京</option>
                                 <option value="京都">京都</option>
@@ -167,63 +168,59 @@
                         </div>
                         <div class="form-group">
                             <label class="form-label">來回次數</label>
-                            <select id="jr-trips" class="form-select">
+                            <select id="jr-trips" class="form-select" onchange="generateJRPrompt()">
                                 <option value="單程">單程</option>
                                 <option value="來回">來回</option>
                                 <option value="來回加上市區多次移動">來回 + 市區多次移動</option>
                             </select>
                         </div>
-                    </div>
-                    <button onclick="generateJRPrompt()" class="btn btn-accent btn-full mt-2">
-                        🧮 生成交通計算提示詞
-                    </button>
 
-                    <div class="prompt-box mt-4">
-                        <textarea id="jr-output" class="form-textarea" style="min-height: 80px; font-family: monospace;"
-                            readonly></textarea>
-                    </div>
-                    <button onclick="copyToClipboard('jr-output')" class="btn btn-outline btn-full mt-2">
-                        📋 複製
-                    </button>
-                </div>
-            </div>
-
-            <!-- Budget Stress Test -->
-            <div class="card mb-6">
-                <div class="card-header card-header-primary-light">
-                    <h3>💰 預算壓力測試</h3>
-                    <p class="text-xs text-stone-500 mt-1">讓 AI 幫你分配住宿、交通與餐飲比例</p>
-                </div>
-                <div class="card-body">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div class="form-group">
-                            <label class="form-label">總預算 (每人)</label>
-                            <input type="text" id="budget-total" class="form-input" placeholder="例如：50000"
-                                value="50000">
+                        <div class="prompt-box mt-4">
+                            <span class="prompt-label">即時預覽</span>
+                            <textarea id="jr-output" class="form-textarea"
+                                style="min-height: 180px; font-family: monospace;" readonly></textarea>
                         </div>
-                        <div class="form-group">
-                            <label class="form-label">幣別</label>
-                            <select id="budget-currency" class="form-select">
-                                <option value="台幣">台幣</option>
-                                <option value="日圓">日圓</option>
-                            </select>
+                        <button onclick="copyToClipboard('jr-output')" class="btn btn-blue btn-full mt-4">
+                            📋 複製交通提示詞
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Budget Stress Test -->
+                <div class="card">
+                    <div class="card-header card-header-primary-light">
+                        <h3>💰 預算壓力測試</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="form-group">
+                                <label class="form-label">總預算 (每人)</label>
+                                <input type="text" id="budget-total" class="form-input" placeholder="例如：50000"
+                                    value="50000" oninput="generateBudgetPrompt()">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">幣別</label>
+                                <select id="budget-currency" class="form-select" onchange="generateBudgetPrompt()">
+                                    <option value="台幣">台幣</option>
+                                    <option value="日圓">日圓</option>
+                                </select>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label class="form-label">天數</label>
-                            <input type="text" id="budget-days" class="form-input" value="5">
+                            <input type="text" id="budget-days" class="form-input" value="5"
+                                oninput="generateBudgetPrompt()">
                         </div>
-                    </div>
-                    <button onclick="generateBudgetPrompt()" class="btn btn-primary btn-full mt-2">
-                        📊 生成預算分配提示詞
-                    </button>
 
-                    <div class="prompt-box mt-4">
-                        <textarea id="budget-output" class="form-textarea"
-                            style="min-height: 80px; font-family: monospace;" readonly></textarea>
+                        <div class="prompt-box mt-4">
+                            <span class="prompt-label">即時預覽</span>
+                            <textarea id="budget-output" class="form-textarea"
+                                style="min-height: 180px; font-family: monospace;" readonly></textarea>
+                        </div>
+                        <button onclick="copyToClipboard('budget-output')" class="btn btn-blue btn-full mt-4">
+                            📋 複製預算提示詞
+                        </button>
                     </div>
-                    <button onclick="copyToClipboard('budget-output')" class="btn btn-outline btn-full mt-2">
-                        📋 複製
-                    </button>
                 </div>
             </div>
         </div>
@@ -235,6 +232,9 @@
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
             WorkshopState.setCurrentPhase(2);
+            generateDeepResearch();
+            generateJRPrompt();
+            generateBudgetPrompt();
         });
 
         function generateDeepResearch() {
@@ -317,9 +317,6 @@ ${notes ? `## 特別注意事項\n${notes}` : ''}
 
             document.getElementById('budget-output').value = prompt;
         }
-
-        // Auto-generate on load
-        generateDeepResearch();
     </script>
 </body>
 
