@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI旅遊規劃師分組表</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Microsoft JhengHei', 'Hiragino Sans', 'Yu Gothic', Arial, sans-serif;
+            background: linear-gradient(135deg, #ffeef8 0%, #ffe5e5 50%, #fff5f0 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* 日式背景裝飾 */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(255, 182, 193, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 192, 203, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(255, 228, 225, 0.2) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        /* 櫻花飄落動畫 */
+        .sakura {
+            position: fixed;
+            width: 15px;
+            height: 15px;
+            background: radial-gradient(circle, #ffb7c5 0%, #ffc0cb 100%);
+            border-radius: 50% 0 50% 0;
+            opacity: 0.6;
+            animation: fall linear infinite;
+            z-index: 9999;
+            pointer-events: none;
+        }
+        
+        @keyframes fall {
+            0% {
+                transform: translateY(-10vh) rotate(0deg);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(110vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        .container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            z-index: 2;
+        }
+        
+        h1 {
+            font-family: 'Noto Serif TC', 'Microsoft JhengHei', serif;
+            color: #c41e3a;
+            text-align: center;
+            padding: 20px 10px 10px 10px;
+            font-size: 1.5em;
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
+            flex-shrink: 0;
+            font-weight: 700;
+            letter-spacing: 3px;
+            position: relative;
+        }
+        
+        /* 富士山裝飾 */
+        h1::before {
+            content: '🗻';
+            margin-right: 8px;
+            font-size: 1.2em;
+        }
+        
+        h1::after {
+            content: '🌸';
+            margin-left: 8px;
+            font-size: 1.2em;
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 10px;
+            padding: 0 10px 15px 10px;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        
+        .tab-button {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #ffffff 0%, #fff5f5 100%);
+            border: 2px solid #ffb7c5;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s;
+            color: #c41e3a;
+            flex: 1;
+            max-width: 180px;
+            box-shadow: 0 4px 8px rgba(196, 30, 58, 0.1);
+            position: relative;
+            white-space: nowrap;
+            touch-action: manipulation;
+        }
+        
+        .tab-button::before {
+            content: '🌸';
+            margin-right: 6px;
+            opacity: 0.3;
+            transition: opacity 0.3s;
+        }
+        
+        .tab-button:active {
+            transform: scale(0.95);
+        }
+        
+        .tab-button.active {
+            background: linear-gradient(135deg, #c41e3a 0%, #d63447 100%);
+            color: white;
+            border-color: #c41e3a;
+            box-shadow: 0 6px 12px rgba(196, 30, 58, 0.3);
+        }
+        
+        .tab-button.active::before {
+            opacity: 1;
+        }
+        
+        .sheet-container {
+            background: linear-gradient(135deg, #ffffff 0%, #fffafa 100%);
+            border-radius: 20px 20px 0 0;
+            flex: 1;
+            overflow: hidden;
+            margin: 0 10px 0 10px;
+            box-shadow: 0 -8px 24px rgba(196, 30, 58, 0.15);
+            position: relative;
+            border: 3px solid #ffb7c5;
+            border-bottom: none;
+        }
+        
+        /* 和風波浪裝飾 */
+        .sheet-container::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: repeating-linear-gradient(
+                90deg,
+                #c41e3a 0px,
+                #c41e3a 10px,
+                transparent 10px,
+                transparent 20px
+            );
+            z-index: 10;
+        }
+        
+        .sheet-content {
+            display: none;
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+        
+        .sheet-content.active {
+            display: block;
+        }
+        
+        .iframe-wrapper {
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            -webkit-overflow-scrolling: touch;
+            position: relative;
+        }
+        
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            transform-origin: 0 0;
+        }
+        
+        /* 手機版：可滾動查看完整內容 */
+        @media (max-width: 767px) {
+            .iframe-wrapper {
+                overflow: scroll;
+            }
+            iframe {
+                width: 600px;
+                height: 1200px;
+                transform: scale(0.62);
+                transform-origin: 0 0;
+            }
+        }
+        
+        /* 小手機優化 */
+        @media (max-width: 375px) {
+            iframe {
+                width: 600px;
+                height: 1200px;
+                transform: scale(0.58);
+            }
+            h1 {
+                font-size: 1.2em;
+                padding: 15px 8px 8px 8px;
+                letter-spacing: 2px;
+            }
+            .tab-button {
+                font-size: 12px;
+                padding: 10px 16px;
+            }
+        }
+
+        /* 平板版：適度縮放 */
+        @media (min-width: 768px) and (max-width: 1024px) {
+            .iframe-wrapper {
+                overflow: scroll;
+            }
+            iframe {
+                width: 1000px;
+                height: 1500px;
+                transform: scale(0.75);
+                transform-origin: 0 0;
+            }
+            h1 {
+                font-size: 2em;
+                padding: 25px 20px 12px 20px;
+                letter-spacing: 4px;
+            }
+            .tabs {
+                padding: 0 20px 18px 20px;
+                gap: 15px;
+            }
+            .tab-button {
+                font-size: 16px;
+                padding: 14px 32px;
+            }
+            .sheet-container {
+                margin: 0 20px 0 20px;
+            }
+        }
+
+        /* 桌面版：完整顯示 */
+        @media (min-width: 1025px) {
+            h1 {
+                font-size: 2.2em;
+                padding: 30px 20px 15px 20px;
+                letter-spacing: 5px;
+            }
+            .tabs {
+                padding: 0 20px 20px 20px;
+                gap: 15px;
+            }
+            .tab-button {
+                font-size: 16px;
+                padding: 14px 32px;
+            }
+            .sheet-container {
+                margin: 0 20px 0 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 櫻花飄落效果 -->
+    <div class="sakura" style="left: 10%; animation-duration: 15s; animation-delay: 0s;"></div>
+    <div class="sakura" style="left: 25%; animation-duration: 18s; animation-delay: 2s;"></div>
+    <div class="sakura" style="left: 40%; animation-duration: 20s; animation-delay: 4s;"></div>
+    <div class="sakura" style="left: 55%; animation-duration: 16s; animation-delay: 1s;"></div>
+    <div class="sakura" style="left: 70%; animation-duration: 19s; animation-delay: 3s;"></div>
+    <div class="sakura" style="left: 85%; animation-duration: 17s; animation-delay: 5s;"></div>
+    <div class="sakura" style="left: 15%; animation-duration: 21s; animation-delay: 6s;"></div>
+    <div class="sakura" style="left: 60%; animation-duration: 14s; animation-delay: 2.5s;"></div>
+    
+    <div class="container">
+        <h1>AI旅遊規劃師分組表</h1>
+
+        <div class="tabs">
+            <button class="tab-button active" onclick="switchTab(0)">清單檢視</button>
+            <button class="tab-button" onclick="switchTab(1)">視覺化看板</button>
+        </div>
+
+        <div class="sheet-container">
+            <div class="sheet-content active" id="sheet1">
+                <div class="iframe-wrapper">
+                    <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSUAgd8DJLTMgG6VCs0elZc0Nnr-1aFlvilLAMcBEerG2TRpi_9rC-JBE_F_g2LD4n1Kje4Ue_fA6fP/pubhtml?gid=976271621&single=true&widget=true&headers=false"></iframe>
+                </div>
+            </div>
+            <div class="sheet-content" id="sheet2">
+                <div class="iframe-wrapper">
+                    <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSUAgd8DJLTMgG6VCs0elZc0Nnr-1aFlvilLAMcBEerG2TRpi_9rC-JBE_F_g2LD4n1Kje4Ue_fA6fP/pubhtml?gid=2059196968&single=true&widget=true&headers=false"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(index) {
+            // 移除所有 active class
+            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.sheet-content').forEach(content => content.classList.remove('active'));
+            
+            // 添加 active class 到選中的項目
+            document.querySelectorAll('.tab-button')[index].classList.add('active');
+            document.querySelectorAll('.sheet-content')[index].classList.add('active');
+        }
+    </script>
+</body>
+</html>
