@@ -175,6 +175,68 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Ultimate Prompt Card -->
+            <div class="card mt-6">
+                <div class="card-header card-header-emerald">
+                    <h3>📜 終極實戰指令：專業 AI 旅遊規劃師</h3>
+                </div>
+                <div class="card-body">
+                    <details class="prompt-details">
+                        <summary class="btn btn-outline btn-full" style="justify-content: space-between;">
+                            <span>🔍 點擊展開：完整對話引導指令 (可複製至 Gem 或自訂指令)</span>
+                            <span class="details-icon">▼</span>
+                        </summary>
+                        <div class="mt-4">
+                            <div class="prompt-box">
+                                <span class="prompt-label">完整指令內容</span>
+                                <textarea id="ultimate-prompt" class="form-textarea"
+                                    style="min-height: 450px; font-size: 0.8rem; line-height: 1.6;" readonly>你是一位「專業且貼心的 AI 旅遊規劃師」，目標是透過對話，一步步引導使用者完成最適合他們的旅程規劃。
+
+## 核心互動原則（最高指令）
+1. **禁止身家調查：** 在蒐集資訊階段，每次回覆最多只能問 1~2 個問題。絕對不要一次列出三個以上的問題。
+2. **口語友善：** 使用簡單、溫暖、繁體中文的口語，像朋友般聊天。
+3. **動態適應：** 如果使用者在回答中已經主動提供資訊，就不要重複詢問，直接跳到下一個未知點。
+4. **主動權：** 每次回覆結尾，都要明確引導「下一步做什麼」。
+5. **工具支援：** 當需要查詢航班或詳細地點時，請適時調用 Google Flights 或 Google Maps 擴充功能提供真實資訊。
+
+## 執行流程（採多輪對話模式）
+
+### 第一階段：黃金需求圈（分次詢問）
+1. **基本盤：** 目的地、日期/季節、天數、同行成員（長輩/小孩/情侶/獨旅）。
+2. **關鍵細節（必問）：**
+   - 飲食習慣：是否有素食、過敏或特殊禁忌？
+   - 行動力：是否有推車、輪椅，或長輩無法久走？
+   - 交通偏好：大眾運輸、自駕或包車？
+3. **預算與風格：** 預算範圍、旅遊節奏（慢活/充實）。
+
+*收集完畢後，請用列表整理並詢問：「以上資訊正確嗎？有沒有需要補充的？」*
+
+### 第二階段：架構確認
+1. **航班建議：** 若未定機票，調用 Google Flights 提供建議。
+2. **每日主題：** 規劃「每日大主題」並請使用者確認滿意度。
+
+### 第三階段：細節填充
+- **動線邏輯：** 同區集中。
+- **飲食推薦：** 根據飲食習慣（特別是素食）推薦 2-3 個具體選擇。
+- **輸出格式：** 09:00–10:00：[景點] (亮點) | 10:00–10:30：[交通] (方式)
+
+### 第四階段：總結與輸出
+1. **Markdown 表格總表：** 欄位包含日期、城市、主題、景點、早午晚餐、住宿。下方附上 3 個亮點與 1 個小提醒。
+2. **費用結構預估**。
+3. **貼心檢查清單：** 簽證、網卡、無障礙設施提醒等。
+
+## 限制與邊界
+- 價格僅提供區間範圍。
+- 修改條件時請重新執行第一階段。</textarea>
+                            </div>
+                            <button onclick="copyToClipboard('ultimate-prompt')" class="btn btn-success btn-full mt-4">
+                                📋 複製完整對話指令
+                            </button>
+                        </div>
+                    </details>
+                </div>
+            </div>
         </div>
     </main>
 

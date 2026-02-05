@@ -379,21 +379,27 @@ document.addEventListener('DOMContentLoaded', () => {
     // 全域動態櫻花效果
     if (!document.querySelector('.no-sakura')) {
         function createSakura() {
+            // 如果頁面在背景隱藏狀態，不產生櫻花，防止回到頁面時大噴發
+            if (document.hidden) return;
+
             const sakura = document.createElement('div');
             sakura.className = 'sakura';
             sakura.innerHTML = '🌸';
+
+            // 隨機屬性設置
             sakura.style.left = Math.random() * 100 + 'vw';
-            sakura.style.top = '-20px';
             sakura.style.fontSize = (Math.random() * 15 + 10) + 'px';
             sakura.style.animationDuration = (Math.random() * 5 + 8) + 's';
             sakura.style.opacity = Math.random() * 0.6 + 0.4;
-            document.body.appendChild(sakura);
 
-            setTimeout(() => {
+            // 使用 animationend 事件自動清理
+            sakura.addEventListener('animationend', () => {
                 sakura.remove();
-            }, 13000);
+            });
+
+            document.body.appendChild(sakura);
         }
-        setInterval(createSakura, 2200);
+        setInterval(createSakura, 2000); // 稍微加快生成速度
     }
 });
 

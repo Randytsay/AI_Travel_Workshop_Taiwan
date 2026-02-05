@@ -124,9 +124,13 @@ body::before {
 
 .sakura {
     position: fixed;
+    top: -50px;
+    left: 0;
     pointer-events: none;
     z-index: 1000;
-    animation: fall linear infinite;
+    animation-name: sakuraFall;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
 }
 
 h1,
@@ -159,91 +163,15 @@ h3,
 }
 
 .sakura::before {
-    content: '🌸';
+    /* content: '🌸'; */
     font-size: 1rem;
 }
 
-.sakura:nth-child(1) {
-    left: 10%;
-    animation-duration: 12s;
-    animation-delay: 0s;
-}
-
-.sakura:nth-child(2) {
-    left: 20%;
-    animation-duration: 15s;
-    animation-delay: 2s;
-    font-size: 0.8rem;
-}
-
-.sakura:nth-child(3) {
-    left: 30%;
-    animation-duration: 10s;
-    animation-delay: 4s;
-}
-
-.sakura:nth-child(4) {
-    left: 40%;
-    animation-duration: 14s;
-    animation-delay: 1s;
-    font-size: 0.6rem;
-}
-
-.sakura:nth-child(5) {
-    left: 50%;
-    animation-duration: 11s;
-    animation-delay: 3s;
-}
-
-.sakura:nth-child(6) {
-    left: 60%;
-    animation-duration: 13s;
-    animation-delay: 5s;
-    font-size: 0.75rem;
-}
-
-.sakura:nth-child(7) {
-    left: 70%;
-    animation-duration: 16s;
-    animation-delay: 0.5s;
-}
-
-.sakura:nth-child(8) {
-    left: 80%;
-    animation-duration: 9s;
-    animation-delay: 2.5s;
-    font-size: 0.9rem;
-}
-
-.sakura:nth-child(9) {
-    left: 90%;
-    animation-duration: 12s;
-    animation-delay: 4.5s;
-}
-
-.sakura:nth-child(10) {
-    left: 15%;
-    animation-duration: 14s;
-    animation-delay: 1.5s;
-    font-size: 0.7rem;
-}
-
-.sakura:nth-child(11) {
-    left: 45%;
-    animation-duration: 10s;
-    animation-delay: 3.5s;
-}
-
-.sakura:nth-child(12) {
-    left: 75%;
-    animation-duration: 13s;
-    animation-delay: 0.8s;
-    font-size: 0.85rem;
-}
+/* 移除寫死的 nth-child，改由 JS 全權控制隨機性 */
 
 @keyframes sakuraFall {
     0% {
-        transform: translateY(-20px) rotate(0deg) translateX(0px);
+        transform: translateY(-10vh) rotate(0deg) translateX(0px);
         opacity: 0;
     }
 
@@ -256,7 +184,7 @@ h3,
     }
 
     100% {
-        transform: translateY(100vh) rotate(720deg) translateX(100px);
+        transform: translateY(105vh) rotate(720deg) translateX(100px);
         opacity: 0;
     }
 }
@@ -798,6 +726,27 @@ a:hover {
     border-left: 6px solid var(--color-info);
     color: #1e40af;
     font-weight: 500;
+}
+
+/* Prompt Details Collapsible */
+.prompt-details summary {
+    list-style: none;
+    /* Hide default arrow */
+    cursor: pointer;
+}
+
+.prompt-details summary::-webkit-details-marker {
+    display: none;
+    /* Hide default arrow for Safari */
+}
+
+.prompt-details[open] .details-icon {
+    transform: rotate(180deg);
+}
+
+.details-icon {
+    transition: transform 0.3s ease;
+    font-size: 0.75rem;
 }
 
 .alert-success {
