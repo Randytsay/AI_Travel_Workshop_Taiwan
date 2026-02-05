@@ -132,9 +132,6 @@
                                 placeholder="例如：一定要去環球影城、不吃生魚片、隨行有坐輪椅的長輩..." onchange="updatePrompt()"></textarea>
                         </div>
 
-                        <button onclick="updatePrompt()" class="btn btn-secondary btn-full">
-                            ✨ 生成專屬提示詞
-                        </button>
                     </div>
                 </div>
 
@@ -149,7 +146,7 @@
                             <textarea id="prompt-output" class="form-textarea"
                                 style="min-height: 350px; font-family: monospace; font-size: 0.875rem;">請選擇左側選項，然後點擊「生成專屬提示詞」...</textarea>
                         </div>
-                        <button onclick="copyToClipboard('prompt-output')" class="btn btn-primary btn-full mt-4">
+                        <button onclick="copyToClipboard('prompt-output')" class="btn btn-blue btn-full mt-4">
                             📋 複製提示詞
                         </button>
                         <a href="https://gemini.google.com/" target="_blank" class="btn btn-outline btn-full mt-2">
@@ -172,26 +169,10 @@
                         </div>
                         <p class="tool-desc">透過專為工作坊訓練的 AI 顧問進行多輪對話，能更細膩地捕捉您的需求，並提供即時的行程調整建議。</p>
                         <a href="https://gemini.google.com/gem/1nAtjf12eFrcj0yhNsaw9zHl1I9C8Okjm?usp=sharing"
-                            target="_blank" class="btn btn-secondary btn-full mt-4">
+                            target="_blank" class="btn btn-blue btn-full mt-4">
                             🚀 立即開啟 AI 顧問 Gem
                         </a>
                     </div>
-                </div>
-            </div>
-
-            <!-- Season Query Helper -->
-            <div class="card mt-6" id="season-card" style="display: none;">
-                <div class="card-header card-header-amber">
-                    <h3>🌸 季節活動查詢提示詞</h3>
-                </div>
-                <div class="card-body">
-                    <div class="prompt-box">
-                        <textarea id="season-prompt" class="form-textarea"
-                            style="min-height: 100px; font-family: monospace;" readonly></textarea>
-                    </div>
-                    <button onclick="copyToClipboard('season-prompt')" class="btn btn-accent btn-full mt-2">
-                        📋 複製季節活動查詢
-                    </button>
                 </div>
             </div>
         </div>
@@ -244,13 +225,6 @@
 
             document.getElementById('prompt-output').value = prompt;
 
-            // Update season card
-            if (month) {
-                document.getElementById('season-card').style.display = 'block';
-                document.getElementById('season-prompt').value = `2026 年 ${month} ${destination} 有哪些季節限定活動、祭典或自然景觀？請列出活動名稱、日期、地點以及觀賞建議。`;
-            } else {
-                document.getElementById('season-card').style.display = 'none';
-            }
         }
     </script>
 </body>
