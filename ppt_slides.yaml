@@ -1,0 +1,214 @@
+slides:
+  - id: 1
+    type: Title
+    title: "打造你的夢幻日本行：AI 旅遊規劃工作坊"
+    subtitle: "從靈感、規劃到變現，一支手機開啟最強外掛！"
+    presenter: "耀文 | AI 旅遊達人"
+    visual_style: "背景使用高畫質的日本風景（如富士山或京都街道），疊加半透明深色遮罩以突出白色文字。畫面下方排列 Google Gemini, NotebookLM, Deep Research 的 Logo。"
+    
+  - id: 2
+    type: Showcase
+    title: "✨ 今日成果預告 (WoW Moment)"
+    content:
+      - "4 小時後，你的手機裡會有這些東西..."
+      - "📊 精算到交通費的 5 天行程表"
+      - "🎧 AI 兩個主持人在聊你的行程 (Podcast)"
+      - "🎨 NotebookLM 自動生成的精美簡報"
+      - "📸 穿著和服在清水寺喝茶的 AI 美照"
+    speaker_notes: "這不是網路抓的圖，而是等一下你們每個人都能做出來的成果！"
+    visual_style: "拼貼風格 (Collage)。左上放行程表截圖，右上放簡報封面，左下放播放介面示意圖，右下放 AI 美女圖。中央用發光字體寫「全部 AI 自動生成」。"
+
+  - id: 3
+    type: Agenda
+    title: "🗺️ 今日闖關地圖"
+    content:
+      - "Phase 1: 💡 靈感發想 (Gemini)"
+      - "Phase 2: 📊 深度規劃 (Deep Research)"
+      - "Phase 3: 🔍 驗證防雷 (NotebookLM)"
+      - "Phase 4: 🎨 視覺革命 (Podcast/生圖)"
+      - "Phase 5: 🗾 現場生存 (Live/Lens)"
+      - "Phase 6: 💰 商業變現 (Shop.com)"
+    web_app_action: "請看網頁首頁的 6 張卡片"
+    visual_style: "遊戲地圖或捷運路線圖風格。6 個站點連成一條線，每個站點有對應的 Emoji 圖示。"
+
+  - id: 4
+    type: Setup
+    title: "⚠️ 準備你的武器 (環境建置)"
+    content:
+      - "1. 連線 WiFi: [請填入現場 WiFi 名稱]"
+      - "2. 掃描進入工作坊網頁 (QR Code)"
+      - "3. 註冊領取 PRO 試用帳號 (QR Code)"
+    web_app_action: "全體確認進入首頁"
+    speaker_notes: "請助教協助確認每位學員都已連上網並登入帳號。"
+    visual_style: "極簡風格。畫面左右各放一個巨大的 QR Code，下方標註文字。背景乾淨，強調掃描動作。"
+
+  - id: 5
+    type: Phase_Intro
+    title: "Phase 1: 靈感發想"
+    subtitle: "不知道去哪？別再跟風去人擠人的地方！"
+    content:
+      - "痛點：想去的點太散？只是想換個心情？"
+      - "工具：Gemini 角色扮演模型"
+      - "提示詞場景：當你毫無頭緒，或想嘗試「極簡風」、「動漫風」旅遊時。"
+    web_app_action: "點擊【1 靈感發想】選擇你的風格"
+    visual_style: "對比圖。左邊是擁擠的觀光客照片 (黑白)，右邊是寧靜的秘境美照 (彩色)。"
+
+  - id: 6
+    type: Action
+    title: "⏱️ 實作時間 (5 min)"
+    content:
+      - "任務：找出 3 個候選城市 + 1 個秘境"
+      - "步驟："
+      - "1. 選擇風格 (如：美食家)"
+      - "2. 複製提示詞 -> 貼給 Gemini"
+      - "3. 獲得地點推薦"
+    visual_style: "倒數計時器風格。背景可以是動態模糊的打字畫面。"
+
+  - id: 7
+    type: Phase_Intro
+    title: "Phase 2: 深度規劃"
+    subtitle: "拒絕行軍式旅遊，把錢花在刀口上"
+    content:
+      - "痛點：行程排太滿？交通費怎麼算最省？"
+      - "工具：Gemini Deep Research"
+      - "提示詞場景 (JR Pass 計算器)："
+      - "  > '幫我計算從東京到大阪的交通費，單買 vs JR Pass 哪個划算？'"
+    web_app_action: "點擊【2 深度規劃】輸入起終點"
+    visual_style: "數學/數據風格。背景有複雜的地鐵路線圖淡出，前景強調「¥ SAVE」的金錢符號。"
+
+  - id: 8
+    type: Action
+    title: "⏱️ 實作時間 (10 min)"
+    content:
+      - "任務：完成 5 天 4 夜行程表 (含預算)"
+      - "挑戰：讓 AI 幫你省下至少 5000 日幣的交通費！"
+    visual_style: "挑戰任務風格。畫面中央放一個大問號或目標旗幟。"
+
+  - id: 9
+    type: Phase_Intro
+    title: "Phase 3: 驗證防雷"
+    subtitle: "Google Map 4.5 顆星還是很難吃？"
+    content:
+      - "痛點：網紅濾鏡太重？店家倒閉沒更新？"
+      - "工具：NotebookLM (交叉比對)"
+      - "提示詞場景 (Tabelog 避雷針)："
+      - "  > '查詢 [餐廳名] 在 Tabelog 的分數，低於 3.5 分請標註警告。'"
+    web_app_action: "切換到【3 驗證防幻覺】"
+    visual_style: "偵探風格。放大鏡圖示，檢視著一份文件。背景可以是 Tabelog 的網頁截圖。"
+
+  - id: 10
+    type: Action
+    title: "⏱️ 實作時間 (5 min)"
+    content:
+      - "任務：把剛剛的行程丟給 AI，請它找碴"
+      - "檢查重點：動線合不合理？餐廳還在不在？"
+    visual_style: "X 光片掃描風格。示意 AI 正在透視檢查你的行程表。"
+
+  - id: 11
+    type: Break
+    title: "☕ 中場休息 (10 min)"
+    content:
+      - "休息一下，喝口水！"
+      - "下半場預告：NotebookLM 黑科技與超酷炫 Live 對話"
+    visual_style: "咖啡廳氛圍。輕鬆、溫暖的色調，配上一杯熱咖啡的插圖。"
+
+  - id: 12
+    type: Phase_Intro
+    title: "Phase 4: 視覺革命"
+    subtitle: "只有文字沒人看？用 AI 做成 Podcast！"
+    content:
+      - "工具：NotebookLM (全能主角)"
+      - "三大黑科技："
+      - "1. 自動轉生成「旅遊簡報」"
+      - "2. 自動轉生成「語音導覽 (Podcast)」"
+      - "3. 自動生成「資訊圖表」"
+    web_app_action: "點進【4 視覺地圖】"
+    visual_style: "科技感/黑科技風格。NotebookLM 的 Logo 發光，射出三道光芒分別對應簡報、耳機、圖表。"
+
+  - id: 13
+    type: Demo
+    title: "🎧 實作 A：隨身 AI 導遊"
+    content:
+      - "功能：Audio Overview"
+      - "操作：點擊 'Generate' -> 戴上耳機"
+      - "場景：行前做功課懶得讀字，或是旅行時邊走邊聽。"
+    visual_style: "Podcast 播放介面風格。兩個 AI 主持人的頭像波形圖在跳動。"
+
+  - id: 14
+    type: Demo
+    title: "📊 實作 B：一鍵生成簡報"
+    content:
+      - "提示詞場景："
+      - "  > '將行程資料做成 5 頁提案簡報，要吸引人...'"
+      - "場景：向家人/旅伴提案，或是旅行社業務用。"
+    visual_style: "魔法風格。左邊是雜亂的文件，箭頭指向右邊整齊漂亮的投影片。"
+
+  - id: 15
+    type: Demo
+    title: "🖼️ 實作 C：Gemini 高畫質生圖"
+    content:
+      - "模型：Gemini (nanobanana)"
+      - "提示詞範例："
+      - "  > '一隻柴犬穿著和服...'"
+      - "場景：發 IG 限時動態，或是還沒去先「預習」美照。"
+    visual_style: "畫廊風格。展示 3-4 張風格不同 (浮世繪、寫實、動漫) 的高品質 AI 生成圖。"
+
+  - id: 16
+    type: Phase_Intro
+    title: "Phase 5: 現場生存"
+    subtitle: "語言不通？護照不見？AI 是你的守護神"
+    content:
+      - "工具：Google Lens + AI Studio Live"
+      - "場景：看不懂菜單、藥妝比價、緊急求助。"
+    web_app_action: "換到【5 現場生存】"
+    visual_style: "生存遊戲/急救包風格。背景是十字路口或藥妝店貨架，前景有一個急救箱圖示。"
+
+  - id: 17
+    type: Demo
+    title: "🗣️ 震撼演示：Talk to Gemini Live"
+    content:
+      - "此處由講師 Live Demo (請保持安靜)"
+      - "演示內容：「我護照掉了，請教我怎麼辦...」"
+      - "技術：Google AI Studio Real-time API"
+    visual_style: "直播/Live 介面風格。畫面中央是語音波形，強調「即時互動」。"
+
+  - id: 18
+    type: Action
+    title: "🆘 緊急求助按鈕"
+    content:
+      - "網頁功能：紅色緊急按鈕"
+      - "提示詞場景："
+      - "  > '產生一段日文求救文字，說明我遺失了錢包...'"
+      - "別怕，點下去 AI 會救你。"
+    web_app_action: "點開【紅色緊急按鈕】"
+    visual_style: "警示風格。紅色背景，中央一個大的 SOS 按鈕。"
+
+  - id: 19
+    type: Phase_Intro
+    title: "Phase 6: 商業變現"
+    subtitle: "把旅費賺回來，從消費者變分享者"
+    content:
+      - "工具：Shop.com"
+      - "觀念：分享好物 -> 賺取現金回饋"
+      - "操作：搜尋同款商品 -> 複製連結分享"
+    web_app_action: "點擊【6 商業變現】"
+    visual_style: "電商/購物車風格。金幣掉落的效果，象徵現金回饋。"
+
+  - id: 20
+    type: Interactive
+    title: "📸 成果發表 & 大合照"
+    content:
+      - "拿出你的手機，秀出今天的 AI 傑作！"
+      - "(地圖 / 美照 / 行程表)"
+      - "3, 2, 1... Cheese!"
+    visual_style: "慶典/煙火風格。熱鬧歡樂的氛圍。"
+
+  - id: 21
+    type: Closing
+    title: "謝謝大家！"
+    content:
+      - "今天講義下載 (QR Code)"
+      - "填寫問卷領小禮物 (QR Code)"
+      - "講師：耀文 (聯絡資訊)"
+    web_app_action: "點擊右上角【📝 問卷】"
+    visual_style: "簡約結尾。背景留白，資訊清晰。感謝語字體要大且溫暖。"
