@@ -797,14 +797,16 @@ a:hover {
 }
 
 .tool-card .tool-prompt {
-    background: var(--color-stone-50);
-    padding: 0.5rem;
+    background: var(--color-stone-100);
+    border: 1px solid var(--color-stone-200);
+    padding: 0.75rem;
     border-radius: var(--radius-md);
     font-family: monospace;
     font-size: 0.75rem;
     color: var(--color-stone-600);
     margin: 0.75rem 0;
-    white-space: pre-wrap;
+    white-space: pre-line;
+    /* Collapses extra spaces but keeps newlines */
 }
 
 /* --- Section Headers --- */
