@@ -133,7 +133,6 @@
                             </div>
                             <p class="text-xs mb-2 text-stone-600">專攻禮貌溝通。輸入中文時，AI 會直接給出敬語日文翻譯。</p>
                             <div class="tool-prompt" id="helper-trans-prompt">請擔任我的日式禮貌傳譯專家。
-
                                 **指令規則：**
                                 - 當我輸入中文時，請直接翻譯成日文，禁止任何開場白。
                                 - 請使用最高規格且符合日本文化的禮貌敬語 (Desu/Masu)。
@@ -150,7 +149,6 @@
                             </div>
                             <p class="text-xs mb-2 text-stone-600">拍照上傳菜單，不只翻譯，還能了解料理背景與價格。</p>
                             <div class="tool-prompt" id="helper-menu-prompt">請擔任我的美食嚮導，幫我解讀這份菜單：
-
                                 1. **完整翻譯：** 將日文菜單內容精確對應翻譯成繁體中文。
                                 2. **料理與價格：** 解釋料理特色、主要食材，並換算人均價格 (JPY 轉 TWD)。
                                 3. **必點推薦：** 指出「店內名物」或必點菜色並說明原因。
@@ -167,7 +165,6 @@
                             </div>
                             <p class="text-xs mb-2 text-stone-600">獲得超越普通解說牌的背景知識與攝影秘訣。</p>
                             <div class="tool-prompt" id="helper-guide-prompt">請擔任我的私人深度地陪。當我傳送照片或地名時，請提供：
-
                                 1. **深度故事：** 歷史背景、建築意義或有趣的民間傳說。
                                 2. **必看細節：** 現場容易被忽略的隱藏細節或「裏內容」。
                                 3. **攝影建議：** 最佳取景角度、時間點與攝影秘訣。
@@ -182,8 +179,8 @@
                                 <span class="tool-title">4. 價格比對</span>
                             </div>
                             <p class="tool-desc mb-2">用 Google Lens 掃描商品，AI 會顯示網路價格</p>
-                            <div class="tool-prompt" id="price-prompt">這款保養品/藥品的日本 Amazon 或樂天市場平均售價是多少？我在店裡看到的價格是 [XXX
-                                日圓]，請告訴我買貴了嗎？</div>
+                            <div class="tool-prompt" id="price-prompt">這款保養品/藥品的日本 Amazon 或樂天市場平均售價是多少？
+                                我在店裡看到的價格是 [XXX 日圓]，請告訴我買貴了嗎？</div>
                             <button onclick="copyText(document.getElementById('price-prompt').innerText)"
                                 class="btn btn-blue btn-sm btn-full mt-2">複製</button>
                         </div>
@@ -194,8 +191,8 @@
                                 <span class="tool-title">5. 成分警示 (對長輩有用！)</span>
                             </div>
                             <p class="tool-desc mb-2">拍藥品背面，問 AI 安全性</p>
-                            <div class="tool-prompt" id="ingredient-prompt">我有
-                                [高血壓/糖尿病/蠶豆症/過敏體質]，這款藥品/保健食品可以安全使用嗎？主要成分是什麼？有沒有需要注意的副作用？</div>
+                            <div class="tool-prompt" id="ingredient-prompt">我有 [高血壓/糖尿病/蠶豆症/過敏體質]，這款藥品/保健食品可以安全使用嗎？
+                                主要成分是什麼？有沒有需要注意的副作用？</div>
                             <button onclick="copyText(document.getElementById('ingredient-prompt').innerText)"
                                 class="btn btn-blue btn-sm btn-full mt-2">複製</button>
                         </div>
@@ -206,7 +203,8 @@
                                 <span class="tool-title">6. 保養品分析</span>
                             </div>
                             <p class="tool-desc mb-2">不確定成分？拍一下讓 AI 幫你看</p>
-                            <div class="tool-prompt" id="skincare-prompt">這款保養品的成分適合敏感肌嗎？它的主要功效是什麼？請用簡單的語言解釋給我聽。</div>
+                            <div class="tool-prompt" id="skincare-prompt">這款保養品的成分適合敏感肌嗎？
+                                它的主要功效是什麼？請用簡單的語言解釋給我聽。</div>
                             <button onclick="copyText(document.getElementById('skincare-prompt').innerText)"
                                 class="btn btn-blue btn-sm btn-full mt-2">複製</button>
                         </div>
