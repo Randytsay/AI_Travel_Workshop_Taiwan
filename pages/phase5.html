@@ -120,16 +120,66 @@
             <!-- Section B: Google Lens Price Detective -->
             <div class="card mb-6">
                 <div class="card-header card-header-amber">
-                    <h3>💊 Section B：Google Lens 價格與成分偵探</h3>
+                    <h3>💊 Section B：當地翻譯/導遊/地陪小助手</h3>
                     <p class="text-xs text-stone-500 mt-1">藥妝店的秘密武器！比價 + 成分分析</p>
                 </div>
                 <div class="card-body">
-
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Helper Segment 1: Translation -->
+                        <div class="tool-card" style="border-left: 4px solid var(--color-blue-500);">
+                            <div class="flex items-center mb-2">
+                                <span class="tool-icon">⚡</span>
+                                <span class="tool-title">1. 極速日文傳譯助理</span>
+                            </div>
+                            <p class="text-xs mb-2 text-stone-600">專攻禮貌溝通。輸入中文時，AI 會直接給出敬語日文翻譯。</p>
+                            <div class="tool-prompt" id="helper-trans-prompt">請擔任我的日式禮貌傳譯專家。
+
+                                **指令規則：**
+                                - 當我輸入中文時，請直接翻譯成日文，禁止任何開場白。
+                                - 請使用最高規格且符合日本文化的禮貌敬語 (Desu/Masu)。
+                                - 確保翻譯結果自然且適合與店員、路人溝通。</div>
+                            <button onclick="copyText(document.getElementById('helper-trans-prompt').innerText)"
+                                class="btn btn-blue btn-full mt-2">📋 複製傳譯專家指令</button>
+                        </div>
+
+                        <!-- Helper Segment 2: Menu Decoder -->
+                        <div class="tool-card" style="border-left: 4px solid var(--color-amber-500);">
+                            <div class="flex items-center mb-2">
+                                <span class="tool-icon">🍽️</span>
+                                <span class="tool-title">2. 專業菜單解讀服務</span>
+                            </div>
+                            <p class="text-xs mb-2 text-stone-600">拍照上傳菜單，不只翻譯，還能了解料理背景與價格。</p>
+                            <div class="tool-prompt" id="helper-menu-prompt">請擔任我的美食嚮導，幫我解讀這份菜單：
+
+                                1. **完整翻譯：** 將日文菜單內容精確對應翻譯成繁體中文。
+                                2. **料理與價格：** 解釋料理特色、主要食材，並換算人均價格 (JPY 轉 TWD)。
+                                3. **必點推薦：** 指出「店內名物」或必點菜色並說明原因。
+                                4. **文化/禮儀：** 提醒該類型餐廳特有的用餐規則與潛規則。</div>
+                            <button onclick="copyText(document.getElementById('helper-menu-prompt').innerText)"
+                                class="btn btn-blue btn-full mt-2">📋 複製菜單解讀指令</button>
+                        </div>
+
+                        <!-- Helper Segment 3: Deep Tour Guide -->
+                        <div class="tool-card" style="border-left: 4px solid var(--color-emerald-500);">
+                            <div class="flex items-center mb-2">
+                                <span class="tool-icon">⛩️</span>
+                                <span class="tool-title">3. 即時景點深度導覽</span>
+                            </div>
+                            <p class="text-xs mb-2 text-stone-600">獲得超越普通解說牌的背景知識與攝影秘訣。</p>
+                            <div class="tool-prompt" id="helper-guide-prompt">請擔任我的私人深度地陪。當我傳送照片或地名時，請提供：
+
+                                1. **深度故事：** 歷史背景、建築意義或有趣的民間傳說。
+                                2. **必看細節：** 現場容易被忽略的隱藏細節或「裏內容」。
+                                3. **攝影建議：** 最佳取景角度、時間點與攝影秘訣。
+                                4. **旅行對策：** 避開人潮的動線建議，以及週邊隱藏美食。</div>
+                            <button onclick="copyText(document.getElementById('helper-guide-prompt').innerText)"
+                                class="btn btn-blue btn-full mt-2">📋 複製即時導遊指令</button>
+                        </div>
+
                         <div class="tool-card">
                             <div class="flex items-center mb-2">
                                 <span class="tool-icon">💰</span>
-                                <span class="tool-title">價格比對</span>
+                                <span class="tool-title">4. 價格比對</span>
                             </div>
                             <p class="tool-desc mb-2">用 Google Lens 掃描商品，AI 會顯示網路價格</p>
                             <div class="tool-prompt" id="price-prompt">這款保養品/藥品的日本 Amazon 或樂天市場平均售價是多少？我在店裡看到的價格是 [XXX
@@ -141,7 +191,7 @@
                         <div class="tool-card">
                             <div class="flex items-center mb-2">
                                 <span class="tool-icon">⚠️</span>
-                                <span class="tool-title">成分警示 (對長輩超有用！)</span>
+                                <span class="tool-title">5. 成分警示 (對長輩有用！)</span>
                             </div>
                             <p class="tool-desc mb-2">拍藥品背面，問 AI 安全性</p>
                             <div class="tool-prompt" id="ingredient-prompt">我有
@@ -149,27 +199,11 @@
                             <button onclick="copyText(document.getElementById('ingredient-prompt').innerText)"
                                 class="btn btn-blue btn-sm btn-full mt-2">複製</button>
                         </div>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                        <!-- Moved From Section A -->
-                        <div class="tool-card">
-                            <div class="flex items-center mb-2">
-                                <span class="tool-icon">🍽️</span>
-                                <span class="tool-title">菜單翻譯與推薦</span>
-                            </div>
-                            <p class="tool-desc mb-2">拍照上傳菜單，不只翻譯，還能問口感！</p>
-                            <div class="tool-prompt" id="menu-prompt">這張菜單上有什麼是『季節限定』的？請幫我翻譯並推薦兩道不辣的在地特色菜。我們有 3 人，預算
-                                5000
-                                日圓，請列出給店員看的日文點餐清單。</div>
-                            <button onclick="copyText(document.getElementById('menu-prompt').innerText)"
-                                class="btn btn-blue btn-sm btn-full mt-2">複製</button>
-                        </div>
 
                         <div class="tool-card">
                             <div class="flex items-center mb-2">
                                 <span class="tool-icon">💄</span>
-                                <span class="tool-title">保養品分析</span>
+                                <span class="tool-title">6. 保養品分析</span>
                             </div>
                             <p class="tool-desc mb-2">不確定成分？拍一下讓 AI 幫你看</p>
                             <div class="tool-prompt" id="skincare-prompt">這款保養品的成分適合敏感肌嗎？它的主要功效是什麼？請用簡單的語言解釋給我聽。</div>

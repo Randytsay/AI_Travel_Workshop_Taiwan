@@ -81,7 +81,7 @@
                             <div class="form-group">
                                 <label class="form-label">3. 人數與成員</label>
                                 <input type="text" id="dr-people" class="form-input" placeholder="例如：2大1小(5歲)，帶70歲長輩"
-                                    value="2大人" oninput="generateDeepResearch()">
+                                    value="2大人，2小孩" oninput="generateDeepResearch()">
                             </div>
                             <div class="form-group">
                                 <label class="form-label">4. 住宿偏好</label>
@@ -100,7 +100,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="form-label">6. 預算上限 (每人)</label>
-                                <input type="text" id="dr-budget" class="form-input" placeholder="例如：3萬台幣" value="3萬台幣"
+                                <input type="text" id="dr-budget" class="form-input" placeholder="例如：5萬台幣" value="5萬台幣"
                                     oninput="generateDeepResearch()">
                             </div>
                             <div class="form-group">
@@ -113,7 +113,8 @@
                             </div>
                             <div class="form-group">
                                 <label class="form-label">其他注意事項</label>
-                                <textarea id="dr-notes" class="form-textarea" rows="2" placeholder="例如：不吃生食、需要無障礙設施"
+                                <textarea id="dr-notes" class="form-textarea" rows="2"
+                                    placeholder="例如：必去景點、不吃生食、需要無障礙設施、避開人潮、喜歡歷史文化等"
                                     oninput="generateDeepResearch()"></textarea>
                             </div>
                         </div>
@@ -140,7 +141,7 @@
                 <!-- JR Pass Calculator -->
                 <div class="card">
                     <div class="card-header card-header-amber">
-                        <h3>🚃 交通損益計算器</h3>
+                        <h3>🚃 交通費用精打細算</h3>
                     </div>
                     <div class="card-body">
                         <div class="form-group">
@@ -244,11 +245,11 @@
             const format = document.getElementById('dr-format').value;
             const notes = document.getElementById('dr-notes').value;
 
-            const prompt = `請使用深度研究模式，幫我規劃一個詳細的日本旅遊行程。
+            const prompt = `請使用深度研究模式，幫我規劃一個詳細的旅遊行程。
 
 ## 七步結構化框架
 
-1. **主題**：${theme}
+1. **主題/目的地**：${theme}
 2. **時間**：${time}
 3. **人數與成員**：${people}
 4. **住宿偏好**：${hotel}
@@ -259,11 +260,12 @@
 ${notes ? `## 特別注意事項\n${notes}` : ''}
 
 ## 請包含以下內容
-- 每日詳細行程（含時間、交通方式、預估費用）
+- 每日詳細行程（含詳細時間表、交通方式、預估費用）
 - 餐廳推薦（請確認目前仍在營業）
 - 交通票券購買建議
 - 住宿地點建議（含價格範圍）
-- 總預算估算表`;
+- 總預算估算表
+- 備註提醒（天氣建議、特殊活動、是否需預約、推薦拍照地點等）`;
 
             document.getElementById('dr-output').value = prompt;
         }

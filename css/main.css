@@ -804,6 +804,7 @@ a:hover {
     font-size: 0.75rem;
     color: var(--color-stone-600);
     margin: 0.75rem 0;
+    white-space: pre-wrap;
 }
 
 /* --- Section Headers --- */

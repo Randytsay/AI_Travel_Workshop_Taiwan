@@ -129,7 +129,7 @@
                         <div class="form-group">
                             <label class="form-label">5. 特別需求 (選填)</label>
                             <textarea id="custom-input" class="form-textarea" rows="3"
-                                placeholder="例如：一定要去環球影城、不吃生魚片、隨行有坐輪椅的長輩..." onchange="updatePrompt()"></textarea>
+                                placeholder="例如：一定要去環球影城、素食者、不吃生魚片、隨行有坐輪椅的長輩..." onchange="updatePrompt()"></textarea>
                         </div>
 
                     </div>
@@ -282,8 +282,8 @@
 
 請幫我生成一份詳細的行程表，格式要求如下：
 - 請以**表格**方式呈現。
-- 欄位包含：日期、時間（上午/下午/晚上）、景點/活動、交通方式（含預估時間與轉乘建議）、以及推薦的當地美食。
-- 在表格下方，請額外列出這個行程的 **3 個必去亮點** 與 **1 個在地人須知的小提醒**。`;
+- 欄位包含：日期、時間（上午/下午/晚上）、景點/活動、交通方式（含預估時間與轉乘建議）、必買伴手禮、推薦的當地美食以及每日基本開銷參考。
+- 在表格下方，請額外列出這個行程的 **5 個必去亮點** 與 **3 個在地人須知的小提醒**。`;
 
             document.getElementById('prompt-output').value = prompt;
 
