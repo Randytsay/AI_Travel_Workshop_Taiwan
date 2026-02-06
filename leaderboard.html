@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏆</text></svg>">
+    <title>社群人氣王排行榜 | AI 旅遊規劃工作坊</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --gold: linear-gradient(180deg, #ffd700 0%, #ffb347 100%);
+            --silver: linear-gradient(180deg, #e8e8e8 0%, #b8b8b8 100%);
+            --bronze: linear-gradient(180deg, #cd7f32 0%, #b8860b 100%);
+            --fourth: linear-gradient(180deg, #7c3aed 0%, #5b21b6 100%);
+            --fifth: linear-gradient(180deg, #06b6d4 0%, #0891b2 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            min-height: 100vh;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        /* 背景粒子效果 */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 215, 0, 0.6);
+            border-radius: 50%;
+            animation: float 15s infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* 主容器 */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* 標題區 */
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, #ffd700, #ff6b6b, #ffd700);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmer 3s linear infinite;
+            margin-bottom: 0.5rem;
+        }
+
+        @keyframes shimmer {
+            to {
+                background-position: 200% center;
+            }
+        }
+
+        .header .subtitle {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1rem;
+        }
+
+        .header .update-time {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+        }
+
+        /* 控制按鈕 */
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #ffd700 0%, #ff6b6b 100%);
+            color: #0f172a;
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+        }
+
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* ===== 頒獎台區域 (前5名) ===== */
+        .podium-section {
+            margin-bottom: 3rem;
+        }
+
+        .podium-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 0.5rem;
+            min-height: 320px;
+            padding: 1rem;
+        }
+
+        .podium-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1rem 0.75rem;
+            border-radius: 1rem 1rem 0 0;
+            position: relative;
+            transition: all 0.3s ease;
+            animation: podiumRise 0.8s ease-out backwards;
+        }
+
+        .podium-item:hover {
+            transform: translateY(-10px);
+        }
+
+        @keyframes podiumRise {
+            from {
+                transform: translateY(100px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* 第 1 名 */
+        .podium-1 {
+            order: 3;
+            background: var(--gold);
+            min-height: 280px;
+            width: 130px;
+            box-shadow: 0 0 50px rgba(255, 215, 0, 0.6), inset 0 2px 15px rgba(255, 255, 255, 0.5);
+            animation-delay: 0.1s;
+        }
+
+        /* 第 2 名 */
+        .podium-2 {
+            order: 2;
+            background: var(--silver);
+            min-height: 220px;
+            width: 110px;
+            box-shadow: 0 0 30px rgba(200, 200, 200, 0.4);
+            animation-delay: 0.2s;
+        }
+
+        /* 第 3 名 */
+        .podium-3 {
+            order: 4;
+            background: var(--bronze);
+            min-height: 180px;
+            width: 110px;
+            box-shadow: 0 0 30px rgba(205, 127, 50, 0.4);
+            animation-delay: 0.3s;
+        }
+
+        /* 第 4 名 */
+        .podium-4 {
+            order: 1;
+            background: var(--fourth);
+            min-height: 140px;
+            width: 90px;
+            box-shadow: 0 0 20px rgba(124, 58, 237, 0.4);
+            animation-delay: 0.4s;
+        }
+
+        /* 第 5 名 */
+        .podium-5 {
+            order: 5;
+            background: var(--fifth);
+            min-height: 140px;
+            width: 90px;
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.4);
+            animation-delay: 0.5s;
+        }
+
+        .podium-avatar {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .podium-1 .podium-avatar {
+            width: 70px;
+            height: 70px;
+            font-size: 2rem;
+            animation: crownGlow 2s ease-in-out infinite;
+        }
+
+        .podium-1 .podium-avatar::before {
+            content: '👑';
+            position: absolute;
+            top: -30px;
+            font-size: 2rem;
+            animation: crownBounce 1s ease-in-out infinite;
+        }
+
+        @keyframes crownBounce {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(-5deg);
+            }
+
+            50% {
+                transform: translateY(-8px) rotate(5deg);
+            }
+        }
+
+        @keyframes crownGlow {
+
+            0%,
+            100% {
+                box-shadow: 0 0 30px rgba(255, 215, 0, 0.8);
+            }
+
+            50% {
+                box-shadow: 0 0 60px rgba(255, 215, 0, 1), 0 0 100px rgba(255, 215, 0, 0.5);
+            }
+        }
+
+        .podium-name {
+            font-weight: 700;
+            font-size: 1rem;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            margin-bottom: 0.25rem;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .podium-1 .podium-name {
+            font-size: 1.25rem;
+        }
+
+        .podium-likes {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 0.35rem 0.75rem;
+            border-radius: 1rem;
+            font-weight: 700;
+            color: #be123c;
+            font-size: 0.9rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .podium-rank {
+            position: absolute;
+            bottom: 10px;
+            font-size: 3rem;
+            font-weight: 900;
+            color: rgba(255, 255, 255, 0.2);
+        }
+
+        .podium-1 .podium-rank {
+            font-size: 4rem;
+        }
+
+        /* ===== 全員列表 ===== */
+        .all-participants {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .participant-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 0.75rem;
+        }
+
+        .participant-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 0.75rem;
+            transition: all 0.2s ease;
+            animation: fadeIn 0.5s ease-out backwards;
+        }
+
+        .participant-item:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateX(5px);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .participant-rank {
+            width: 28px;
+            height: 28px;
+            background: rgba(255, 255, 255, 0.15);
+            color: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.8rem;
+            flex-shrink: 0;
+        }
+
+        .participant-name {
+            flex: 1;
+            font-weight: 500;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .participant-likes {
+            font-weight: 700;
+            color: #fbbf24;
+            font-size: 0.9rem;
+        }
+
+        /* 無資料狀態 */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .empty-state .icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        /* 載入動畫 */
+        .loading {
+            text-align: center;
+            padding: 3rem;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255, 215, 0, 0.3);
+            border-top-color: #ffd700;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* 返回連結 */
+        .back-link {
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+            z-index: 10;
+        }
+
+        .back-link:hover {
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 背景粒子 -->
+    <div class="particles" id="particles"></div>
+
+    <!-- 返回連結 -->
+    <a href="index.html" class="back-link">← 返回首頁</a>
+
+    <div class="container">
+        <!-- 標題 -->
+        <header class="header">
+            <h1>🏆 社群人氣王排行榜</h1>
+            <p class="subtitle">AI 旅遊規劃工作坊</p>
+            <p class="update-time" id="update-time">載入中...</p>
+        </header>
+
+        <!-- 控制按鈕 -->
+        <div class="controls">
+            <button class="btn btn-primary" onclick="refreshData()">🔄 更新排行榜</button>
+            <button class="btn btn-outline" onclick="window.location.href='admin/dashboard.html'">⚙️ 後台管理</button>
+        </div>
+
+        <!-- 主內容區 -->
+        <div id="content">
+            <div class="loading">
+                <div class="spinner"></div>
+                <p>載入排行榜資料...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // GAS URL
+        const GAS_URL = 'https://script.google.com/macros/s/AKfycbxOi_q-LhAj56riAhb_ufn2Ks_-t_a6Cw3-13SyDFj2uRFMo66S719OM5cLQKCxXVC1/exec';
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+            refreshData();
+        });
+
+        // 創建背景粒子
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = (10 + Math.random() * 10) + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        // 更新資料
+        async function refreshData() {
+            const content = document.getElementById('content');
+            content.innerHTML = `
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>載入排行榜資料...</p>
+                </div>
+            `;
+
+            try {
+                const response = await fetch(`${GAS_URL}?action=getLeaderboard`);
+                const data = await response.json();
+
+                if (data.error) throw new Error(data.error);
+
+                renderLeaderboard(data.leaderboard || []);
+                updateTime();
+            } catch (err) {
+                console.error('Fetch error:', err);
+                // 嘗試使用 localStorage 備份
+                const cached = localStorage.getItem('workshop_leaderboard');
+                if (cached) {
+                    renderLeaderboard(JSON.parse(cached));
+                    updateTime('(使用快取資料)');
+                } else {
+                    content.innerHTML = `
+                        <div class="empty-state">
+                            <div class="icon">😢</div>
+                            <p>無法載入資料</p>
+                            <p style="font-size: 0.85rem; margin-top: 0.5rem;">${err.message}</p>
+                        </div>
+                    `;
+                }
+            }
+        }
+
+        // 渲染排行榜
+        function renderLeaderboard(leaderboard) {
+            const content = document.getElementById('content');
+
+            if (!leaderboard || leaderboard.length === 0) {
+                content.innerHTML = `
+                    <div class="empty-state">
+                        <div class="icon">🏆</div>
+                        <p>尚無排行資料</p>
+                        <p style="font-size: 0.85rem; margin-top: 0.5rem;">等待參與者填寫問卷中...</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // 排序
+            const sorted = [...leaderboard].sort((a, b) => b.likes - a.likes);
+            const top5 = sorted.slice(0, 5);
+            const rest = sorted.slice(5);
+
+            // 生成頒獎台 (前5名)
+            let podiumHTML = `
+                <div class="podium-section">
+                    <div class="podium-container">
+            `;
+
+            // 順序: 4, 2, 1, 3, 5
+            const podiumOrder = [3, 1, 0, 2, 4];
+            podiumOrder.forEach(i => {
+                if (top5[i]) {
+                    const item = top5[i];
+                    const rank = i + 1;
+                    const initial = item.name.charAt(0).toUpperCase();
+                    podiumHTML += `
+                        <div class="podium-item podium-${rank}">
+                            <div class="podium-avatar">${initial}</div>
+                            <div class="podium-name">${item.name}</div>
+                            <div class="podium-likes">❤️ ${item.likes}</div>
+                            <div class="podium-rank">${rank}</div>
+                        </div>
+                    `;
+                }
+            });
+
+            podiumHTML += `
+                    </div>
+                </div>
+            `;
+
+            // 生成全員列表 (6名以後)
+            let listHTML = '';
+            if (rest.length > 0) {
+                listHTML = `
+                    <div class="all-participants">
+                        <h3 class="section-title">📋 其他參與者</h3>
+                        <div class="participant-list">
+                `;
+
+                rest.forEach((item, idx) => {
+                    const rank = idx + 6;
+                    listHTML += `
+                        <div class="participant-item" style="animation-delay: ${idx * 0.05}s">
+                            <div class="participant-rank">${rank}</div>
+                            <div class="participant-name">${item.name}</div>
+                            <div class="participant-likes">❤️ ${item.likes}</div>
+                        </div>
+                    `;
+                });
+
+                listHTML += `
+                        </div>
+                    </div>
+                `;
+            }
+
+            content.innerHTML = podiumHTML + listHTML;
+
+            // 快取資料
+            localStorage.setItem('workshop_leaderboard', JSON.stringify(leaderboard));
+        }
+
+        // 更新時間顯示
+        function updateTime(suffix = '') {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('zh-TW', { hour: '2-digit', minute: '2-digit' });
+            document.getElementById('update-time').textContent = `最後更新：${timeStr} ${suffix}`;
+        }
+    </script>
+</body>
+
+</html>

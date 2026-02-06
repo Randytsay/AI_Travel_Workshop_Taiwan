@@ -94,6 +94,201 @@
             color: var(--color-primary);
         }
 
+        /* ===== 炫炮頒獎台排行榜 ===== */
+        .podium-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            min-height: 200px;
+        }
+
+        .podium-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1rem;
+            border-radius: 1rem 1rem 0 0;
+            position: relative;
+            transition: all 0.3s ease;
+            animation: podiumRise 0.8s ease-out;
+        }
+
+        .podium-item:hover {
+            transform: translateY(-5px);
+        }
+
+        @keyframes podiumRise {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .podium-1 {
+            order: 2;
+            background: linear-gradient(180deg, #ffd700 0%, #ffb347 100%);
+            min-height: 180px;
+            width: 120px;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.6), inset 0 2px 10px rgba(255, 255, 255, 0.5);
+            animation-delay: 0.2s;
+        }
+
+        .podium-2 {
+            order: 1;
+            background: linear-gradient(180deg, #c0c0c0 0%, #a8a8a8 100%);
+            min-height: 140px;
+            width: 100px;
+            box-shadow: 0 0 20px rgba(192, 192, 192, 0.5);
+            animation-delay: 0.4s;
+        }
+
+        .podium-3 {
+            order: 3;
+            background: linear-gradient(180deg, #cd7f32 0%, #b8860b 100%);
+            min-height: 110px;
+            width: 100px;
+            box-shadow: 0 0 20px rgba(205, 127, 50, 0.5);
+            animation-delay: 0.6s;
+        }
+
+        .podium-avatar {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .podium-1 .podium-avatar {
+            width: 60px;
+            height: 60px;
+            font-size: 2rem;
+            animation: crownGlow 2s ease-in-out infinite;
+        }
+
+        .podium-1 .podium-avatar::before {
+            content: '👑';
+            position: absolute;
+            top: -25px;
+            font-size: 1.5rem;
+            animation: crownBounce 1s ease-in-out infinite;
+        }
+
+        @keyframes crownBounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+        @keyframes crownGlow {
+
+            0%,
+            100% {
+                box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+            }
+
+            50% {
+                box-shadow: 0 0 40px rgba(255, 215, 0, 1);
+            }
+        }
+
+        .podium-name {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: white;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            margin-bottom: 0.25rem;
+        }
+
+        .podium-1 .podium-name {
+            font-size: 1.1rem;
+        }
+
+        .podium-likes {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-weight: 700;
+            color: #be123c;
+            font-size: 0.85rem;
+        }
+
+        .podium-rank {
+            position: absolute;
+            bottom: 8px;
+            font-size: 2rem;
+            font-weight: 900;
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* 其他名次列表 */
+        .rank-list {
+            margin-top: 1rem;
+        }
+
+        .rank-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem 1rem;
+            background: linear-gradient(90deg, #f8fafc 0%, #fff 100%);
+            border: 1px solid #e2e8f0;
+            border-radius: 0.75rem;
+            margin-bottom: 0.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .rank-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .rank-number {
+            width: 2rem;
+            height: 2rem;
+            background: linear-gradient(135deg, #64748b 0%, #475569 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .rank-name {
+            flex: 1;
+            font-weight: 500;
+        }
+
+        .rank-likes {
+            font-weight: 700;
+            color: #be123c;
+        }
+
         .prize-item {
             display: flex;
             align-items: center;
@@ -234,8 +429,11 @@
 
             <!-- Social Challenge Leaderboard -->
             <div class="card mb-6">
-                <div class="card-header" style="background: var(--color-accent-light);">
-                    <h3>🏆 社群人氣王排行榜</h3>
+                <div class="card-header"
+                    style="background: linear-gradient(135deg, #1e293b 0%, #334155 100%); color: white;">
+                    <h3>🏆 社群人氣王排行榜 <span id="leaderboard-time" style="font-size: 0.75rem; opacity: 0.7;"></span></h3>
+                    <button onclick="refreshLeaderboard()" class="btn btn-sm"
+                        style="background: rgba(255,255,255,0.2); color: white; border: none;">🔄 更新</button>
                 </div>
                 <div class="card-body">
                     <div id="leaderboard">
@@ -519,23 +717,62 @@
         function renderLeaderboard() {
             const container = document.getElementById('leaderboard');
             if (leaderboard.length === 0) {
-                container.innerHTML = '<div class="text-center text-stone-500 p-4">尚無資料，請手動新增</div>';
+                container.innerHTML = `
+                    <div class="text-center p-6" style="color: #64748b;">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">🏆</div>
+                        <p>尚無排行資料</p>
+                        <p class="text-sm" style="opacity: 0.7;">請手動新增或從問卷同步</p>
+                    </div>`;
                 return;
             }
 
             // Sort by likes descending
             const sorted = [...leaderboard].sort((a, b) => b.likes - a.likes);
-            const medals = ['🥇', '🥈', '🥉'];
+            const top3 = sorted.slice(0, 3);
+            const rest = sorted.slice(3, 10);
 
-            container.innerHTML = sorted.map((item, index) => `
-                <div class="leaderboard-item">
-                    <div class="rank">${medals[index] || (index + 1)}</div>
-                    <div class="name">${item.name}</div>
-                    <div class="score">${item.likes} 讚</div>
-                    <button onclick="removeLeaderboardEntry(${index})" class="btn btn-sm btn-outline">×</button>
-                </div>
-            `).join('');
+            // 生成頒獎台 HTML
+            let podiumHTML = '<div class="podium-container">';
 
+            // 依照 2, 1, 3 的順序排列 (銀、金、銅)
+            const podiumOrder = [1, 0, 2]; // index in top3 array
+            const avatarEmojis = ['🌟', '✨', '💫', '🔥', '💎', '🎯', '🚀', '⭐'];
+
+            podiumOrder.forEach(i => {
+                if (top3[i]) {
+                    const item = top3[i];
+                    const rank = i + 1;
+                    const initial = item.name.charAt(0).toUpperCase();
+                    podiumHTML += `
+                        <div class="podium-item podium-${rank}">
+                            <div class="podium-avatar">${initial}</div>
+                            <div class="podium-name">${item.name}</div>
+                            <div class="podium-likes">❤️ ${item.likes}</div>
+                            <div class="podium-rank">${rank}</div>
+                        </div>
+                    `;
+                }
+            });
+            podiumHTML += '</div>';
+
+            // 生成其他名次 HTML
+            let rankListHTML = '';
+            if (rest.length > 0) {
+                rankListHTML = '<div class="rank-list">';
+                rest.forEach((item, idx) => {
+                    const rank = idx + 4;
+                    rankListHTML += `
+                        <div class="rank-item">
+                            <div class="rank-number">${rank}</div>
+                            <div class="rank-name">${item.name}</div>
+                            <div class="rank-likes">❤️ ${item.likes}</div>
+                        </div>
+                    `;
+                });
+                rankListHTML += '</div>';
+            }
+
+            container.innerHTML = podiumHTML + rankListHTML;
             localStorage.setItem('workshop_leaderboard', JSON.stringify(leaderboard));
         }
 
@@ -556,6 +793,31 @@
         function removeLeaderboardEntry(index) {
             leaderboard.splice(index, 1);
             renderLeaderboard();
+        }
+
+        // 自動從 Google Sheets 更新排行榜
+        async function refreshLeaderboard() {
+            const gasUrl = document.getElementById('gas-url').value;
+            if (!gasUrl) return;
+
+            try {
+                const response = await fetch(`${gasUrl}?action=getLeaderboard`);
+                const data = await response.json();
+
+                if (data.leaderboard && data.leaderboard.length > 0) {
+                    leaderboard = data.leaderboard;
+                    renderLeaderboard();
+                }
+
+                // 更新時間戳記
+                const timeEl = document.getElementById('leaderboard-time');
+                if (timeEl) {
+                    const now = new Date();
+                    timeEl.textContent = `(${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')} 更新)`;
+                }
+            } catch (err) {
+                console.log('Leaderboard refresh failed:', err.message);
+            }
         }
 
         // Prize Draw Functions

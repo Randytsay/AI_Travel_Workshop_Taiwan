@@ -26,6 +26,7 @@
             right: 20px;
             font-size: 40px;
             opacity: 0.2;
+            pointer-events: none;
         }
 
         .card-header .text-stone-500 {
@@ -247,26 +248,39 @@
                             <div id="guest-questions">
                                 <!-- 1. 邀請人 -->
                                 <div class="form-group">
-                                    <label class="form-label">邀請您參加的朋友是？</label>
+                                    <label class="form-label">1. 邀請您參加的朋友是？</label>
                                     <input type="text" id="inviter" class="form-input" placeholder="請輸入邀請人姓名" required>
+                                </div>
+
+                                <!-- 1.5 吸收程度 (新增) -->
+                                <div class="form-group">
+                                    <label class="form-label">2. 您覺得自己今天對課程內容的吸收程度？ (1-5分)</label>
+                                    <div class="rating-group-10" id="rating-absorption-guest">
+                                        <button type="button" class="rating-btn-10" data-value="1">1</button>
+                                        <button type="button" class="rating-btn-10" data-value="2">2</button>
+                                        <button type="button" class="rating-btn-10" data-value="3">3</button>
+                                        <button type="button" class="rating-btn-10" data-value="4">4</button>
+                                        <button type="button" class="rating-btn-10" data-value="5">5</button>
+                                    </div>
+                                    <div class="text-center text-xs text-stone-500 mt-1">1=完全聽不懂 ~ 5=收穫滿滿，完全掌握</div>
                                 </div>
 
                                 <!-- 2. 整體評分 10分制 -->
                                 <div class="form-group">
-                                    <label class="form-label">今天的 AI 旅遊規劃教學，滿分 10 分您給幾分？</label>
+                                    <label class="form-label">3. 今天的 AI 旅遊規劃教學，滿分 5 分您給幾分？</label>
                                     <div class="rating-group-10" id="rating-overall">
-                                        <button type="button" class="rating-btn-10" data-value="6">6</button>
-                                        <button type="button" class="rating-btn-10" data-value="7">7</button>
-                                        <button type="button" class="rating-btn-10" data-value="8">8</button>
-                                        <button type="button" class="rating-btn-10" data-value="9">9</button>
-                                        <button type="button" class="rating-btn-10" data-value="10">10</button>
+                                        <button type="button" class="rating-btn-10" data-value="1">1</button>
+                                        <button type="button" class="rating-btn-10" data-value="2">2</button>
+                                        <button type="button" class="rating-btn-10" data-value="3">3</button>
+                                        <button type="button" class="rating-btn-10" data-value="4">4</button>
+                                        <button type="button" class="rating-btn-10" data-value="5">5</button>
                                     </div>
-                                    <div class="text-center text-xs text-stone-500 mt-1">6=尚可 ~ 10=超讚</div>
+                                    <div class="text-center text-xs text-stone-500 mt-1">1=非常不滿意 ~ 5=非常滿意</div>
                                 </div>
 
                                 <!-- 3. Wow Moment -->
                                 <div class="form-group">
-                                    <label class="form-label">今天哪個部分讓您覺得最驚艷 (Wow Moment)？</label>
+                                    <label class="form-label">4. 今天哪個部分讓您覺得最驚艷 (Wow Moment)？</label>
                                     <select id="wow-moment" class="form-select">
                                         <option value="">請選擇</option>
                                         <option value="AI 一鍵生成詳細行程 (Gemini)">AI 一鍵生成詳細行程 (Gemini)</option>
@@ -279,13 +293,10 @@
 
                                 <!-- 4. AI 興趣主題 -->
                                 <div class="form-group">
-                                    <label class="form-label">未來若有其他 AI 生活應用主題，您對哪個感興趣？</label>
+                                    <label class="form-label">5. 未來若有其他 AI 生活應用主題，您對哪個感興趣？</label>
                                     <div class="checkbox-group" id="ai-interests">
                                         <label class="checkbox-item">
                                             <input type="checkbox" value="AI 健康管理 (減重/飲食)"> 🥗 AI 健康管理 (減重/飲食)
-                                        </label>
-                                        <label class="checkbox-item">
-                                            <input type="checkbox" value="AI 社群經營 (文案/影片)"> 📱 AI 社群經營 (文案/影片)
                                         </label>
                                         <label class="checkbox-item">
                                             <input type="checkbox" value="AI 繪圖創作 (頭貼/商品圖/Line貼圖)"> 🎨 AI 繪圖創作
@@ -302,9 +313,7 @@
 
                                 <!-- 5. Shop.com 興趣 -->
                                 <div class="form-group">
-                                    <label class="form-label">今天的「消費轉收入」概念（<a href="https://tw.shop.com" target="_blank"
-                                            class="shop-logo-pill"><img src="image/shop-logo-tw.svg"
-                                                class="shop-logo-inline" alt="Shop.com"></a>），您有興趣進一步了解嗎？</label>
+                                    <label class="form-label">6. 今天的「消費轉收入」概念，您有興趣進一步了解嗎？</label>
                                     <select id="shopcom-interest" class="form-select">
                                         <option value="">請選擇</option>
                                         <option value="非常有興趣，想了解如何開始">🤩 非常有興趣，想了解如何開始</option>
@@ -316,15 +325,15 @@
 
                                 <!-- 6. 推薦意願 -->
                                 <div class="form-group">
-                                    <label class="form-label">您會推薦朋友來參加這個工作坊嗎？</label>
+                                    <label class="form-label">7. 您會推薦朋友來參加這個工作坊嗎？</label>
                                     <div class="rating-group-10" id="rating-recommend">
-                                        <button type="button" class="rating-btn-10" data-value="6">6</button>
-                                        <button type="button" class="rating-btn-10" data-value="7">7</button>
-                                        <button type="button" class="rating-btn-10" data-value="8">8</button>
-                                        <button type="button" class="rating-btn-10" data-value="9">9</button>
-                                        <button type="button" class="rating-btn-10" data-value="10">10</button>
+                                        <button type="button" class="rating-btn-10" data-value="1">1</button>
+                                        <button type="button" class="rating-btn-10" data-value="2">2</button>
+                                        <button type="button" class="rating-btn-10" data-value="3">3</button>
+                                        <button type="button" class="rating-btn-10" data-value="4">4</button>
+                                        <button type="button" class="rating-btn-10" data-value="5">5</button>
                                     </div>
-                                    <div class="text-center text-xs text-stone-500 mt-1">6=可能不會 ~ 10=一定會</div>
+                                    <div class="text-center text-xs text-stone-500 mt-1">1=絕對不會 ~ 5=一定會</div>
                                 </div>
                             </div>
 
@@ -332,7 +341,7 @@
                             <div id="member-questions" style="display: none;">
                                 <!-- 1. 流程順暢度 -->
                                 <div class="form-group">
-                                    <label class="form-label">今日活動流程順暢度</label>
+                                    <label class="form-label">1. 今日活動流程順暢度</label>
                                     <select id="flow-rating" class="form-select">
                                         <option value="">請選擇</option>
                                         <option value="5">5 - 非常順暢</option>
@@ -343,11 +352,22 @@
                                     </select>
                                 </div>
 
+                                <!-- 2. 吸收程度 (新增) -->
+                                <div class="form-group">
+                                    <label class="form-label">2. 您覺得自己今天對課程內容的吸收程度？ (1-5分)</label>
+                                    <div class="rating-group-10" id="rating-absorption-member">
+                                        <button type="button" class="rating-btn-10" data-value="1">1</button>
+                                        <button type="button" class="rating-btn-10" data-value="2">2</button>
+                                        <button type="button" class="rating-btn-10" data-value="3">3</button>
+                                        <button type="button" class="rating-btn-10" data-value="4">4</button>
+                                        <button type="button" class="rating-btn-10" data-value="5">5</button>
+                                    </div>
+                                    <div class="text-center text-xs text-stone-500 mt-1">1=完全聽不懂 ~ 5=收穫滿滿，完全掌握</div>
+                                </div>
+
                                 <!-- 3. AI 銜接 Shop.com 轉場 -->
                                 <div class="form-group">
-                                    <label class="form-label">關於「AI 技能」銜接「<a href="https://tw.shop.com" target="_blank"
-                                            class="shop-logo-pill"><img src="image/shop-logo-tw.svg"
-                                                class="shop-logo-inline" alt="Shop.com"></a> 事業」的轉場，您覺得？</label>
+                                    <label class="form-label">3. 關於「AI 技能」銜接 shop.com 事業」的轉場，您覺得？</label>
                                     <select id="transition-feedback" class="form-select">
                                         <option value="">請選擇</option>
                                         <option value="很自然，朋友不會覺得突兀">很自然，朋友不會覺得突兀</option>
@@ -358,14 +378,14 @@
 
                                 <!-- 4. 新朋友反應 -->
                                 <div class="form-group">
-                                    <label class="form-label">您觀察到您帶來的新朋友，反應最熱烈的是？</label>
+                                    <label class="form-label">4. 您觀察到您帶來的新朋友，反應最熱烈的是？</label>
                                     <input type="text" id="guest-reaction" class="form-input"
                                         placeholder="例如：手繪地圖時大家都在驚呼...">
                                 </div>
 
                                 <!-- 5. 下次建議 -->
                                 <div class="form-group">
-                                    <label class="form-label">下次舉辦的建議：</label>
+                                    <label class="form-label">5. 下次舉辦的建議：</label>
                                     <textarea id="next-suggestion" class="form-textarea" rows="3"
                                         placeholder="場地、時間、內容等任何建議..."></textarea>
                                 </div>
@@ -424,7 +444,9 @@
         let currentRole = 'guest';
         const ratings = {
             overall: 0,
-            recommend: 0
+            recommend: 0,
+            absorptionGuest: 0,
+            absorptionMember: 0
         };
 
         // Initialize rating buttons (both 5-star and 10-point scales)
@@ -435,7 +457,15 @@
                         e.preventDefault();
                         const value = parseInt(btn.dataset.value);
                         const groupId = group.id.replace('rating-', '');
-                        ratings[groupId] = value;
+
+                        // Handle camelCase for absorption keys mapping
+                        // id="rating-absorption-guest" -> groupId="absorption-guest"
+                        // But we want "absorptionGuest" in ratings object
+                        let targetKey = groupId;
+                        if (groupId === 'absorption-guest') targetKey = 'absorptionGuest';
+                        if (groupId === 'absorption-member') targetKey = 'absorptionMember';
+
+                        ratings[targetKey] = value;
 
                         // Update UI
                         group.querySelectorAll('.rating-btn, .rating-btn-10').forEach(b => b.classList.remove('selected'));
@@ -492,34 +522,33 @@
             const submitBtn = document.getElementById('submit-btn');
             setButtonLoading(submitBtn, true);
 
+            // 建立統一的資料結構，確保 Google Sheet 欄位不會錯亂
+            // 順序：基本資料 -> 新朋友獨有 (1-7) -> 夥伴獨有 (1-5) -> 按讚
             let data = {
+                // 1. 基本資料
                 timestamp: new Date().toISOString(),
-                role: currentRole,
+                role: currentRole === 'guest' ? '新朋友' : '夥伴',
                 name: document.getElementById('name').value,
+
+                // 2. 新朋友欄位 (1-7)
+                inviter: currentRole === 'guest' ? document.getElementById('inviter').value : '',
+                ratingAbsorptionGuest: currentRole === 'guest' ? ratings.absorptionGuest : '',
+                ratingOverall: currentRole === 'guest' ? ratings.overall : '',
+                wowMoment: currentRole === 'guest' ? document.getElementById('wow-moment').value : '',
+                aiInterests: currentRole === 'guest' ? getSelectedInterests() : '',
+                shopcomInterest: currentRole === 'guest' ? document.getElementById('shopcom-interest').value : '',
+                ratingRecommend: currentRole === 'guest' ? ratings.recommend : '',
+
+                // 3. 夥伴欄位 (1-5)
+                flowRating: currentRole === 'member' ? document.getElementById('flow-rating').value : '',
+                ratingAbsorptionMember: currentRole === 'member' ? ratings.absorptionMember : '',
+                transitionFeedback: currentRole === 'member' ? document.getElementById('transition-feedback').value : '',
+                guestReaction: currentRole === 'member' ? document.getElementById('guest-reaction').value : '',
+                nextSuggestion: currentRole === 'member' ? document.getElementById('next-suggestion').value : '',
+
+                // 4. 最後共用欄位
                 likes: document.getElementById('likes').value || 0
             };
-
-            if (currentRole === 'guest') {
-                // 新朋友版資料
-                data = {
-                    ...data,
-                    inviter: document.getElementById('inviter').value,
-                    ratingOverall: ratings.overall,
-                    wowMoment: document.getElementById('wow-moment').value,
-                    aiInterests: getSelectedInterests(),
-                    shopcomInterest: document.getElementById('shopcom-interest').value,
-                    ratingRecommend: ratings.recommend
-                };
-            } else {
-                // 夥伴版資料
-                data = {
-                    ...data,
-                    flowRating: document.getElementById('flow-rating').value,
-                    transitionFeedback: document.getElementById('transition-feedback').value,
-                    guestReaction: document.getElementById('guest-reaction').value,
-                    nextSuggestion: document.getElementById('next-suggestion').value
-                };
-            }
 
             // Submit to Google Sheets
             await submitToGoogleSheets(data,

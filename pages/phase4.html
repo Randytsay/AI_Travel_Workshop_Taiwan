@@ -176,11 +176,242 @@
 
             </div>
 
-            <!-- Section A: Map Style Selection -->
+            <!-- Section A: Database Creation -->
             <div class="card mb-6">
-                <div class="card-header">
-                    <h3>🎨 Section A：風格化地圖生成</h3>
-                    <p class="text-xs text-stone-500 mt-1">根據你的目標受眾選擇最適合的風格</p>
+                <div class="card-header card-header-indigo"
+                    style="background-image: none !important; background-color: #eef2ff !important; opacity: 1 !important; z-index: 10; position: relative; backdrop-filter: none !important; -webkit-backdrop-filter: none !important; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
+                    <h3>📚 Section A：資料庫建立 (NotebookLM)</h3>
+                    <p class="text-xs mt-1">匯入 Deep Research 結果、PDF、網頁與影音，建立你的旅遊知識庫</p>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-info mb-6 shadow-sm">
+                        <strong>🎯 任務目標：</strong>熟悉 NotebookLM 介面，將收集到的所有旅遊素材（Deep Research 報告、行程 PDF、部落格文章、YouTube
+                        影片連結、錄音檔）全部匯入，建立專屬的 AI 知識庫。
+                    </div>
+
+                    <h4 class="font-bold mb-4 text-stone-700 border-l-4 border-indigo-500 pl-3">📥 6 大支援格式與玩法攻略</h4>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                        <!-- 0. Research (New) -->
+                        <div
+                            class="col-span-1 md:col-span-2 lg:col-span-3 p-5 rounded-xl border-2 border-emerald-200 bg-emerald-50 shadow-md">
+                            <div class="flex items-center gap-2 mb-3 text-emerald-800">
+                                <span class="text-2xl">🔎</span>
+                                <div>
+                                    <div class="font-bold text-lg">內建搜尋 (Research)</div>
+                                    <div class="text-xs text-emerald-700 font-medium">直接在 NotebookLM 搜尋新來源</div>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="bg-white p-4 rounded-lg border border-emerald-200 shadow-sm">
+                                    <div class="font-bold text-emerald-700 mb-1 flex items-center gap-1">⚡ Fast Research
+                                    </div>
+                                    <p class="text-sm text-stone-700">
+                                        <strong>適合快速取得結果。</strong><br>當你需要搜尋特定景點的營業時間、門票價格，或是單一事實查核時使用。
+                                    </p>
+                                </div>
+                                <div class="bg-white p-4 rounded-lg border border-emerald-200 shadow-sm">
+                                    <div class="font-bold text-emerald-700 mb-1 flex items-center gap-1">🧠 Deep
+                                        Research</div>
+                                    <p class="text-sm text-stone-700">
+                                        <strong>適合深度探索與報告。</strong><br>當你需要完整的「東京五天四夜親子行程規劃」或「比較三家飯店優缺點」時，它會進行更廣泛的搜索與彙整。
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 1. Cloud Docs -->
+                        <div
+                            class="p-5 rounded-xl border-2 border-indigo-200 bg-indigo-50 shadow-md flex flex-col h-full">
+                            <div class="flex items-center gap-2 mb-3 text-indigo-800">
+                                <span class="text-2xl">☁️</span>
+                                <div>
+                                    <div class="font-bold text-lg">雲端文件與簡報</div>
+                                    <div class="text-xs text-indigo-600 font-medium">Google Docs / Slides</div>
+                                </div>
+                            </div>
+                            <div class="mb-4 flex-grow">
+                                <span class="text-xs font-bold text-indigo-500 uppercase tracking-wide">應用場景</span>
+                                <p class="text-sm text-stone-800 mt-1 font-medium">將您過去的旅遊紀錄、或是與旅伴共同編輯的行程草稿直接匯入。</p>
+                            </div>
+                            <div class="bg-white p-3 rounded-lg border border-indigo-100 text-sm mt-auto shadow-sm">
+                                <div class="text-xs text-indigo-600 font-bold mb-1 flex items-center gap-1">✨ 怎麼玩：</div>
+                                <span class="text-stone-700">對它說：「根據這份草稿，幫我檢查 6/21 到 6/27 在東京的行程會不會太趕？」</span>
+                            </div>
+                        </div>
+
+                        <!-- 2. URL -->
+                        <div class="p-5 rounded-xl border-2 border-blue-200 bg-blue-50 shadow-md flex flex-col h-full">
+                            <div class="flex items-center gap-2 mb-3 text-blue-800">
+                                <span class="text-2xl">🔗</span>
+                                <div>
+                                    <div class="font-bold text-lg">網頁連結 (URL)</div>
+                                    <div class="text-xs text-blue-600 font-medium">部落格 / 景點介紹</div>
+                                </div>
+                            </div>
+                            <div class="mb-4 flex-grow">
+                                <span class="text-xs font-bold text-blue-500 uppercase tracking-wide">應用場景</span>
+                                <p class="text-sm text-stone-800 mt-1 font-medium">匯入部落格遊記、景點介紹或美食推薦網頁。</p>
+                            </div>
+                            <div class="bg-white p-3 rounded-lg border border-blue-100 text-sm mt-auto shadow-sm">
+                                <div class="text-xs text-blue-600 font-bold mb-1 flex items-center gap-1">✨ 怎麼玩：</div>
+                                <span class="text-stone-700">貼上網址後問：「幫我從這些網頁中整理出上野車站附近必吃的 3 間拉麵店。」</span>
+                            </div>
+                        </div>
+
+                        <!-- 3. YouTube -->
+                        <div class="p-5 rounded-xl border-2 border-rose-200 bg-rose-50 shadow-md flex flex-col h-full">
+                            <div class="flex items-center gap-2 mb-3 text-rose-800">
+                                <span class="text-2xl">📺</span>
+                                <div>
+                                    <div class="font-bold text-lg">YouTube 影片</div>
+                                    <div class="text-xs text-rose-600 font-medium">VLOG / 教學影片</div>
+                                </div>
+                            </div>
+                            <div class="mb-4 flex-grow">
+                                <span class="text-xs font-bold text-rose-500 uppercase tracking-wide">應用場景</span>
+                                <p class="text-sm text-stone-800 mt-1 font-medium">匯入旅遊 YouTuber 的日本 VLOG 或交通教學影片（AI
+                                    聽得懂影片！）。</p>
+                            </div>
+                            <div class="bg-white p-3 rounded-lg border border-rose-100 text-sm mt-auto shadow-sm">
+                                <div class="text-xs text-rose-600 font-bold mb-1 flex items-center gap-1">✨ 怎麼玩：</div>
+                                <span class="text-stone-700">給影片連結問：「影片中提到的『成田機場特快』買票步驟有哪些？請條列出來。」</span>
+                            </div>
+                        </div>
+
+                        <!-- 4. Local Files -->
+                        <div
+                            class="p-5 rounded-xl border-2 border-amber-200 bg-amber-50 shadow-md flex flex-col h-full">
+                            <div class="flex items-center gap-2 mb-3 text-amber-800">
+                                <span class="text-2xl">📂</span>
+                                <div>
+                                    <div class="font-bold text-lg">本地檔案</div>
+                                    <div class="text-xs text-amber-600 font-medium">PDF / MP3 / Audio / docx / 影片 / 照片
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-4 flex-grow">
+                                <span class="text-xs font-bold text-amber-500 uppercase tracking-wide">應用場景</span>
+                                <p class="text-sm text-stone-800 mt-1 font-medium">匯入電子機票 PDF、飯店確認信，或你的語音備忘錄。</p>
+                            </div>
+                            <div class="bg-white p-3 rounded-lg border border-amber-100 text-sm mt-auto shadow-sm">
+                                <div class="text-xs text-amber-600 font-bold mb-1 flex items-center gap-1">✨ 怎麼玩：</div>
+                                <span class="text-stone-700">上傳後問：「我的機票和飯店時間有對上嗎？請幫我列出每一天的住宿地點與報到時間。」</span>
+                            </div>
+                        </div>
+
+                        <!-- 5. Copied Text -->
+                        <div
+                            class="p-5 rounded-xl border-2 border-stone-300 bg-stone-100 shadow-md flex flex-col h-full">
+                            <div class="flex items-center gap-2 mb-3 text-stone-700">
+                                <span class="text-2xl">📋</span>
+                                <div>
+                                    <div class="font-bold text-lg">複製的文字</div>
+                                    <div class="text-xs text-stone-500 font-medium">LINE 對話 / FB 貼文 / 記事本</div>
+                                </div>
+                            </div>
+
+                            <div class="flex flex-col md:flex-row gap-4 flex-grow">
+                                <div class="flex-1">
+                                    <span class="text-xs font-bold text-stone-500 uppercase tracking-wide">應用場景</span>
+                                    <p class="text-sm text-stone-800 mt-1 font-medium">將 LINE
+                                        群組裡朋友推薦的零散景點、或是社群媒體上的零星資訊，直接剪貼進來。</p>
+                                </div>
+                                <div class="flex-1">
+                                    <div
+                                        class="bg-white p-3 rounded-lg border border-stone-200 text-sm h-full flex flex-col justify-center shadow-sm">
+                                        <div class="text-xs text-stone-600 font-bold mb-1 flex items-center gap-1">✨
+                                            怎麼玩：</div>
+                                        <span class="text-stone-700">把雜亂的對話貼進去，請 AI「將這些碎片的餐廳建議整理成一份清單」。</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-8 pt-6 border-t border-stone-100">
+                        <p class="text-sm text-stone-500 mb-3 font-medium">準備好建立你的第二大腦了嗎？</p>
+                        <a href="https://notebooklm.google.com/" target="_blank"
+                            class="btn btn-primary btn-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all">
+                            🚀 前往 NotebookLM 建立筆記本
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section B: Smart Prompts for NotebookLM -->
+            <div class="card mb-6">
+                <div class="card-header card-header-blue">
+                    <h3>📓 Section B：NotebookLM 智慧導覽生成</h3>
+                    <p class="text-xs text-stone-500 mt-1">透過 NotebookLM 的「自訂指令」功能，生成專屬於你的輸出</p>
+                </div>
+                <div class="card-body">
+                    <div class="mb-6">
+                        <label class="form-label">Step 1：選擇對象與情境</label>
+                        <div class="scenario-grid">
+                            <div class="scenario-btn active" onclick="setScenario('family')" id="btn-family">
+                                <span class="icon">🏠</span>
+                                <span class="title">家族親情版</span>
+                            </div>
+                            <div class="scenario-btn" onclick="setScenario('business')" id="btn-business">
+                                <span class="icon">💼</span>
+                                <span class="title">商務考察版</span>
+                            </div>
+                            <div class="scenario-btn" onclick="setScenario('friends')" id="btn-friends">
+                                <span class="icon">🥂</span>
+                                <span class="title">熱血好友版</span>
+                            </div>
+                            <div class="scenario-btn" onclick="setScenario('kids')" id="btn-kids">
+                                <span class="icon">🎈</span>
+                                <span class="title">親子探險版</span>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Presentation Prompt -->
+                            <div>
+                                <div class="flex items-center gap-2 mb-3">
+                                    <span style="font-size: 1.25rem;">📊</span>
+                                    <h4 class="font-bold">16 頁 YAML 簡報指令</h4>
+                                </div>
+                                <div class="prompt-box">
+                                    <textarea id="ppt-prompt" class="form-textarea"
+                                        style="min-height: 250px; font-size: 0.8rem; font-family: monospace;"
+                                        readonly></textarea>
+                                </div>
+                                <button onclick="copyToClipboard('ppt-prompt')" class="btn btn-primary btn-full mt-3">📋
+                                    複製簡報指令</button>
+                                <p class="text-xs text-stone-500 mt-2">貼到 NotebookLM 的對話區，再將生成的 YAML程式碼貼到「簡報」旁的筆
+                                    【說明要建立的簡報】指令框中</p>
+                            </div>
+
+                            <!-- Podcast Prompt -->
+                            <div>
+                                <div class="flex items-center gap-2 mb-3">
+                                    <span style="font-size: 1.25rem;">🎧</span>
+                                    <h4 class="font-bold">Podcast 專屬地陪指令</h4>
+                                </div>
+                                <div class="prompt-box">
+                                    <textarea id="podcast-prompt" class="form-textarea"
+                                        style="min-height: 250px; font-size: 0.8rem; font-family: monospace;"
+                                        readonly></textarea>
+                                </div>
+                                <button onclick="copyToClipboard('podcast-prompt')"
+                                    class="btn btn-outline btn-full mt-3">📋 複製 Podcast 指令</button>
+                                <p class="text-xs text-stone-500 mt-2">貼到 NotebookLM 「語音摘要」旁的筆 【在本集中，AI 主持人應著重哪些部分？】
+                                    指令框中
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section C: Map Style Selection -->
+            <div class="card mb-6">
+                <div class="card-header card-header-rose">
+                    <h3>🎨 Section C：風格化地圖生成</h3>
+                    <p class="text-xs mt-1">根據你的目標受眾選擇最適合的風格</p>
                 </div>
                 <div class="card-body">
                     <!-- Style Grid -->
@@ -232,10 +463,10 @@
                 </div>
             </div>
 
-            <!-- Section B: Grok Animation -->
+            <!-- Section D: Grok Animation -->
             <div class="card mb-6">
-                <div class="card-header">
-                    <h3>🎬 Section B：靜態圖轉動畫 (Grok)</h3>
+                <div class="card-header card-header-emerald">
+                    <h3>🎬 Section D：靜態圖轉動畫 (Grok)</h3>
                 </div>
                 <div class="card-body">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -272,7 +503,7 @@
                                         style="background: var(--color-success); color: white; width: 2rem; height: 2rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">4</span>
                                     <div>
                                         <div class="font-bold">下載並分享</div>
-                                        <p class="text-sm text-stone-500">下載 MP4/GIF 發到社群</p>
+                                        <p class="text-sm text-stone-500">下載影片發到社群</p>
                                     </div>
                                 </div>
                             </div>
@@ -310,10 +541,10 @@
                 </div>
             </div>
 
-            <!-- Section C: Social Post Generator -->
+            <!-- Section E: Social Post Generator -->
             <div class="card mb-6">
                 <div class="card-header card-header-amber">
-                    <h3>🏆 Section C：社群人氣王挑戰</h3>
+                    <h3>🏆 Section E：社群人氣王挑戰</h3>
                     <p class="text-xs mt-1">用 AI 生成 FB 貼文，讓你輕鬆拉票！</p>
                 </div>
                 <div class="card-body">
@@ -371,75 +602,6 @@
                         <div id="hashtags" class="text-sm text-primary" style="cursor: pointer;"
                             onclick="copyText(this.innerText)">
                             #AI旅遊規劃 #Gemini #日本自由行 #我的AI地圖 #工作坊 #旅遊規劃師
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-
-            <!-- Section D: Smart Prompts for NotebookLM -->
-            <div class="card mb-6">
-                <div class="card-header card-header-blue">
-                    <h3>📓 Section D：NotebookLM 智慧導覽生成</h3>
-                    <p class="text-xs text-stone-500 mt-1">透過 NotebookLM 的「自訂指令」功能，生成專屬於你的輸出</p>
-                </div>
-                <div class="card-body">
-                    <div class="mb-6">
-                        <label class="form-label">Step 1：選擇對象與情境</label>
-                        <div class="scenario-grid">
-                            <div class="scenario-btn active" onclick="setScenario('family')" id="btn-family">
-                                <span class="icon">🏠</span>
-                                <span class="title">家族親情版</span>
-                            </div>
-                            <div class="scenario-btn" onclick="setScenario('business')" id="btn-business">
-                                <span class="icon">💼</span>
-                                <span class="title">商務考察版</span>
-                            </div>
-                            <div class="scenario-btn" onclick="setScenario('friends')" id="btn-friends">
-                                <span class="icon">🥂</span>
-                                <span class="title">熱血好友版</span>
-                            </div>
-                            <div class="scenario-btn" onclick="setScenario('kids')" id="btn-kids">
-                                <span class="icon">🎈</span>
-                                <span class="title">親子探險版</span>
-                            </div>
-                        </div>
-
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <!-- Presentation Prompt -->
-                            <div>
-                                <div class="flex items-center gap-2 mb-3">
-                                    <span style="font-size: 1.25rem;">📊</span>
-                                    <h4 class="font-bold">16 頁 YAML 簡報指令</h4>
-                                </div>
-                                <div class="prompt-box">
-                                    <textarea id="ppt-prompt" class="form-textarea"
-                                        style="min-height: 250px; font-size: 0.8rem; font-family: monospace;"
-                                        readonly></textarea>
-                                </div>
-                                <button onclick="copyToClipboard('ppt-prompt')" class="btn btn-primary btn-full mt-3">📋
-                                    複製簡報指令</button>
-                                <p class="text-xs text-stone-500 mt-2">貼到 NotebookLM 「簡報」旁的筆 "說明要建立的簡報" 指令框中</p>
-                            </div>
-
-                            <!-- Podcast Prompt -->
-                            <div>
-                                <div class="flex items-center gap-2 mb-3">
-                                    <span style="font-size: 1.25rem;">🎧</span>
-                                    <h4 class="font-bold">Podcast 專屬地陪指令</h4>
-                                </div>
-                                <div class="prompt-box">
-                                    <textarea id="podcast-prompt" class="form-textarea"
-                                        style="min-height: 250px; font-size: 0.8rem; font-family: monospace;"
-                                        readonly></textarea>
-                                </div>
-                                <button onclick="copyToClipboard('podcast-prompt')"
-                                    class="btn btn-outline btn-full mt-3">📋 複製 Podcast 指令</button>
-                                <p class="text-xs text-stone-500 mt-2">貼到 NotebookLM 「語音摘要」旁的筆 "在本集中，AI 主持人應著重哪些部分？"
-                                    指令框中
-                                </p>
-                            </div>
                         </div>
                     </div>
                 </div>
