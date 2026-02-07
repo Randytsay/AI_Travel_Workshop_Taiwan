@@ -96,6 +96,7 @@
             background: linear-gradient(90deg, #ffd700, #ff6b6b, #ffd700);
             background-size: 200% auto;
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
             animation: shimmer 3s linear infinite;
             margin-bottom: 0.5rem;
@@ -156,6 +157,29 @@
             background: rgba(255, 255, 255, 0.1);
         }
 
+        /* 懸浮更新按鈕 */
+        .refresh-btn {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 100;
+            padding: 0.5rem 1rem !important;
+            font-size: 0.85rem !important;
+            opacity: 0.8;
+        }
+
+        .refresh-btn:hover {
+            opacity: 1;
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 480px) {
+            .refresh-btn {
+                padding: 0.4rem 0.8rem !important;
+                font-size: 0.75rem !important;
+            }
+        }
+
         /* ===== 頒獎台區域 (前5名) ===== */
         .podium-section {
             margin-bottom: 3rem;
@@ -174,11 +198,12 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 1rem 0.75rem;
+            padding: 1.25rem 0.75rem 2.5rem 0.75rem;
             border-radius: 1rem 1rem 0 0;
             position: relative;
             transition: all 0.3s ease;
             animation: podiumRise 0.8s ease-out backwards;
+            z-index: 1;
         }
 
         .podium-item:hover {
@@ -273,8 +298,8 @@
         .podium-1 .podium-avatar::before {
             content: '👑';
             position: absolute;
-            top: -30px;
-            font-size: 2rem;
+            top: -60px;
+            font-size: 3.5rem;
             animation: crownBounce 1s ease-in-out infinite;
         }
 
@@ -330,14 +355,20 @@
             color: #be123c;
             font-size: 0.9rem;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 2;
         }
 
         .podium-rank {
             position: absolute;
-            bottom: 10px;
-            font-size: 3rem;
+            bottom: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 3.5rem;
             font-weight: 900;
-            color: rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.25);
+            z-index: 0;
+            pointer-events: none;
         }
 
         .podium-1 .podium-rank {
@@ -485,6 +516,9 @@
     <!-- 返回連結 -->
     <a href="index.html" class="back-link">← 返回首頁</a>
 
+    <!-- 更新按鈕 (右上角) -->
+    <button class="btn btn-primary refresh-btn" onclick="refreshData()">🔄 更新排行榜</button>
+
     <div class="container">
         <!-- 標題 -->
         <header class="header">
@@ -492,12 +526,6 @@
             <p class="subtitle">AI 旅遊規劃工作坊</p>
             <p class="update-time" id="update-time">載入中...</p>
         </header>
-
-        <!-- 控制按鈕 -->
-        <div class="controls">
-            <button class="btn btn-primary" onclick="refreshData()">🔄 更新排行榜</button>
-            <button class="btn btn-outline" onclick="window.location.href='admin/dashboard.html'">⚙️ 後台管理</button>
-        </div>
 
         <!-- 主內容區 -->
         <div id="content">
@@ -583,8 +611,12 @@
                 return;
             }
 
-            // 排序
-            const sorted = [...leaderboard].sort((a, b) => b.likes - a.likes);
+            // 排序 (確保數值處理正確，處理可能的字串或未填寫情況)
+            const sorted = [...leaderboard].sort((a, b) => {
+                const likesA = parseInt(a.likes) || 0;
+                const likesB = parseInt(b.likes) || 0;
+                return likesB - likesA;
+            });
             const top5 = sorted.slice(0, 5);
             const rest = sorted.slice(5);
 

@@ -203,6 +203,7 @@
             <a href="pages/phase5.html" class="quick-nav-link">5️⃣ 生存</a>
             <a href="pages/phase6.html" class="quick-nav-link">6️⃣ 變現</a>
             <a href="survey.html" class="quick-nav-link active">📝 問卷</a>
+            <a href="leaderboard.html" class="quick-nav-link">🏆 成績榜</a>
         </div>
     </div>
 
@@ -424,10 +425,12 @@
                         </div>
 
                         <div
-                            style="background: var(--color-accent-light); padding: 1.5rem; border-radius: var(--radius-lg);">
+                            style="background: var(--color-accent-light); padding: 1.5rem; border-radius: var(--radius-lg); margin-bottom: 1.5rem;">
                             <div class="font-bold mb-2">🎰 抽獎資格</div>
-                            <p class="text-sm text-stone-600">您已獲得終極大抽獎的參加資格！</p>
-                            <p class="text-sm text-stone-600">請留在現場，等待講師公布結果。</p>
+                            <p class="text-sm text-stone-600 mb-4">您已獲得終極大抽獎的參加資格！</p>
+                            <a href="leaderboard.html" class="btn btn-accent btn-lg btn-full">
+                                🏆 查看排名與成績 (手動更新)
+                            </a>
                         </div>
 
                         <a href="index.html" class="btn btn-outline btn-full mt-6">
@@ -547,7 +550,7 @@
                 nextSuggestion: currentRole === 'member' ? document.getElementById('next-suggestion').value : '',
 
                 // 4. 最後共用欄位
-                likes: document.getElementById('likes').value || 0
+                likes: Number(document.getElementById('likes').value) || 0
             };
 
             // Submit to Google Sheets
