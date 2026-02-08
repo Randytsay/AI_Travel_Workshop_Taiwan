@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
+    <title>工作坊分析報告 | AI 旅遊規劃工作坊</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+JP:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <!-- html2pdf.js for PDF export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        /* Tab Navigation */
+        .tab-nav {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--color-stone-200);
+            flex-wrap: wrap;
+        }
+
+        .tab-button {
+            padding: 0.75rem 1.5rem;
+            background: transparent;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--color-stone-600);
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .tab-button:hover {
+            color: var(--color-primary);
+            background: rgba(196, 30, 58, 0.05);
+        }
+
+        .tab-button.active {
+            color: var(--color-primary);
+            border-bottom-color: var(--color-primary);
+            font-weight: 700;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Stat Cards */
+        .stat-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--color-primary) 0%, #d93954 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .stat-card.blue {
+            background: linear-gradient(135deg, #4D96FF 0%, #6BBBFF 100%);
+        }
+
+        .stat-card.green {
+            background: linear-gradient(135deg, #10B981 0%, #34D399 100%);
+        }
+
+        .stat-card.amber {
+            background: linear-gradient(135deg, #F59E0B 0%, #FBBF24 100%);
+        }
+
+        .stat-card.purple {
+            background: linear-gradient(135deg, #8B5CF6 0%, #A78BFA 100%);
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .stat-subtitle {
+            font-size: 0.75rem;
+            opacity: 0.8;
+            margin-top: 0.5rem;
+        }
+
+        /* Chart Container */
+        .chart-container {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-md);
+            margin-bottom: 2rem;
+        }
+
+        .chart-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--color-stone-900);
+        }
+
+        .chart-wrapper {
+            position: relative;
+            height: 350px;
+        }
+
+        .chart-wrapper.short {
+            height: 250px;
+        }
+
+        .chart-wrapper.tall {
+            height: 450px;
+        }
+
+        /* Grid Layout */
+        .chart-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* Insight Box */
+        .insight-box {
+            background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
+            border-left: 4px solid var(--color-amber-500);
+            padding: 1.5rem;
+            border-radius: var(--radius-lg);
+            margin-bottom: 2rem;
+        }
+
+        .insight-box.success {
+            background: linear-gradient(135deg, #D1FAE5 0%, #A7F3D0 100%);
+            border-left-color: var(--color-green-500);
+        }
+
+        .insight-box.warning {
+            background: linear-gradient(135deg, #FEE2E2 0%, #FECACA 100%);
+            border-left-color: var(--color-red-500);
+        }
+
+        .insight-title {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Action List */
+        .action-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .action-item {
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            border-radius: var(--radius-lg);
+            background: white;
+            border-left: 4px solid var(--color-stone-300);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .action-item.urgent {
+            border-left-color: var(--color-red-500);
+            background: #FEF2F2;
+        }
+
+        .action-item.important {
+            border-left-color: var(--color-amber-500);
+            background: #FFFBEB;
+        }
+
+        .action-item.future {
+            border-left-color: var(--color-green-500);
+            background: #F0FDF4;
+        }
+
+        .priority-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-right: 0.5rem;
+        }
+
+        .priority-badge.urgent {
+            background: var(--color-red-500);
+            color: #FEF2F2;
+        }
+
+        .priority-badge.important {
+            background: var(--color-amber-500);
+            color: #78350F;
+        }
+
+        .priority-badge.future {
+            background: var(--color-green-500);
+            color: #14532D;
+        }
+
+        /* Table */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--color-stone-200);
+        }
+
+        .data-table th {
+            background: var(--color-stone-100);
+            font-weight: 700;
+        }
+
+        .data-table tr:hover {
+            background: var(--color-stone-50);
+        }
+
+        /* Meeting Content */
+        .meeting-section {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-md);
+            margin-bottom: 1.5rem;
+        }
+
+        .meeting-header {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--color-primary);
+            margin-bottom: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .meeting-header:hover {
+            color: #d93954;
+        }
+
+        .meeting-content {
+            color: var(--color-stone-700);
+            line-height: 1.8;
+        }
+
+        .meeting-content.collapsed {
+            display: none;
+        }
+
+        .toggle-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .toggle-icon.rotated {
+            transform: rotate(180deg);
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: var(--color-stone-500);
+        }
+
+        /* No Print */
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+
+            .tab-nav {
+                display: none !important;
+            }
+
+            .tab-content {
+                display: block !important;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .chart-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stat-value {
+                font-size: 2rem;
+            }
+
+            .tab-button {
+                font-size: 0.85rem;
+                padding: 0.5rem 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container navbar-content">
+            <div class="navbar-brand">
+                <span style="font-size: 1.5rem;">📊</span>
+                <h1>分析報告</h1>
+            </div>
+            <div class="navbar-links">
+                <button onclick="updateData()" class="btn btn-primary btn-sm no-print">🔄 更新數據</button>
+                <button onclick="exportPDF()" class="btn btn-outline btn-sm no-print">📄 匯出 PDF</button>
+                <a href="index.html" class="btn btn-outline btn-sm">回首頁</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container" style="padding-top: 2rem; padding-bottom: 4rem;">
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <h2 class="text-3xl font-bold mb-2">AI 旅遊工作坊 - 測試場完整分析報告</h2>
+            <p class="text-stone-600">日期：2026/02/08 | 數據更新時間：<span id="update-time">--</span></p>
+        </div>
+
+        <!-- Tab Navigation -->
+        <div class="tab-nav no-print">
+            <button class="tab-button active" onclick="switchTab('overview')">📊 數據總覽</button>
+            <button class="tab-button" onclick="switchTab('learning')">🎓 學習成效</button>
+            <button class="tab-button" onclick="switchTab('highlights')">💡 課程亮點</button>
+            <button class="tab-button" onclick="switchTab('future')">🚀 未來開課</button>
+            <button class="tab-button" onclick="switchTab('issues')">🔧 問題建議</button>
+            <button class="tab-button" onclick="switchTab('meeting')">💬 會後檢討</button>
+        </div>
+
+        <!-- Tab 1: 數據總覽 -->
+        <div id="tab-overview" class="tab-content active">
+            <div class="stat-cards">
+                <div class="stat-card">
+                    <div class="stat-label">總回覆數</div>
+                    <div class="stat-value" id="stat-total">--</div>
+                    <div class="stat-subtitle">份問卷</div>
+                </div>
+                <div class="stat-card blue">
+                    <div class="stat-label">平均滿意度</div>
+                    <div class="stat-value" id="stat-satisfaction">--</div>
+                    <div class="stat-subtitle">/ 5.0 分</div>
+                </div>
+                <div class="stat-card green">
+                    <div class="stat-label">平均吸收度</div>
+                    <div class="stat-value" id="stat-absorption">--</div>
+                    <div class="stat-subtitle">/ 5.0 分</div>
+                </div>
+                <div class="stat-card amber">
+                    <div class="stat-label">NPS 分數 (淨推薦值)</div>
+                    <div class="stat-value" id="stat-nps">--</div>
+                    <div class="stat-subtitle">Net Promoter Score</div>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-title">AI 程度分布</div>
+                <div class="chart-wrapper short">
+                    <canvas id="chart-ai-level"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-grid">
+                <div class="chart-container">
+                    <div class="chart-title">吸收程度分布</div>
+                    <div class="chart-wrapper">
+                        <canvas id="chart-absorption"></canvas>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-title">推薦意願分布</div>
+                    <div class="chart-wrapper">
+                        <canvas id="chart-recommendation"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 2: 學習成效 -->
+        <div id="tab-learning" class="tab-content">
+            <div class="insight-box">
+                <div class="insight-title">🎯 學習成效核心分析</div>
+                <p>透過交叉分析不同 AI 程度學員的吸收度與滿意度，評估課程適配性與分班必要性。</p>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-title">程度 vs 吸收度交叉分析</div>
+                <div class="chart-wrapper">
+                    <canvas id="chart-level-absorption"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-title">程度 vs 滿意度交叉分析</div>
+                <div class="chart-wrapper">
+                    <canvas id="chart-level-satisfaction"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-title">詳細數據表格</div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>AI 程度</th>
+                            <th>人數</th>
+                            <th>平均吸收度</th>
+                            <th>平均滿意度</th>
+                            <th>推薦意願</th>
+                        </tr>
+                    </thead>
+                    <tbody id="level-analysis-table">
+                        <tr>
+                            <td colspan="5" class="text-center text-stone-500">載入中...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="stat-cards">
+                <div class="stat-card purple">
+                    <div class="stat-label">Lv 1 小白達標率</div>
+                    <div class="stat-value" id="stat-lv1-success">--</div>
+                    <div class="stat-subtitle">吸收度 ≥ 4 分</div>
+                </div>
+                <div class="stat-card blue">
+                    <div class="stat-label">課程難度適配性</div>
+                    <div class="stat-value" id="stat-difficulty-rating">--</div>
+                    <div class="stat-subtitle" id="stat-difficulty-text">評估中...</div>
+                </div>
+                <div class="stat-card green">
+                    <div class="stat-label">分班必要性</div>
+                    <div class="stat-value" id="stat-class-division">--</div>
+                    <div class="stat-subtitle" id="stat-class-division-text">分析中...</div>
+                </div>
+            </div>
+
+            <div id="insights-container"></div>
+        </div>
+
+        <!-- Tab 3: 課程亮點 -->
+        <div id="tab-highlights" class="tab-content">
+            <div class="chart-container">
+                <div class="chart-title">Wow Moment 排行榜</div>
+                <div class="chart-wrapper">
+                    <canvas id="chart-wow-moment"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-grid">
+                <div class="chart-container">
+                    <div class="chart-title">AI 主題興趣排名</div>
+                    <div class="chart-wrapper">
+                        <canvas id="chart-ai-interests"></canvas>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-title">Shop.com 興趣分布</div>
+                    <div class="chart-wrapper short">
+                        <canvas id="chart-shop-interest"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-title">新朋友反應熱點</div>
+                <div id="reaction-keywords" style="padding: 1rem;">
+                    <div class="loading">分析中...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 4: 未來開課需求 -->
+        <div id="tab-future" class="tab-content">
+            <div class="insight-box success">
+                <div class="insight-title">🚀 未來開課需求分析</div>
+                <p>分析學員對不同 AI 主題的興趣程度,找出最受歡迎的課程方向，作為未來開課規劃的參考依據。</p>
+            </div>
+
+            <div class="stat-cards">
+                <div class="stat-card">
+                    <div class="stat-label">最受歡迎主題</div>
+                    <div class="stat-value" id="stat-top-interest" style="font-size: 1.5rem;">--</div>
+                    <div class="stat-subtitle" id="stat-top-interest-count">-- 人感興趣</div>
+                </div>
+                <div class="stat-card blue">
+                    <div class="stat-label">總有效回覆</div>
+                    <div class="stat-value" id="stat-interest-total">--</div>
+                    <div class="stat-subtitle">份問卷</div>
+                </div>
+                <div class="stat-card green">
+                    <div class="stat-label">平均選擇數</div>
+                    <div class="stat-value" id="stat-interest-avg">--</div>
+                    <div class="stat-subtitle">個主題 / 人</div>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-title">🎯 AI 主題興趣排名</div>
+                <div class="chart-wrapper">
+                    <canvas id="chart-future-interests"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-title">📊 程度 vs 主題興趣交叉分析</div>
+                <p style="color: var(--color-stone-600); margin-bottom: 1rem;">不同 AI 程度的學員對各主題的興趣分布</p>
+                <div class="chart-wrapper tall">
+                    <canvas id="chart-level-interests"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-title">💡 開課建議</div>
+                <div id="course-recommendations" style="padding: 1rem;">
+                    <div class="loading">分析中...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 5: 問題建議 -->
+        <div id="tab-issues" class="tab-content">
+            <div class="insight-box warning">
+                <div class="insight-title">🔧 問題與建議整合</div>
+                <p>從學員回饋中提取關鍵問題，分類並提供改進行動清單。</p>
+            </div>
+
+            <div class="chart-grid">
+                <div class="chart-container">
+                    <div class="chart-title">流程順暢度</div>
+                    <div class="chart-wrapper short">
+                        <canvas id="chart-flow-smoothness"></canvas>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-title">轉場自然度</div>
+                    <div class="chart-wrapper short">
+                        <canvas id="chart-transition"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-title">🔴 改進行動清單</div>
+                <ul class="action-list" id="action-list">
+                    <li class="loading">分析中...</li>
+                </ul>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-title">📝 學員建議原文</div>
+                <div id="suggestions-raw" style="max-height: 400px; overflow-y: auto;">
+                    <div class="loading">載入中...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab 5: 會後檢討 -->
+        <div id="tab-meeting" class="tab-content">
+            <div class="meeting-section">
+                <div
+                    style="background: var(--color-primary); color: white; padding: 1rem; border-radius: var(--radius-lg); margin-bottom: 1rem;">
+                    <div style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem;">AI工作坊會後檢討會議</div>
+                    <div><strong>日期：</strong>2024/02/8</div>
+                    <div><strong>地點：</strong>AI工作坊現場</div>
+                    <div><strong>與會人員：</strong>耀文（講師）、杜媽、姍靈、鴻林哥及其他工作人員</div>
+                </div>
+
+                <div class="insight-box">
+                    <div class="insight-title">💡 會議重點摘要</div>
+                    <p>以下為會後檢討會議的關鍵決議與改進建議。點擊各主題可展開詳細內容。</p>
+                </div>
+
+                <div class="meeting-section">
+                    <div class="meeting-header" onclick="toggleMeeting('meeting-1')">
+                        <span class="toggle-icon" id="icon-meeting-1">▼</span>
+                        1. 場地與流程
+                    </div>
+                    <div class="meeting-content" id="content-meeting-1">
+                        <ul style="list-style: disc; padding-left: 1.5rem; line-height: 2;">
+                            <li><strong>前置作業時間需延長</strong>：至少提前半小時（建議 11:30 開始）</li>
+                            <li><strong>場地租借時間</strong>：需要更長的租借時間配合前置作業</li>
+                            <li><strong>工作人員協調</strong>：大部分工作人員 12 點前到達，協助排椅子等工作順利</li>
+                            <li><strong>經驗累積</strong>：第一次舉辦，有些環節較緊張，屬正常現象</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="meeting-section">
+                    <div class="meeting-header" onclick="toggleMeeting('meeting-2')">
+                        <span class="toggle-icon" id="icon-meeting-2">▼</span>
+                        2. 課程節奏與設備問題 ⭐
+                    </div>
+                    <div class="meeting-content" id="content-meeting-2">
+                        <p><strong>杜媽核心反饋（小白視角）：</strong></p>
+                        <ul style="list-style: disc; padding-left: 1.5rem; line-height: 2; margin-bottom: 1rem;">
+                            <li><strong>⚠️ 步驟二就「登出」了</strong>：內容太豐富，小白跟不上</li>
+                            <li><strong>建議分成三堂課</strong>：每堂課給學員一個成品帶走（990 元單場需有收穫感）</li>
+                            <li><strong>助教機制必要</strong>：每桌需配一位助教（一桌 5-6 人）</li>
+                            <li><strong>後排視線問題</strong>：看不清游標，教學同步困難</li>
+                            <li><strong>雜音干擾</strong>：學員隨時發問造成鬧哄哄，影響上課</li>
+                        </ul>
+                        <p><strong>設備決議：</strong></p>
+                        <ul style="list-style: disc; padding-left: 1.5rem; line-height: 2;">
+                            <li><strong>網路問題</strong>：不處理公用網路，學員自行用手機熱點</li>
+                            <li><strong>延長線</strong>：需要準備，四小時課程筆電會耗電</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="meeting-section">
+                    <div class="meeting-header" onclick="toggleMeeting('meeting-3')">
+                        <span class="toggle-icon" id="icon-meeting-3">▼</span>
+                        3. 助教（桌長）機制 ⭐
+                    </div>
+                    <div class="meeting-content" id="content-meeting-3">
+                        <p><strong>耀文回應：</strong></p>
+                        <ul style="list-style: disc; padding-left: 1.5rem; line-height: 2; margin-bottom: 1rem;">
+                            <li>只要助教團隊建立起來，<strong>一人管五人很充足</strong></li>
+                            <li>很多學員只是「按鈕沒按到」，助教一秒就能解決</li>
+                            <li>內容不用分三次，但<strong>助教需事前訓練</strong></li>
+                        </ul>
+                        <p><strong>決議：</strong></p>
+                        <ul style="list-style: disc; padding-left: 1.5rem; line-height: 2;">
+                            <li><strong>助教 = APS Team</strong></li>
+                            <li><strong>津貼</strong>：1000 元 + 交通費（含高雄場）</li>
+                            <li><strong>培訓</strong>：下一場（2/21）專門訓練助教，讓他們 Run 過一次</li>
+                            <li><strong>人選要求</strong>：需懂電腦操作，能快速排除問題</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="meeting-section">
+                    <div class="meeting-header" onclick="toggleMeeting('meeting-4')">
+                        <span class="toggle-icon" id="icon-meeting-4">▼</span>
+                        4. 招募導向問題 ⚠️
+                    </div>
+                    <div class="meeting-content" id="content-meeting-4">
+                        <p><strong>姍靈反饋：</strong></p>
+                        <ul style="list-style: disc; padding-left: 1.5rem; line-height: 2; margin-bottom: 1rem;">
+                            <li>四小時全部 Focus 在技術步驟，<strong>腦容量已滿</strong></li>
+                            <li>到後面<strong>無法專注在商機部分</strong></li>
+                            <li>偏離「招募導向」的初衷</li>
+                        </ul>
+                        <p><strong>建議：</strong></p>
+                        <ul style="list-style: disc; padding-left: 1.5rem; line-height: 2;">
+                            <li><strong>縮短課程時間</strong>：三小時即可，保持專注力</li>
+                            <li><strong>調整內容深度</strong>：減少技術細節，增加商機討論時間</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="meeting-section">
+                    <div class="meeting-header" onclick="toggleMeeting('meeting-5')">
+                        <span class="toggle-icon" id="icon-meeting-5">▼</span>
+                        5. 學員篩選與前置作業
+                    </div>
+                    <div class="meeting-content" id="content-meeting-5">
+                        <p><strong>決議：</strong></p>
+                        <ul style="list-style: disc; padding-left: 1.5rem; line-height: 2;">
+                            <li><strong>報名時完成前置設定</strong>：Google 帳號、登入 Gemini</li>
+                            <li><strong>報到時確認</strong>：未完成前置作業不讓入場</li>
+                            <li><strong>參考自媒體做法</strong>：報名須先下載 APP，報到才放行</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="meeting-section">
+                    <div class="meeting-header" onclick="toggleMeeting('meeting-6')">
+                        <span class="toggle-icon" id="icon-meeting-6">▼</span>
+                        6. 後續規劃
+                    </div>
+                    <div class="meeting-content" id="content-meeting-6">
+                        <p><strong>2/21 場次規劃：</strong></p>
+                        <ul style="list-style: disc; padding-left: 1.5rem; line-height: 2; margin-bottom: 1rem;">
+                            <li><strong>對象</strong>：助教培訓場（約 10-15 人）</li>
+                            <li><strong>目的</strong>：讓桌長們實際 Run 過一次流程</li>
+                            <li><strong>場地</strong>：不需租太大，線上訓練也可考慮</li>
+                        </ul>
+                        <p><strong>3 月高雄場：</strong></p>
+                        <ul style="list-style: disc; padding-left: 1.5rem; line-height: 2;">
+                            <li>助教需跟著去（含交通津貼）</li>
+                            <li>行程提前確定，方便助教排進行事曆</li>
+                        </ul>
+                        <p><strong>角色分工：</strong></p>
+                        <ul style="list-style: disc; padding-left: 1.5rem; line-height: 2;">
+                            <li><strong>總招</strong>：Handle APS Team 與場地事宜</li>
+                            <li><strong>講師</strong>：專注課程內容，其他不用負責</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="js/common.js"></script>
+    <script src="js/pre_survey_data.js"></script>
+    <script src="js/analysis.js"></script>
+</body>
+
+</html>
