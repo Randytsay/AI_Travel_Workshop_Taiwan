@@ -19,7 +19,7 @@
             <div class="navbar-brand">
                 <span style="font-size: 1.5rem;">📊</span>
                 <h1>階段二：深度規劃</h1>
-                <span class="badge">40分鐘</span>
+                <span class="badge">35分鐘</span>
             </div>
             <div class="navbar-links">
                 <span class="text-sm text-stone-500">2/6 階段</span>
@@ -47,276 +47,222 @@
         <div class="fade-in">
             <!-- Introduction -->
             <div class="alert alert-info mb-6">
-                <strong>🎯 本階段目標：</strong>產出精準、可行且符合預算的詳細行程表。處理複雜的交通邏輯、預算控制與路線順暢度。
+                <strong>🎯 本階段目標：</strong>利用 Gemini Deep Research
+                的強大聯網搜尋與推理能力，產出包含細節（景點開放時間、真實交通班次、餐廳評價）的完整研究報告，並將其匯出為可編輯的 Google 文件。
             </div>
 
-            <!-- Quick Links -->
-            <div class="quick-links mb-6">
-                <a href="https://gemini.google.com/" target="_blank" class="quick-link">
-                    <img src="https://www.gstatic.com/lamda/images/gemini_sparkle_v002_d4735304ff6292a690345.svg"
-                        alt="Gemini">
-                    Gemini Deep Research
-                </a>
-            </div>
+            <!-- Workflow Container -->
+            <div class="workflow-container">
 
-            <!-- Deep Research Section -->
-            <div class="card mb-6">
-                <div class="card-header">
-                    <h3>🔬 Deep Research 指令生成器</h3>
-                    <p class="text-xs text-stone-500 mt-1">七步結構化框架：主題、時間、人數、住宿、交通、預算、格式</p>
-                </div>
-                <div class="card-body">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <!-- Left Column: Inputs -->
-                        <div>
-                            <div class="form-group">
-                                <label class="form-label">1. 主題/目的地</label>
-                                <input type="text" id="dr-theme" class="form-input" placeholder="例如：大阪美食深度遊"
-                                    value="大阪美食深度遊" oninput="generateDeepResearch()">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">2. 精確時間</label>
-                                <input type="text" id="dr-time" class="form-input" placeholder="例如：5天4夜" value="5天4夜"
-                                    oninput="generateDeepResearch()">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">3. 人數與成員</label>
-                                <input type="text" id="dr-people" class="form-input" placeholder="例如：2大1小(5歲)，帶70歲長輩"
-                                    value="2大人，2小孩" oninput="generateDeepResearch()">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">4. 住宿偏好</label>
-                                <select id="dr-hotel" class="form-select" onchange="generateDeepResearch()">
-                                    <option value="交通方便的連鎖商務旅館">交通方便的連鎖商務旅館</option>
-                                    <option value="有溫泉的日式旅館">有溫泉的日式旅館</option>
-                                    <option value="高級五星飯店">高級五星飯店</option>
-                                    <option value="便宜的青年旅館">便宜的青年旅館</option>
-                                    <option value="Airbnb 民宿">Airbnb 民宿</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">5. 交通需求</label>
-                                <input type="text" id="dr-transport" class="form-input" placeholder="例如：避開爬坡，優先電梯"
-                                    value="大眾運輸為主" oninput="generateDeepResearch()">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">6. 預算上限 (每人)</label>
-                                <input type="text" id="dr-budget" class="form-input" placeholder="例如：5萬台幣" value="5萬台幣"
-                                    oninput="generateDeepResearch()">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">7. 輸出格式要求</label>
-                                <select id="dr-format" class="form-select" onchange="generateDeepResearch()">
-                                    <option value="表格 + 地圖標記建議">表格 + 地圖標記建議</option>
-                                    <option value="純文字條列">純文字條列</option>
-                                    <option value="每日分開說明">每日分開說明</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">其他注意事項</label>
-                                <textarea id="dr-notes" class="form-textarea" rows="2"
-                                    placeholder="例如：必去景點、不吃生食、需要無障礙設施、避開人潮、喜歡歷史文化等"
-                                    oninput="generateDeepResearch()"></textarea>
-                            </div>
-                        </div>
-
-                        <!-- Right Column: Output -->
-                        <div>
-                            <div class="prompt-box">
-                                <span class="prompt-label">即時預覽</span>
-                                <textarea id="dr-output" class="form-textarea"
-                                    style="min-height: 480px; font-family: monospace;" readonly></textarea>
-                            </div>
-                            <button onclick="copyToClipboard('dr-output')" class="btn btn-blue btn-full mt-4">
-                                📋 複製 Deep Research 提示詞
-                            </button>
-                            <a href="https://gemini.google.com/" target="_blank" class="btn btn-outline btn-full mt-2">
-                                🚀 開啟 Gemini
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- JR Pass Calculator -->
-                <div class="card">
-                    <div class="card-header card-header-amber">
-                        <h3>🚃 交通費用精打細算</h3>
+                <!-- Step 1: Deep Research -->
+                <div class="card mb-8">
+                    <div class="card-header flex items-center gap-3">
+                        <div class="step-num">1</div>
+                        <h3>啟動 Gemini Deep Research</h3>
                     </div>
                     <div class="card-body">
-                        <div class="form-group">
-                            <label class="form-label">起點城市</label>
-                            <select id="jr-from" class="form-select" onchange="generateJRPrompt()">
-                                <option value="東京">東京</option>
-                                <option value="大阪">大阪</option>
-                                <option value="京都">京都</option>
-                                <option value="名古屋">名古屋</option>
-                                <option value="福岡">福岡</option>
-                            </select>
+                        <div class="step-grid">
+                            <div class="step-text">
+                                <p class="mb-4 text-stone-700">準備好你在第一階段產出的「七步框架指令」了嗎？現在我們要讓 Gemini
+                                    進入最強的思考模式。</p>
+                                <ul class="step-list">
+                                    <li>前往 <a href="https://gemini.google.com/" target="_blank"
+                                            class="text-blue-600 hover:underline">Gemini 官方網站</a></li>
+                                    <li>點擊輸入框左側的「<strong>工具</strong>」按鈕</li>
+                                    <li>選擇「<strong>Deep Research</strong>」功能</li>
+                                    <li>貼上你的指令，看著它開始翻遍網路資料！</li>
+                                </ul>
+                                <a href="https://gemini.google.com/" target="_blank"
+                                    class="btn btn-blue inline-flex items-center gap-2 mt-4">
+                                    🚀 前往 Gemini 實戰
+                                </a>
+                            </div>
+                            <div class="step-img">
+                                <img src="../image/Snipaste_01.png" alt="Gemini Deep Research 開關位置">
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label class="form-label">終點城市</label>
-                            <select id="jr-to" class="form-select" onchange="generateJRPrompt()">
-                                <option value="大阪">大阪</option>
-                                <option value="東京">東京</option>
-                                <option value="京都">京都</option>
-                                <option value="廣島">廣島</option>
-                                <option value="金澤">金澤</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">來回次數</label>
-                            <select id="jr-trips" class="form-select" onchange="generateJRPrompt()">
-                                <option value="單程">單程</option>
-                                <option value="來回">來回</option>
-                                <option value="來回加上市區多次移動">來回 + 市區多次移動</option>
-                            </select>
-                        </div>
-
-                        <div class="prompt-box mt-4">
-                            <span class="prompt-label">即時預覽</span>
-                            <textarea id="jr-output" class="form-textarea"
-                                style="min-height: 180px; font-family: monospace;" readonly></textarea>
-                        </div>
-                        <button onclick="copyToClipboard('jr-output')" class="btn btn-blue btn-full mt-4">
-                            📋 複製交通提示詞
-                        </button>
                     </div>
                 </div>
 
-                <!-- Budget Stress Test -->
-                <div class="card">
-                    <div class="card-header card-header-primary-light">
-                        <h3>💰 預算壓力測試</h3>
+                <!-- Step 2: Verification -->
+                <div class="card mb-8">
+                    <div class="card-header flex items-center gap-3 card-header-amber">
+                        <div class="step-num">2</div>
+                        <h3>解析研究報告與推理過程</h3>
                     </div>
                     <div class="card-body">
-                        <div class="grid grid-cols-2 gap-4">
-                            <div class="form-group">
-                                <label class="form-label">總預算 (每人)</label>
-                                <input type="text" id="budget-total" class="form-input" placeholder="例如：50000"
-                                    value="50000" oninput="generateBudgetPrompt()">
+                        <div class="step-grid step-grid-reverse">
+                            <div class="step-img">
+                                <img src="../image/Snipaste_02.png" alt="Gemini 研究推理展開區塊">
                             </div>
-                            <div class="form-group">
-                                <label class="form-label">幣別</label>
-                                <select id="budget-currency" class="form-select" onchange="generateBudgetPrompt()">
-                                    <option value="台幣">台幣</option>
-                                    <option value="日圓">日圓</option>
-                                </select>
+                            <div class="step-text">
+                                <p class="mb-4 text-stone-700">Deep Research 會依照你的計劃進行研究，並列出完整的推理過程。</p>
+                                <div class="check-box">
+                                    <h4 class="font-bold mb-2 text-stone-800">檢查重點：</h4>
+                                    <ul class="text-sm space-y-1 text-stone-600">
+                                        <li>✅ 點擊「開始研究」啟動深度研究</li>
+                                        <li>✅ 觀察研究計畫是否符合你的需求</li>
+                                        <li>✅ 確認它正在調研多個網站來源</li>
+                                        <li>✅ 等待研究完成（約 3-5 分鐘）</li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="form-label">天數</label>
-                            <input type="text" id="budget-days" class="form-input" value="5"
-                                oninput="generateBudgetPrompt()">
-                        </div>
-
-                        <div class="prompt-box mt-4">
-                            <span class="prompt-label">即時預覽</span>
-                            <textarea id="budget-output" class="form-textarea"
-                                style="min-height: 180px; font-family: monospace;" readonly></textarea>
-                        </div>
-                        <button onclick="copyToClipboard('budget-output')" class="btn btn-blue btn-full mt-4">
-                            📋 複製預算提示詞
-                        </button>
                     </div>
                 </div>
+
+                <!-- Step 3: Export to Docs -->
+                <div class="card mb-8">
+                    <div class="card-header flex items-center gap-3 card-header-emerald">
+                        <div class="step-num">3</div>
+                        <h3>匯出至 Google 文件</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="step-grid">
+                            <div class="step-text">
+                                <p class="mb-4 text-stone-700">研究報告完成後，將它匯出為 Google 文件，方便後續編輯與分享。</p>
+                                <ul class="step-list">
+                                    <li>在報告右上角點擊「<strong>分享及匯出</strong>」下拉選單</li>
+                                    <li>選擇「<strong>匯出到 Google 文件</strong>」</li>
+                                    <li>系統會自動建立文件並開啟 Google Docs</li>
+                                </ul>
+                            </div>
+                            <div class="step-img">
+                                <img src="../image/Snipaste_03.png" alt="Gemini 匯出至 Google 文件按鈕">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4: Web Experience -->
+                <div class="card mb-8">
+                    <div class="card-header flex items-center gap-3 card-header-primary-light">
+                        <div class="step-num">4</div>
+                        <h3>體驗網頁生成</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="step-grid step-grid-reverse">
+                            <div class="step-img">
+                                <img src="../image/Snipaste_04.png" alt="Canvas 建立網頁">
+                            </div>
+                            <div class="step-text">
+                                <p class="mb-4 text-stone-700">利用 Canvas 的「建立」功能，體驗將報告一鍵轉為網頁的魔法！</p>
+                                <ul class="step-list">
+                                    <li>在 Canvas 介面右上角點擊「<strong>建立</strong>」按鈕</li>
+                                    <li>選擇「<strong>網頁</strong>」</li>
+                                    <li>Gemini 會自動將你的行程報告轉為精美的互動式網頁</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </main>
 
+    <style>
+        .step-num {
+            background: white;
+            color: var(--color-primary);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1rem;
+            flex-shrink: 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .step-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        .step-grid-reverse {
+            direction: rtl;
+        }
+
+        .step-grid-reverse>* {
+            direction: ltr;
+        }
+
+        .step-text {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .step-list {
+            list-style: disc;
+            padding-left: 1.25rem;
+            margin-bottom: 0;
+        }
+
+        .step-list li {
+            margin-bottom: 0.5rem;
+            color: #57534e;
+            line-height: 1.6;
+        }
+
+        .step-img {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e7e5e4;
+        }
+
+        .step-img img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .check-box {
+            background: #fafaf9;
+            padding: 1rem;
+            border-left: 4px solid #f59e0b;
+            border-radius: 6px;
+        }
+
+        .card-header-amber {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+        }
+
+        .card-header-emerald {
+            background: linear-gradient(135deg, #10b981, #059669);
+        }
+
+        .card-header-primary-light {
+            background: linear-gradient(135deg, #6366f1, #4f46e5);
+        }
+
+        @media (max-width: 768px) {
+            .step-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .step-grid-reverse {
+                direction: ltr;
+            }
+
+            .step-img {
+                order: -1;
+            }
+        }
+    </style>
 
     <script src="../js/common.js"></script>
     <script>
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
             WorkshopState.setCurrentPhase(2);
-            generateDeepResearch();
-            generateJRPrompt();
-            generateBudgetPrompt();
         });
-
-        function generateDeepResearch() {
-            const theme = document.getElementById('dr-theme').value;
-            const time = document.getElementById('dr-time').value;
-            const people = document.getElementById('dr-people').value;
-            const hotel = document.getElementById('dr-hotel').value;
-            const transport = document.getElementById('dr-transport').value;
-            const budget = document.getElementById('dr-budget').value;
-            const format = document.getElementById('dr-format').value;
-            const notes = document.getElementById('dr-notes').value;
-
-            const prompt = `請使用深度研究模式，幫我規劃一個詳細的旅遊行程。
-
-## 七步結構化框架
-
-1. **主題/目的地**：${theme}
-2. **時間**：${time}
-3. **人數與成員**：${people}
-4. **住宿偏好**：${hotel}
-5. **交通需求**：${transport}
-6. **預算上限**：每人 ${budget}
-7. **輸出格式**：${format}
-
-${notes ? `## 特別注意事項\n${notes}` : ''}
-
-## 請包含以下內容
-- 每日詳細行程（含詳細時間表、交通方式、預估費用）
-- 餐廳推薦（請確認目前仍在營業）
-- 交通票券購買建議
-- 住宿地點建議（含價格範圍）
-- 總預算估算表
-- 備註提醒（天氣建議、特殊活動、是否需預約、推薦拍照地點等）`;
-
-            document.getElementById('dr-output').value = prompt;
-        }
-
-        function generateJRPrompt() {
-            const from = document.getElementById('jr-from').value;
-            const to = document.getElementById('jr-to').value;
-            const trips = document.getElementById('jr-trips').value;
-
-            const prompt = `請計算從 ${from} 到 ${to} 的交通費用：
-
-行程：${trips}
-
-請幫我分析：
-1. 單獨購票的總費用是多少日圓？
-2. 購買 7 日 JR Pass 全國版 (目前售價約 50,000 日圓) 是否划算？
-3. 是否有其他更省錢的交通票券選擇？（如區域 Pass）
-4. 請給我明確的購買建議。`;
-
-            document.getElementById('jr-output').value = prompt;
-        }
-
-        function generateBudgetPrompt() {
-            const total = document.getElementById('budget-total').value;
-            const currency = document.getElementById('budget-currency').value;
-            const days = document.getElementById('budget-days').value;
-
-            const prompt = `我的日本旅遊預算是每人 ${total} ${currency}，共 ${days} 天。
-
-請幫我做預算分配與壓力測試：
-
-1. **建議分配比例**：
-   - 機票：?%
-   - 住宿：?%
-   - 交通：?%
-   - 餐飲：?%
-   - 門票/體驗：?%
-   - 購物/備用：?%
-
-2. **每日預算上限**：
-   - 餐飲每日建議金額
-   - 交通每日建議金額
-
-3. **風險提醒**：
-   - 這個預算是否足夠舒適旅遊？
-   - 哪些項目最容易超支？
-   - 省錢建議有哪些？`;
-
-            document.getElementById('budget-output').value = prompt;
-        }
     </script>
 </body>
 

@@ -8,6 +8,7 @@ const CONFIG = {
 function onOpen() {
   SpreadsheetApp.getUi().createMenu('⚡ 分組系統')
     .addItem('🚀 智慧分組系統', 'runAutoGrouping')
+    .addItem('👁️ 檢視目前分組頁面', 'showCurrentResultHtml')
     .addToUi();
 }
 
@@ -170,7 +171,8 @@ function runAutoGrouping() {
     id: i + 1,
     ta: null,
     members: [],
-    teamCounts: {} // 追蹤每桌各大C人數，用於拆散
+    teamCounts: {}, // 追蹤每桌各大C人數，用於拆散
+    currentWeight: 0 // 追蹤整桌總實力，用於平衡戰力
   }));
 
   // 分配桌長
@@ -179,6 +181,7 @@ function runAutoGrouping() {
       person.roleType = "leader";
       tables[i].ta = person;
       tables[i].teamCounts[person.team] = (tables[i].teamCounts[person.team] || 0) + 1;
+      tables[i].currentWeight += person.weight;
     } else {
       person.roleType = "backup_ta";
       highLevelPool.push(person);
@@ -187,29 +190,23 @@ function runAutoGrouping() {
 
   // --- Step 8: 執行分配（含大C拆散） ---
 
-  // 8.1 高手進弱桌
-  const priorityForHigh = [...tables].sort((a, b) => {
-    const wA = a.ta ? a.ta.weight : 0;
-    const wB = b.ta ? b.ta.weight : 0;
-    return wA - wB;
-  });
+  // 8.1 高手進弱桌 (平衡戰力)
+  // 先洗牌確保隨機性，再依 Weight 降序分配，優先補足戰力最低的桌子
+  highLevelPool.sort((a, b) => b.weight - a.weight);
+  shuffleArray(highLevelPool); // 雖然排序了，但在相同 weight 間洗牌
+  highLevelPool.sort((a, b) => b.weight - a.weight); 
+  distributeSmartly(highLevelPool, tables, maxPerTable, "strength_balance");
 
-  shuffleArray(highLevelPool);
-  distributeWithTeamSpread(highLevelPool, priorityForHigh, maxPerTable);
-
-  // 8.2 小白進強桌
-  const priorityForLow = [...tables].sort((a, b) => {
-    const wA = a.ta ? a.ta.weight : 0;
-    const wB = b.ta ? b.ta.weight : 0;
-    return wB - wA;
-  });
-
+  // 8.2 小白進強桌 (平衡戰力)
+  // 優先補足戰力最高的桌子，拉低平均
+  lowLevelPool.sort((a, b) => a.weight - b.weight);
   shuffleArray(lowLevelPool);
-  distributeWithTeamSpread(lowLevelPool, priorityForLow, maxPerTable);
+  lowLevelPool.sort((a, b) => a.weight - b.weight);
+  distributeSmartly(lowLevelPool, tables, maxPerTable, "inverse_strength_balance");
 
   // 8.3 中手填空
   shuffleArray(midLevelPool);
-  distributeToLeastPopulatedWithTeamSpread(midLevelPool, tables, maxPerTable);
+  distributeSmartly(midLevelPool, tables, maxPerTable, "population_balance");
 
   // --- Step 9: 輸出（分頁名含日期，同梯次獨立分頁）---
   const dateSuffix = `_${String(cutoffDate.getMonth() + 1).padStart(2, '0')}${String(cutoffDate.getDate()).padStart(2, '0')}`;
@@ -222,57 +219,48 @@ function runAutoGrouping() {
 
 // ================= 分配輔助函式 =================
 
-// 帶「大C拆散」的 Round Robin 分配
-function distributeWithTeamSpread(pool, sortedTables, maxPerTable) {
+// 智慧分配函式：整合大C拆散、人數平均與戰力平衡
+function distributeSmartly(pool, tables, maxPerTable, strategy) {
   pool.forEach(person => {
     let bestTable = null;
     let bestScore = Infinity;
 
-    for (const table of sortedTables) {
+    tables.forEach(table => {
       const currentCount = (table.ta ? 1 : 0) + table.members.length;
-      if (currentCount >= maxPerTable) continue;
+      if (currentCount >= maxPerTable) return;
 
-      // 衝突分數 = 該桌已有同大C的人數（越少越好）
       const teamConflict = table.teamCounts[person.team] || 0;
-      // 加上人數作為次要排序（人少優先）
-      const score = teamConflict * 1000 + currentCount;
+      
+      let score = 0;
+      // 權重設計：
+      // 1. 大C衝突最高優先 (1000000)
+      // 2. 人數平衡次之 (10000)
+      // 3. 戰力平衡最後 (依策略決定正負)
+      
+      score += teamConflict * 1000000;
+      score += currentCount * 10000;
+      
+      if (strategy === "strength_balance") {
+        // 戰力平衡：分到目前總實力越低的桌子，score 越低越好
+        score += table.currentWeight * 10;
+      } else if (strategy === "inverse_strength_balance") {
+        // 逆向平衡：分到目前總實力越高的桌子，以稀釋實力
+        score -= table.currentWeight * 10;
+      } else {
+        // 純人數平衡
+        score += table.currentWeight * 1;
+      }
 
       if (score < bestScore) {
         bestScore = score;
         bestTable = table;
       }
-    }
+    });
 
     if (bestTable) {
       bestTable.members.push(person);
       bestTable.teamCounts[person.team] = (bestTable.teamCounts[person.team] || 0) + 1;
-    }
-  });
-}
-
-// 帶「大C拆散」的最少人數優先分配
-function distributeToLeastPopulatedWithTeamSpread(pool, tables, maxPerTable) {
-  pool.forEach(person => {
-    let bestTable = null;
-    let bestScore = Infinity;
-
-    for (const table of tables) {
-      const currentCount = (table.ta ? 1 : 0) + table.members.length;
-      if (currentCount >= maxPerTable) continue;
-
-      const teamConflict = table.teamCounts[person.team] || 0;
-      // 人數優先，大C衝突次要
-      const score = currentCount * 1000 + teamConflict;
-
-      if (score < bestScore) {
-        bestScore = score;
-        bestTable = table;
-      }
-    }
-
-    if (bestTable) {
-      bestTable.members.push(person);
-      bestTable.teamCounts[person.team] = (bestTable.teamCounts[person.team] || 0) + 1;
+      bestTable.currentWeight += person.weight;
     }
   });
 }
@@ -398,6 +386,73 @@ function outputVisualView(ss, tables, sheetName) {
     if (mod === 2) sheet.setColumnWidth(i, 80);
     if (mod === 3) sheet.setColumnWidth(i, 20);
   }
+}
+
+// ================= 輔助功能：從現有工作表檢視 HTML =================
+function showCurrentResultHtml() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const sheet = ss.getActiveSheet();
+  const sheetName = sheet.getName();
+
+  if (!sheetName.startsWith(CONFIG.LIST_SHEET_PREFIX)) {
+    SpreadsheetApp.getUi().alert("❌ 請先切換到『分組結果_清單檢視』的工作表再執行此功能");
+    return;
+  }
+
+  // 嘗試從分頁名稱提取日期 (格式如 _0220)
+  let displayDate = new Date();
+  const match = sheetName.match(/_(\d{2})(\d{2})$/);
+  if (match) {
+    const month = parseInt(match[1], 10);
+    const day = parseInt(match[2], 10);
+    displayDate = new Date(new Date().getFullYear(), month - 1, day);
+  }
+
+  const data = sheet.getDataRange().getValues();
+  let tables = [];
+  let currentTable = null;
+
+  // 從第二行開始解析 (跳過標題)
+  for (let i = 1; i < data.length; i++) {
+    const row = data[i];
+    const id = row[0];
+    const role = (row[1] || "").toString();
+    const name = (row[2] || "").toString();
+    const team = (row[3] || "").toString();
+    const levelStr = (row[4] || "").toString();
+
+    if (!name || name === "-" || name === "") continue;
+
+    // 發現新桌號
+    if (id !== "" && (!currentTable || currentTable.id !== id)) {
+      if (currentTable) tables.push(currentTable);
+      currentTable = { id: id, ta: null, members: [], teamCounts: {}, currentWeight: 0 };
+    }
+
+    if (!currentTable) continue;
+
+    const person = { name: name, team: team, levelStr: levelStr, weight: 0 };
+    // 簡單判斷實力權重以便 HTML 顯示圖標
+    if (levelStr.includes("Lv 1")) person.weight = 1;
+    if (levelStr.includes("Lv 2")) person.weight = 2;
+    if (levelStr.includes("Lv 3")) person.weight = 3;
+    if (levelStr.includes("Lv 4")) person.weight = 4;
+
+    if (role.indexOf("助教") !== -1) {
+      currentTable.ta = person;
+    } else {
+      if (role.indexOf("熱忱") !== -1) person.roleType = "backup_ta";
+      currentTable.members.push(person);
+    }
+  }
+  if (currentTable) tables.push(currentTable);
+
+  if (tables.length === 0) {
+    SpreadsheetApp.getUi().alert("⚠️ 找不到有效的分組資料，請確認工作表內容是否正確。");
+    return;
+  }
+
+  showHtmlModal(tables, displayDate);
 }
 
 // ================= 輸出邏輯 (HTML) =================

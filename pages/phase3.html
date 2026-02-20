@@ -90,6 +90,94 @@
                 </div>
             </div>
 
+            <!-- NotebookLM 操作圖解 -->
+            <div class="card mb-6">
+                <div class="card-header card-header-indigo"
+                    style="background-image: none !important; background-color: #eef2ff !important;">
+                    <h3>🖥️ NotebookLM 操作圖解</h3>
+                    <p class="text-xs mt-1">跟著截圖一步一步操作，快速上手</p>
+                </div>
+                <div class="card-body">
+
+                    <!-- Step 1: Homepage -->
+                    <div class="nb-step mb-6">
+                        <div class="nb-step-header">
+                            <div class="nb-step-num">1</div>
+                            <h4>進入 NotebookLM 並設定語言</h4>
+                        </div>
+                        <div class="nb-step-grid">
+                            <div class="nb-step-text">
+                                <ul class="nb-step-list">
+                                    <li>前往 <a href="https://notebooklm.google.com/" target="_blank"
+                                            class="text-blue-600 hover:underline">NotebookLM</a> 並登入 Google 帳號
+                                    </li>
+                                    <li>點擊右上角「<strong>設定</strong>」齒輪圖示</li>
+                                    <li>選擇「<strong>輸出語言</strong>」→ 繁體中文</li>
+                                    <li>點擊「<strong>建立新的筆記本</strong>」開始</li>
+                                </ul>
+                            </div>
+                            <div class="nb-step-img">
+                                <img src="../image/NotebookLM-1.png" alt="NotebookLM 首頁與設定">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Add Sources -->
+                    <div class="nb-step mb-6">
+                        <div class="nb-step-header">
+                            <div class="nb-step-num">2</div>
+                            <h4>新增來源資料</h4>
+                        </div>
+                        <div class="nb-step-grid nb-step-grid-reverse">
+                            <div class="nb-step-img">
+                                <img src="../image/NotebookLM-2.png" alt="NotebookLM 新增來源介面">
+                            </div>
+                            <div class="nb-step-text">
+                                <p class="mb-3 text-stone-700">建立筆記本後，你可以用多種方式匯入資料：</p>
+                                <ul class="nb-step-list">
+                                    <li><strong>網路搜尋</strong>：輸入關鍵字，系統自動幫你找資料</li>
+                                    <li><strong>上傳檔案</strong>：PDF、圖片、文件、音訊皆可</li>
+                                    <li><strong>網站</strong>：貼上網址或 YouTube 連結</li>
+                                    <li><strong>雲端硬碟</strong>：直接從 Google Drive 匯入</li>
+                                    <li><strong>複製的文字</strong>：直接貼上文字內容</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Three Panels -->
+                    <div class="nb-step">
+                        <div class="nb-step-header">
+                            <div class="nb-step-num">3</div>
+                            <h4>認識筆記本的三大區域</h4>
+                        </div>
+                        <div class="nb-step-grid">
+                            <div class="nb-step-text">
+                                <p class="mb-3 text-stone-700">匯入來源後，你會看到三個面板：</p>
+                                <div class="nb-panel-list">
+                                    <div class="nb-panel-item" style="border-left-color: #3b82f6;">
+                                        <strong>📁 來源</strong>
+                                        <span>管理所有匯入的資料，可新增或移除</span>
+                                    </div>
+                                    <div class="nb-panel-item" style="border-left-color: #10b981;">
+                                        <strong>💬 對話</strong>
+                                        <span>與 AI 針對你的資料進行問答互動</span>
+                                    </div>
+                                    <div class="nb-panel-item" style="border-left-color: #8b5cf6;">
+                                        <strong>🎨 工作室</strong>
+                                        <span>生成摘要、Podcast、學習卡、測驗等</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nb-step-img">
+                                <img src="../image/NotebookLM-3.png" alt="NotebookLM 三大區域">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
             <!-- 6 Source Types -->
             <div class="card mb-6">
                 <div class="card-header card-header-indigo"
@@ -303,6 +391,127 @@
             </div>
         </div>
     </main>
+
+    <style>
+        .nb-step-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .nb-step-header h4 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #1c1917;
+            margin: 0;
+        }
+
+        .nb-step-num {
+            background: #4f46e5;
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+
+        .nb-step-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            align-items: start;
+        }
+
+        .nb-step-grid-reverse {
+            direction: rtl;
+        }
+
+        .nb-step-grid-reverse>* {
+            direction: ltr;
+        }
+
+        .nb-step-text {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .nb-step-list {
+            list-style: disc;
+            padding-left: 1.25rem;
+            margin: 0;
+        }
+
+        .nb-step-list li {
+            margin-bottom: 0.4rem;
+            color: #57534e;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .nb-step-img {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e7e5e4;
+        }
+
+        .nb-step-img img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .nb-panel-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .nb-panel-item {
+            background: #fafaf9;
+            padding: 0.6rem 0.8rem;
+            border-left: 4px solid;
+            border-radius: 6px;
+            display: flex;
+            flex-direction: column;
+            gap: 0.15rem;
+        }
+
+        .nb-panel-item strong {
+            font-size: 0.9rem;
+        }
+
+        .nb-panel-item span {
+            font-size: 0.82rem;
+            color: #78716c;
+        }
+
+        .nb-step+.nb-step {
+            padding-top: 1.5rem;
+            border-top: 1px solid #e7e5e4;
+        }
+
+        @media (max-width: 768px) {
+            .nb-step-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nb-step-grid-reverse {
+                direction: ltr;
+            }
+
+            .nb-step-img {
+                order: -1;
+            }
+        }
+    </style>
 
 
     <script src="../js/common.js"></script>
