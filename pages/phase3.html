@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-TW">
 
 <head>
@@ -253,9 +253,9 @@ Day 2: 安平古堡 -> 漁光島夕陽 -> 大東夜市
                     class="flex-1 py-3 px-6 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold transition-colors border border-slate-300 flex justify-center items-center gap-2 shadow-sm">
                     📋 複製提示詞
                 </button>
-                <a href="https://grok.com/imagine" target="_blank"
-                    class="flex-1 py-3 px-6 rounded-xl bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white font-bold transition-all flex justify-center items-center gap-2 shadow-lg shadow-pink-500/30 hover:shadow-pink-500/50 hover:-translate-y-1">
-                    ✨ 前往 Grok 生圖
+                <a href="https://www.meta.ai/vibes" target="_blank"
+                    class="flex-1 py-3 px-6 rounded-xl bg-gradient-to-r from-blue-500 to-sky-500 hover:from-blue-600 hover:to-sky-600 text-white font-bold transition-all flex justify-center items-center gap-2 shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 hover:-translate-y-1">
+                    ✨ 前往 Meta AI 生圖
                 </a>
             </div>
         </section>
@@ -359,7 +359,7 @@ ${styleObj.prompt}
         function copyPrompt(btn) {
             const text = document.getElementById('prompt-output').innerText;
             navigator.clipboard.writeText(text).then(() => {
-                showCopyToast('🪄 提示詞已複製！快去貼給 Grok 吧');
+                showCopyToast('🪄 提示詞已複製！快去貼給 Meta AI 吧');
                 const originalText = btn.innerHTML;
                 btn.innerHTML = '✅ 已複製';
                 btn.classList.add('!bg-green-50', '!text-green-600', '!border-green-200');
