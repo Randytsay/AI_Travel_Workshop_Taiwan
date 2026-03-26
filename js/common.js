@@ -376,7 +376,13 @@ document.addEventListener('DOMContentLoaded', () => {
         WorkshopState.gasUrl = savedGasUrl;
     }
 
-    // 全域動態櫻花效果
+    // Fix editor auto-indentation in prompt boxes (Prettier workaround)
+    document.querySelectorAll('.prompt-box > div[id^="prompt"]').forEach(el => {
+        el.textContent = el.textContent.split('\n').map(line => line.trimStart()).join('\n').trim();
+    });
+
+    // 全域動態櫻花效果 (已關閉)
+    /*
     if (!document.querySelector('.no-sakura')) {
         function createSakura() {
             // 如果頁面在背景隱藏狀態，不產生櫻花，防止回到頁面時大噴發
@@ -401,6 +407,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         setInterval(createSakura, 2000); // 稍微加快生成速度
     }
+    */
 });
 
 // --- Export for modules (if needed) ---

@@ -5,178 +5,364 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon"
-        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌸</text></svg>">
-    <title>階段一：靈感發想 | AI 旅遊規劃工作坊</title>
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏔️</text></svg>">
+    <title>第一站：靈感發想 | AI 旅遊規劃師</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="../css/main.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <script src="../js/countdown-sync.js"></script>
+    <style>
+        .quick-nav-links::-webkit-scrollbar {
+            display: none;
+        }
+
+        .style-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        }
+
+        .style-card:hover {
+            border-color: #93c5fd;
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.1);
+        }
+
+        .style-card.selected {
+            border-color: #3b82f6;
+            background: #eff6ff;
+            box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.1), 0 2px 4px -1px rgba(59, 130, 246, 0.06);
+        }
+
+        .style-card .emoji {
+            font-size: 3rem;
+            display: block;
+            margin-bottom: 0.75rem;
+            transition: transform 0.3s;
+        }
+
+        .style-card:hover .emoji {
+            transform: scale(1.1);
+        }
+
+        .style-card .name {
+            font-weight: 700;
+            font-size: 1rem;
+            color: #1e293b;
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .style-card .target {
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+
+        .prompt-preview {
+            background: #f8fafc;
+            color: #334155;
+            padding: 1.5rem;
+            line-height: 1.8;
+            border-radius: 0.75rem;
+            font-family: monospace;
+            font-size: 0.95rem;
+            white-space: pre-wrap;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid #3b82f6;
+            border: 1px solid #e2e8f0;
+            border-left-width: 4px;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .holiday-badge {
+            display: inline-block;
+            background: white;
+            border: 1px solid #cbd5e1;
+            color: #64748b;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
+
+        .holiday-badge:hover {
+            background: #f8fafc;
+            color: #334155;
+            border-color: #94a3b8;
+        }
+
+        .holiday-badge.selected {
+            background: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+            box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.2);
+        }
+    </style>
 </head>
 
-<body class="page-phase1">
+<body class="bg-slate-50 text-slate-800 min-h-screen font-sans">
     <!-- Navbar -->
-    <nav class="navbar">
-        <div class="container navbar-content">
-            <div class="navbar-brand">
-                <span style="font-size: 1.5rem;">💡</span>
-                <h1>階段一：靈感發想</h1>
-                <span class="badge">30分鐘</span>
+    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-lg border-b border-slate-200 text-slate-800 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <span class="text-2xl">💡</span>
+                <h1 class="font-bold text-lg md:text-xl tracking-wide text-blue-600">第一站：靈感發想</h1>
             </div>
-            <div class="navbar-links">
-                <span class="text-sm text-stone-500">1/6 階段</span>
+            <div class="flex items-center gap-3">
+                <a href="../index.html"
+                    class="px-4 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-600 text-sm font-bold transition-colors shadow-sm">🏠
+                    返回</a>
             </div>
         </div>
     </nav>
 
     <!-- Quick Nav -->
-    <div class="quick-nav">
-        <div class="container quick-nav-links">
-            <a href="../index.html" class="quick-nav-link">🏠 首頁</a>
-            <a href="phase1.html" class="quick-nav-link active">1️⃣ 靈感</a>
-            <a href="phase2.html" class="quick-nav-link">2️⃣ 規劃</a>
-            <a href="phase3.html" class="quick-nav-link">3️⃣ 知識庫</a>
-            <a href="phase4.html" class="quick-nav-link">4️⃣ 視覺</a>
-            <a href="phase5.html" class="quick-nav-link">5️⃣ 生存</a>
-            <a href="phase6.html" class="quick-nav-link">6️⃣ 變現</a>
-            <a href="../survey.html" class="quick-nav-link">📝 問卷</a>
-            <a href="../leaderboard.html" class="quick-nav-link">🏆 成績榜</a>
+    <div class="sticky top-16 z-40 bg-white/60 backdrop-blur-md border-b border-slate-200 py-3 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex gap-2 overflow-x-auto quick-nav-links">
+            <a href="../index.html"
+                class="px-4 py-1.5 rounded-full whitespace-nowrap text-sm font-medium transition-colors bg-white text-slate-600 hover:bg-slate-50 hover:text-blue-600 border border-slate-200 shadow-sm">🏠
+                首頁</a>
+            <a href="phase1.html"
+                class="px-4 py-1.5 rounded-full whitespace-nowrap text-sm font-medium transition-colors bg-blue-500 text-white border border-blue-400 shadow-md shadow-blue-500/20">1️⃣
+                靈感</a>
+            <a href="phase2.html"
+                class="px-4 py-1.5 rounded-full whitespace-nowrap text-sm font-medium transition-colors bg-white text-slate-600 hover:bg-slate-50 hover:text-blue-600 border border-slate-200 shadow-sm">2️⃣
+                規劃</a>
+            <a href="phase3.html"
+                class="px-4 py-1.5 rounded-full whitespace-nowrap text-sm font-medium transition-colors bg-white text-slate-600 hover:bg-slate-50 hover:text-blue-600 border border-slate-200 shadow-sm">3️⃣
+                視覺</a>
+            <a href="phase4.html"
+                class="px-4 py-1.5 rounded-full whitespace-nowrap text-sm font-medium transition-colors bg-white text-slate-600 hover:bg-slate-50 hover:text-blue-600 border border-slate-200 shadow-sm">4️⃣
+                準備</a>
+            <a href="phase5.html"
+                class="px-4 py-1.5 rounded-full whitespace-nowrap text-sm font-medium transition-colors bg-white text-slate-600 hover:bg-slate-50 hover:text-blue-600 border border-slate-200 shadow-sm">5️⃣
+                變現</a>
         </div>
     </div>
 
     <!-- Main Content -->
-    <main class="container" style="padding-top: 2rem; padding-bottom: 6rem;">
-        <div class="fade-in">
-            <!-- Introduction -->
-            <div class="alert alert-info mb-6">
-                <strong>🎯 本階段目標：</strong>從模糊的想法變成具體的「主題式」旅遊雛形，擺脫大眾景點，挖掘特色主題，生成第一份旅遊行程初稿。
-            </div>
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 flex-grow">
 
-            <!-- Advanced Tips: AI Gem -->
-            <div class="card mt-6">
-                <div class="card-header card-header-blue">
-                    <h3>🤖 互動式 AI 規劃助手</h3>
-                </div>
-                <div class="card-body">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="tool-card">
-                            <div class="flex items-center mb-2">
-                                <span class="tool-icon">👤</span>
-                                <span class="tool-title">第一步：建立 AI 角色與我的設定</span>
-                            </div>
-                            <p class="tool-desc">透過引導式問題，協助您建立專屬的「AI 角色設定」與「個人喜好設定」，讓 AI 更精準地為您服務。</p>
-                            <a href="https://gemini.google.com/gem/1EsUvBKZDD05jZ9y5J_S3Zrez76ZKRtHQ?usp=sharing"
-                                target="_blank" class="btn btn-blue btn-full mt-4">
-                                🚀 開啟 AI 設定助手 (Gem)
-                            </a>
-                        </div>
-                        <div class="tool-card">
-                            <div class="flex items-center mb-2">
-                                <span class="tool-icon">💎</span>
-                                <span class="tool-title">第二步：專屬 AI 旅遊顧問</span>
-                            </div>
-                            <p class="tool-desc">根據你的喜好進行多輪對話規劃，提供最具參考價值的行程建議。本階段結束前需產出初步行程。</p>
-                            <a href="https://gemini.google.com/gem/1nAtjf12eFrcj0yhNsaw9zHl1I9C8Okjm?usp=sharing"
-                                target="_blank" class="btn btn-blue btn-full mt-4">
-                                🚀 開始行程規劃 (Gem)
-                            </a>
-                        </div>
-                    </div>
+        <!-- Hero image banner -->
+        <div
+            class="w-full h-48 md:h-64 rounded-3xl overflow-hidden mb-12 relative shadow-xl border border-slate-200 bg-white group">
+            <div class="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-105"
+                style="background-image: url('../image/banner-phase1.jpg');">
+            </div>
+            <div class="absolute inset-0 bg-gradient-to-t from-white/95 via-white/70 to-transparent"></div>
+            <div class="absolute bottom-6 left-6 md:bottom-8 md:left-8">
+                <span
+                    class="px-3 py-1 bg-blue-100 border border-blue-200 rounded-full text-blue-700 text-xs font-bold tracking-wider mb-3 inline-block shadow-sm">PHASE
+                    1</span>
+                <h2 class="text-3xl md:text-5xl font-extrabold text-slate-800 drop-shadow-sm">挖掘在地秘境</h2>
+            </div>
+        </div>
+
+        <!-- Intro -->
+        <section class="bg-white border border-slate-200 rounded-2xl p-6 md:p-8 mb-8 shadow-md fade-in">
+            <div class="flex flex-col sm:flex-row items-start gap-5">
+                <div class="text-5xl bg-slate-50 p-4 rounded-2xl border border-slate-100 shadow-inner">🎯</div>
+                <div>
+                    <h2 class="text-2xl font-bold mb-3 text-slate-800">不想人擠人？讓 AI 推薦秘境</h2>
+                    <p class="text-slate-600 leading-relaxed text-lg">國內連假到處都是人，選擇你的假期和喜歡的風格，讓 Gemini 幫你找出最適合的台灣秘境或主題行程！
+                    </p>
                 </div>
             </div>
+        </section>
 
-            <!-- Ultimate Prompt Card -->
-            <div class="card mt-6">
-                <div class="card-header card-header-emerald">
-                    <h3>📜 Gem 完整指令內容</h3>
+        <!-- Step 1: 選擇連假 -->
+        <section class="mb-10 fade-in" style="animation-delay: 0.1s;">
+            <div class="flex items-center gap-3 mb-5">
+                <span
+                    class="flex items-center justify-center w-8 h-8 rounded-full bg-blue-100 text-blue-700 font-bold border border-blue-200 shadow-sm">1</span>
+                <h3 class="text-xl font-bold text-slate-800">選擇你要出遊的連假</h3>
+            </div>
+            <div id="holiday-selection" class="flex flex-wrap gap-3 pl-0 md:pl-11">
+                <div class="holiday-badge selected" onclick="selectHoliday(this, '清明兒童連假 (4/3-4/6)')">
+                    <span class="name">清明兒童</span>
+                    <span class="date">4/3 - 4/6 (4天)</span>
                 </div>
-                <div class="card-body">
-                    <details class="prompt-details">
-                        <summary class="btn btn-outline btn-full" style="justify-content: space-between;">
-                            <span>🔍 點擊展開：完整對話引導指令 (可複製至一般 Gemini 視窗)</span>
-                            <span class="details-icon">▼</span>
-                        </summary>
-                        <div class="mt-4">
-                            <div class="prompt-box">
-                                <span class="prompt-label">完整指令內容</span>
-                                <textarea id="ultimate-prompt" class="form-textarea"
-                                    style="min-height: 450px; font-size: 0.8rem; line-height: 1.6;" readonly>你是一位「專業且貼心的 AI 旅遊規劃師」，目標是透過對話，一步步引導使用者完成最適合他們的旅程規劃。
-
-## 核心互動原則（最高指令）
-1. **禁止身家調查：** 在蒐集資訊階段，每次回覆最多只能問 1~2 個問題。絕對不要一次列出三個以上的問題。
-2. **口語友善：** 使用簡單、溫暖、繁體中文的口語，像朋友般聊天。
-3. **動態適應：** 如果使用者在回答中已經主動提供資訊，就不要重複詢問，直接跳到下一個未知點。
-4. **主動權：** 每次回覆結尾，都要明確引導「下一步做什麼」。
-5. **工具支援：** 當需要查詢航班或詳細地點時，請適時調用 Google Flights 或 Google Maps 擴充功能提供真實資訊。
-
-## 執行流程（採多輪對話模式）
-
-### 第一階段：黃金需求圈（分次詢問）
-1. **基本盤：** 目的地、日期/季節、天數、同行成員（長輩/小孩/情侶/獨旅）。
-2. **關鍵細節（必問）：**
-   - 飲食習慣：是否有素食、過敏或特殊禁忌？
-   - 行動力：是否有推車、輪椅，或長輩無法久走？
-   - 交通偏好：大眾運輸、自駕或包車？
-3. **預算與風格：** 預算範圍、旅遊節奏（慢活/充實）。
-
-*收集完畢後，請用列表整理並詢問：「以上資訊正確嗎？有沒有需要補充的？」*
-
-### 第二階段：架構確認
-1. **航班建議：** 若未定機票，調用 Google Flights 提供建議。
-2. **每日主題：** 規劃「每日大主題」並請使用者確認滿意度。
-
-### 第三階段：細節填充
-- **動線邏輯：** 同區集中。
-- **飲食推薦：** 根據飲食習慣（特別是素食）推薦 2-3 個具體選擇。
-- **輸出格式：** 09:00–10:00：[景點] (亮點) | 10:00–10:30：[交通] (方式)
-
-### 第四階段：總結與輸出
-1. **Markdown 表格總表：** 欄位包含日期、城市、主題、景點、早午晚餐、住宿。下方附上 3 個亮點與 1 個小提醒。
-2. **費用結構預估**。
-3. **貼心檢查清單：** 簽證、網卡、無障礙設施提醒等。
-4. **深度規劃提示詞：** 整合以上討論的資訊，提供一版 七步結構化框架 讓使用者可以複製文字進到下一階段深度研究
-''''
-請依以下架構幫我規劃一個詳細的旅遊行程。
-
-## 七步結構化框架
-
-1. **主題/目的地**：[填入前面討論結果]
-2. **時間**：[填入前面討論結果]
-3. **人數與成員**：[填入前面討論結果]
-4. **住宿偏好**：[填入前面討論結果]
-5. **交通需求**：[填入前面討論結果]
-6. **預算上限**：[填入前面討論結果]
-7. **輸出格式**：表格 + 地圖標記建議
-
-## 請包含以下內容
-- 每日詳細行程（含詳細時間表、交通方式、預估費用）
-- 餐廳推薦（請確認目前仍在營業）
-- 交通票券購買建議
-- 住宿地點建議（含價格範圍）
-- 總預算估算表
-- 備註提醒（天氣建議、特殊活動、是否需預約、推薦拍照地點等）
-''''
-
-## 限制與邊界
-- 價格僅提供區間範圍。
-- 修改條件時請重新執行第一階段。</textarea>
-                            </div>
-                            <button onclick="copyToClipboard('ultimate-prompt')" class="btn btn-success btn-full mt-4">
-                                📋 複製完整對話指令
-                            </button>
-                        </div>
-                    </details>
+                <div class="holiday-badge border-rose-100 hover:border-rose-300"
+                    onclick="selectHoliday(this, '勞動節連假 (5/1-5/3)')">
+                    <span class="name">勞動節</span>
+                    <span class="date">5/1 - 5/3 (3天)</span>
+                </div>
+                <div class="holiday-badge border-emerald-100 hover:border-emerald-300"
+                    onclick="selectHoliday(this, '端午連假 (6/19-6/21)')">
+                    <span class="name">端午連假</span>
+                    <span class="date">6/19 - 6/21 (3天)</span>
+                </div>
+                <div class="holiday-badge border-amber-100 hover:border-amber-300"
+                    onclick="selectHoliday(this, '中秋連假 (9/25-9/27)')">
+                    <span class="name">中秋連假</span>
+                    <span class="date">9/25 - 9/27 (3天)</span>
+                </div>
+                <div class="holiday-badge border-purple-100 hover:border-purple-300"
+                    onclick="selectHoliday(this, '國慶連假 (10/9-10/11)')">
+                    <span class="name">國慶連假</span>
+                    <span class="date">10/9 - 10/11 (3天)</span>
+                </div>
+                <div class="holiday-badge border-slate-200 hover:border-slate-400"
+                    onclick="selectHoliday(this, '一般週末 (2天)')">
+                    <span class="name">一般週末</span>
+                    <span class="date">週六 - 週日 (2天)</span>
                 </div>
             </div>
+        </section>
+
+        <!-- Step 2: 選擇風格 -->
+        <section class="mb-12 fade-in" style="animation-delay: 0.2s;">
+            <div class="flex items-center gap-3 mb-5">
+                <span
+                    class="flex items-center justify-center w-8 h-8 rounded-full bg-blue-100 text-blue-700 font-bold border border-blue-200 shadow-sm">2</span>
+                <h3 class="text-xl font-bold text-slate-800">選擇你的小旅行風格</h3>
+            </div>
+            <div class="grid grid-cols-2 lg:grid-cols-3 gap-4 pl-0 md:pl-11" id="style-grid">
+                <!-- Generator logic -->
+            </div>
+        </section>
+
+        <!-- Step 3: 給 Gemini 的咒語 -->
+        <section
+            class="bg-white border border-slate-200 rounded-2xl p-6 md:p-8 shadow-lg relative overflow-hidden fade-in"
+            style="animation-delay: 0.3s;">
+
+            <div class="flex items-center gap-3 mb-6 relative z-10">
+                <span
+                    class="flex items-center justify-center w-8 h-8 rounded-full bg-blue-500 text-white font-bold shadow-md shadow-blue-500/30">3</span>
+                <h3 class="text-2xl font-bold text-slate-800 flex items-center gap-2">
+                    你的專屬提示詞 <span class="text-xl">🪄</span>
+                </h3>
+            </div>
+
+            <div class="prompt-preview relative z-10" id="prompt-output">
+                請先選擇上方連假與風格...
+            </div>
+
+            <div class="flex items-center justify-between mb-4">
+                <span class="text-sm font-bold text-slate-500 tracking-wider">PROMPT PREVIEW</span>
+                <button
+                    class="px-5 py-2 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-600 font-bold transition-all border border-blue-200 shadow-sm hover:shadow"
+                    onclick="copyText(this, 'prompt-output')">📋 複製</button>
+            </div>
+            <div class="flex flex-col sm:flex-row gap-4 relative z-10">
+                <a href="https://gemini.google.com/" target="_blank"
+                    class="flex-1 py-3 px-6 rounded-xl bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white font-bold transition-all flex justify-center items-center gap-2 shadow-lg shadow-blue-500/20 hover:shadow-blue-500/40">
+                    ✨ 前往 Gemini 生成
+                </a>
+            </div>
+            <p
+                class="text-sm text-slate-500 mt-5 text-center relative z-10 bg-slate-50 py-3 rounded-lg border border-slate-200 inline-block w-full font-medium">
+                💡 貼士：到 Gemini 貼上後，如果對結果不滿意，可以直接跟它說「這些我都不喜歡，換一批！」
+            </p>
+        </section>
+
+        <!-- Next Phase -->
+        <div class="flex justify-between items-center mt-12 pt-8 border-t border-slate-200 fade-in"
+            style="animation-delay: 0.4s;">
+            <a href="../index.html"
+                class="flex items-center gap-2 text-slate-500 hover:text-slate-800 font-bold transition-colors">
+                <span class="p-2 rounded-full bg-white border border-slate-200 shadow-sm">←</span> 回首頁
+            </a>
+            <a href="phase2.html"
+                class="flex items-center gap-3 px-6 py-3 bg-white hover:bg-blue-50 text-slate-800 rounded-xl font-bold transition-all border border-slate-200 hover:border-blue-300 shadow-sm hover:shadow-md"
+                onclick="WorkshopState.completePhase(1)">
+                前往深度規劃 <span class="p-1 rounded-full bg-blue-100 text-blue-600 shadow-sm">→</span>
+            </a>
         </div>
     </main>
 
+    <div class="copy-toast" id="copy-toast"></div>
 
     <script src="../js/common.js"></script>
     <script>
-        // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
-            WorkshopState.setCurrentPhase(1);
-        });
+        // Data for phase 1 styles
+        const styles = [
+            { id: 'relax', emoji: '♨️', name: '療癒溫泉', target: '不想走路、想找一間好飯店發呆放鬆', icon: '🍃' },
+            { id: 'foodie', emoji: '🤤', name: '在地吃貨', target: '從早吃到晚、排隊名店或隱藏版小吃', icon: '🍜' },
+            { id: 'culture', emoji: '🏮', name: '老街文青', target: '喜歡老建築、特色咖啡廳與文創小店', icon: '📸' },
+            { id: 'nature', emoji: '🌲', name: '高山芬多精', target: '走進森林秘境、享受大自然與滿天星空', icon: '⛰️' },
+            { id: 'sea', emoji: '🌊', name: '放空看海', target: '海景民宿、吹海風聽海浪吃海鮮', icon: '🏖️' },
+            { id: 'explore', emoji: '🎒', name: '鐵道漫遊', target: '不開車也能到的私房小站與周邊步道', icon: '🚆' }
+        ];
+
+        let selectedHoliday = '清明兒童連假 (4天)';
+        let selectedStyle = 'relax';
+
+        function initPhase1() {
+            const grid = document.getElementById('style-grid');
+            styles.forEach(s => {
+                const card = document.createElement('div');
+                card.className = `style-card fade-in ${s.id === selectedStyle ? 'selected' : ''}`;
+                card.onclick = () => selectStyle(s.id);
+                card.id = `style-${s.id}`;
+                card.innerHTML = `
+                    <span class="emoji">${s.emoji}</span>
+                    <span class="name">${s.name} ${s.icon}</span>
+                    <span class="target">${s.target}</span>
+                `;
+                grid.appendChild(card);
+            });
+            updatePrompt();
+        }
+
+        function selectHoliday(element, text) {
+            document.querySelectorAll('.holiday-badge').forEach(b => b.classList.remove('selected'));
+            element.classList.add('selected');
+            selectedHoliday = text;
+            updatePrompt();
+        }
+
+        function selectStyle(id) {
+            document.querySelectorAll('.style-card').forEach(c => c.classList.remove('selected'));
+            document.getElementById(`style-${id}`).classList.add('selected');
+            selectedStyle = id;
+            updatePrompt();
+        }
+
+        function updatePrompt() {
+            const styleObj = styles.find(s => s.id === selectedStyle);
+            const promptStr = `我正在規劃台灣國內的 ${selectedHoliday} 旅遊。
+我想要的旅行風格是：【${styleObj.name}】(${styleObj.target})。
+
+請發揮在地旅遊達人的專業，依據我的風格：
+1. 推薦 3 個「非主流且具備高質感」的台灣鄉鎮或風景區。
+2. 針對每一個地點，給我一句吸引人的宣傳標語，並說明推薦理由。`;
+            document.getElementById('prompt-output').innerText = promptStr;
+        }
+
+        function copyText(btn, elementId) {
+            const text = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('🪄 提示詞已複製！');
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '✅ 已複製';
+                btn.classList.add('!bg-green-50', '!text-green-600', '!border-green-200');
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.classList.remove('!bg-green-50', '!text-green-600', '!border-green-200');
+                }, 2000);
+            });
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', initPhase1);
     </script>
 </body>
 
 </html>
+```

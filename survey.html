@@ -11,22 +11,33 @@
         href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+JP:wght@400;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="css/main.css">
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .survey-form {
             max-width: 800px;
             margin: 0 auto;
             position: relative;
             z-index: 1;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border-radius: 24px;
+            padding: 2rem;
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1), 0 10px 20px -5px rgba(0, 0, 0, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+
+        /* 背景設定 */
+        body {
+            background-image: url('image/banner-home.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
         }
 
         .card-header::after {
-            content: '🗾';
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            font-size: 40px;
-            opacity: 0.2;
-            pointer-events: none;
+            content: '';
+            display: none;
         }
 
         .card-header .text-stone-500 {
@@ -40,6 +51,14 @@
             flex-wrap: wrap !important;
             gap: 8px !important;
             justify-content: center !important;
+        }
+
+        .form-group {
+            margin-bottom: 2.5rem !important;
+        }
+
+        .form-textarea {
+            width: 100% !important;
         }
 
         .rating-btn-10 {
@@ -60,45 +79,51 @@
         }
 
         .rating-btn-10.selected {
-            background: var(--color-primary) !important;
+            background: #ec4899 !important;
+            /* Tailwind pink-500 */
             color: white !important;
-            border-color: var(--color-primary) !important;
+            border-color: #ec4899 !important;
             transform: scale(1.1);
             font-weight: bold;
-            box-shadow: 0 0 15px rgba(196, 30, 58, 0.4);
+            box-shadow: 0 4px 15px rgba(236, 72, 153, 0.4);
         }
 
         .checkbox-item {
-            background: #fafafa !important;
+            background: rgba(255, 255, 255, 0.6) !important;
             border: 2px solid transparent;
             transition: all 0.3s ease;
+            backdrop-filter: blur(4px);
         }
 
         .checkbox-item:hover {
-            background: #fff5f5 !important;
-            border-color: #ffccd5;
+            background: rgba(253, 242, 248, 0.8) !important;
+            /* pink-50 */
+            border-color: #fbcfe8;
+            /* pink-200 */
         }
 
         .checkbox-item:has(input:checked) {
-            background: linear-gradient(135deg, #fff5f5 0%, #ffe8e8 100%) !important;
-            border-color: #c41e3a !important;
+            background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%) !important;
+            border-color: #ec4899 !important;
         }
 
         .form-input,
         .form-select,
         .form-textarea {
-            border: 2px solid #e8e8e8 !important;
-            background: #fafafa;
+            border: 2px solid rgba(226, 232, 240, 0.8) !important;
+            background: rgba(255, 255, 255, 0.8);
             border-radius: 12px !important;
             padding: 0.75rem 1rem !important;
+            transition: all 0.2s;
         }
 
         .form-input:focus,
         .form-select:focus,
         .form-textarea:focus {
-            border-color: #c41e3a !important;
+            border-color: #ec4899 !important;
             background: white;
-            box-shadow: 0 0 0 4px rgba(196, 30, 58, 0.1) !important;
+            box-shadow: 0 0 0 4px rgba(236, 72, 153, 0.15) !important;
+            outline: none;
         }
 
         /* 緊湊型身分切換器 */
@@ -127,7 +152,8 @@
 
         .role-switcher button.active {
             background: white !important;
-            color: #c41e3a !important;
+            color: #db2777 !important;
+            /* pink-600 */
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
@@ -180,55 +206,65 @@
 
 <body>
     <!-- Navbar -->
-    <nav class="navbar">
-        <div class="container navbar-content">
-            <div class="navbar-brand">
-                <span style="font-size: 1.5rem;">📋</span>
-                <h1>課後問卷</h1>
+    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-lg border-b border-slate-200 text-slate-800 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <span class="text-2xl">📋</span>
+                <h1 class="font-bold text-lg md:text-xl tracking-wide text-pink-600">填寫課後問卷</h1>
             </div>
-            <div class="navbar-links">
-                <a href="index.html" class="btn btn-outline btn-sm">回首頁</a>
+            <div class="flex items-center gap-3">
+                <a href="index.html"
+                    class="px-4 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-600 text-sm font-bold transition-colors shadow-sm">🏠
+                    首頁</a>
             </div>
         </div>
     </nav>
 
     <!-- Quick Nav -->
-    <div class="quick-nav">
-        <div class="container quick-nav-links">
-            <a href="index.html" class="quick-nav-link">🏠 首頁</a>
-            <a href="pages/phase1.html" class="quick-nav-link">1️⃣ 靈感</a>
-            <a href="pages/phase2.html" class="quick-nav-link">2️⃣ 規劃</a>
-            <a href="pages/phase3.html" class="quick-nav-link">3️⃣ 驗證</a>
-            <a href="pages/phase4.html" class="quick-nav-link">4️⃣ 視覺</a>
-            <a href="pages/phase5.html" class="quick-nav-link">5️⃣ 生存</a>
-            <a href="pages/phase6.html" class="quick-nav-link">6️⃣ 變現</a>
-            <a href="survey.html" class="quick-nav-link active">📝 問卷</a>
-            <a href="leaderboard.html" class="quick-nav-link">🏆 成績榜</a>
+    <div class="sticky top-16 z-40 bg-white/60 backdrop-blur-md border-b border-slate-200 py-3 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex gap-2 overflow-x-auto quick-nav-links">
+            <a href="index.html"
+                class="px-4 py-1.5 rounded-full whitespace-nowrap text-sm font-medium transition-colors bg-white text-slate-600 hover:bg-slate-50 hover:text-sky-600 border border-slate-200 shadow-sm">🏠
+                首頁</a>
+            <a href="pages/phase1.html"
+                class="px-4 py-1.5 rounded-full whitespace-nowrap text-sm font-medium transition-colors bg-white text-slate-600 hover:bg-slate-50 hover:text-sky-600 border border-slate-200 shadow-sm">1️⃣
+                靈感</a>
+            <a href="pages/phase2.html"
+                class="px-4 py-1.5 rounded-full whitespace-nowrap text-sm font-medium transition-colors bg-white text-slate-600 hover:bg-slate-50 hover:text-sky-600 border border-slate-200 shadow-sm">2️⃣
+                規劃</a>
+            <a href="pages/phase3.html"
+                class="px-4 py-1.5 rounded-full whitespace-nowrap text-sm font-medium transition-colors bg-white text-slate-600 hover:bg-slate-50 hover:text-sky-600 border border-slate-200 shadow-sm">3️⃣
+                視覺</a>
+            <a href="pages/phase4.html"
+                class="px-4 py-1.5 rounded-full whitespace-nowrap text-sm font-medium transition-colors bg-white text-slate-600 hover:bg-slate-50 hover:text-sky-600 border border-slate-200 shadow-sm">4️⃣
+                準備</a>
+            <a href="pages/phase5.html"
+                class="px-4 py-1.5 rounded-full whitespace-nowrap text-sm font-medium transition-colors bg-white text-slate-600 hover:bg-slate-50 hover:text-sky-600 border border-slate-200 shadow-sm">5️⃣
+                變現</a>
+            <a href="survey.html"
+                class="px-4 py-1.5 rounded-full whitespace-nowrap text-sm font-medium transition-colors bg-pink-500 text-white border border-pink-400 shadow-md shadow-pink-500/20">📝
+                問卷</a>
+            <a href="leaderboard.html"
+                class="px-4 py-1.5 rounded-full whitespace-nowrap text-sm font-medium transition-colors bg-white text-slate-600 hover:bg-slate-50 hover:text-sky-600 border border-slate-200 shadow-sm">🏆
+                成績榜</a>
         </div>
     </div>
 
+
+
     <!-- Main Content -->
-    <main class="container" style="padding-top: 2rem; padding-bottom: 6rem;">
+    <main class="container" style="padding-top: 6rem; padding-bottom: 6rem;">
         <div class="survey-form">
 
             <!-- Form Screen -->
             <div class="form-screen" id="form-screen">
-                <div style="text-align: center; margin-bottom: 1.5rem;">
-                    <svg width="80" height="64" viewBox="0 0 100 80" fill="#c41e3a">
-                        <rect x="5" y="0" width="8" height="80" />
-                        <rect x="87" y="0" width="8" height="80" />
-                        <rect x="0" y="5" width="100" height="8" rx="2" />
-                        <rect x="0" y="0" width="100" height="6" rx="2" />
-                        <rect x="10" y="20" width="80" height="5" />
-                    </svg>
-                </div>
                 <div class="card">
                     <div class="card-header" id="form-header">
                         <div class="card-header-flex"
                             style="display: flex; justify-content: space-between; align-items: center; gap: 1rem;">
                             <div>
                                 <h3>🌸 新朋友體驗回饋</h3>
-                                <p class="text-xs mt-1" style="color: rgba(255,255,255,0.7) !important;">填完問卷即可領取完整講義！
+                                <p class="text-xs mt-1" style="color: #64748b !important;">填完問卷即可領取完整講義！
                                 </p>
                             </div>
                             <div class="role-switcher">
@@ -284,10 +320,10 @@
                                     <label class="form-label">4. 今天哪個部分讓您覺得最驚艷 (Wow Moment)？</label>
                                     <select id="wow-moment" class="form-select">
                                         <option value="">請選擇</option>
-                                        <option value="AI 一鍵生成詳細行程 (Gemini)">AI 一鍵生成詳細行程 (Gemini)</option>
-                                        <option value="手繪風格視覺地圖">手繪風格視覺地圖</option>
-                                        <option value="Grok 動態動畫效果">Grok 動態動畫效果</option>
-                                        <option value="AI 即時翻譯/導航技巧">AI 即時翻譯/導航技巧</option>
+                                        <option value="AI 一鍵自動排行程">AI 一鍵自動排行程 (Gemini)</option>
+                                        <option value="用 AI 畫出自己的旅遊手繪地圖">用 AI 畫出自己的旅遊手繪地圖</option>
+                                        <option value="讓 AI 幫行程配上 Podcast 語音導覽">讓 AI 幫行程配上 Podcast 語音導覽</option>
+                                        <option value="設計自己的專屬旅遊海報">設計自己的專屬旅遊海報</option>
                                         <option value="消費轉收入概念">消費轉收入概念</option>
                                     </select>
                                 </div>
@@ -387,7 +423,7 @@
                                 <!-- 5. 下次建議 -->
                                 <div class="form-group">
                                     <label class="form-label">5. 下次舉辦的建議：</label>
-                                    <textarea id="next-suggestion" class="form-textarea" rows="3"
+                                    <textarea id="next-suggestion" class="form-textarea w-full" rows="4"
                                         placeholder="場地、時間、內容等任何建議..."></textarea>
                                 </div>
                             </div>
@@ -398,7 +434,8 @@
                                 <input type="number" id="likes" class="form-input" placeholder="FB/IG 讚數">
                             </div>
 
-                            <button type="submit" class="btn btn-primary btn-lg btn-full mt-6" id="submit-btn">
+                            <button type="submit" class="btn btn-lg btn-full mt-6 text-white font-bold" id="submit-btn"
+                                style="background: linear-gradient(to right, #ec4899, #8b5cf6); border: none; border-radius: 12px; padding: 1rem; box-shadow: 0 4px 15px rgba(236, 72, 153, 0.3);">
                                 📤 提交問卷
                             </button>
                         </form>
@@ -415,25 +452,28 @@
                         <p class="text-stone-600 mb-6">您的問卷已成功提交。</p>
 
                         <div
-                            style="background: var(--color-stone-50); padding: 1.5rem; border-radius: var(--radius-lg); margin-bottom: 1.5rem;">
-                            <div class="font-bold mb-2">📚 領取講義</div>
-                            <p class="text-sm text-stone-600 mb-4">點擊下方按鈕閱讀圖文並茂的完整講義</p>
+                            style="background: rgba(248, 250, 252, 0.8); padding: 1.5rem; border-radius: 16px; margin-bottom: 1.5rem; border: 1px solid rgba(226, 232, 240, 0.8);">
+                            <div class="font-bold mb-2 text-slate-800">📚 領取講義</div>
+                            <p class="text-sm text-slate-600 mb-4">點擊下方按鈕閱讀圖文並茂的完整講義</p>
                             <a href="https://www.canva.com/design/DAHAqaz4yzw/jk7nwL5pWOBwbQP5rTVs2g/view?utm_content=DAHAqaz4yzw&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=ha536bf916a"
-                                target="_blank" class="btn btn-primary btn-lg btn-full" id="download-link">
+                                target="_blank" class="btn btn-lg btn-full text-white font-bold" id="download-link"
+                                style="background: linear-gradient(to right, #38bdf8, #818cf8); border: none; border-radius: 12px; padding: 1rem; box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3); display: block; text-align: center; text-decoration: none;">
                                 📚 查看完整圖文講義
                             </a>
                         </div>
 
                         <div
-                            style="background: var(--color-accent-light); padding: 1.5rem; border-radius: var(--radius-lg); margin-bottom: 1.5rem;">
-                            <div class="font-bold mb-2">🎰 抽獎資格</div>
-                            <p class="text-sm text-stone-600 mb-4">您已獲得終極大抽獎的參加資格！</p>
-                            <a href="leaderboard.html" class="btn btn-accent btn-lg btn-full">
+                            style="background: rgba(254, 240, 138, 0.4); padding: 1.5rem; border-radius: 16px; margin-bottom: 1.5rem; border: 1px solid rgba(253, 224, 71, 0.6);">
+                            <div class="font-bold mb-2 text-amber-800">🎰 抽獎資格</div>
+                            <p class="text-sm text-amber-700 mb-4">您已獲得終極大抽獎的參加資格！</p>
+                            <a href="leaderboard.html" class="btn btn-lg btn-full font-bold"
+                                style="background: white; border: 2px solid #fcd34d; color: #d97706; border-radius: 12px; padding: 1rem; display: block; text-align: center; text-decoration: none;">
                                 🏆 查看排名與成績 (手動更新)
                             </a>
                         </div>
 
-                        <a href="index.html" class="btn btn-outline btn-full mt-6">
+                        <a href="index.html" class="btn btn-full mt-6 font-bold"
+                            style="background: white; border: 2px solid #e2e8f0; color: #64748b; border-radius: 12px; padding: 1rem; display: block; text-align: center; text-decoration: none;">
                             🏠 回到首頁
                         </a>
                     </div>
@@ -492,11 +532,11 @@
             if (role === 'guest') {
                 header.textContent = '🌸 新朋友體驗回饋';
                 subtitle.textContent = '填完問卷即可領取完整講義！';
-                subtitle.style.color = 'rgba(255,255,255,0.7)';
+                subtitle.style.color = '#64748b';
             } else {
                 header.textContent = '🤝 夥伴流程優化回饋';
                 subtitle.textContent = '感謝您的協助，讓活動越來越好！';
-                subtitle.style.color = 'rgba(255,255,255,0.7)';
+                subtitle.style.color = '#64748b';
             }
 
             // 切換題目顯示

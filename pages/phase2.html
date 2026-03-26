@@ -5,264 +5,242 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon"
-        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌸</text></svg>">
-    <title>階段二：深度規劃 | AI 旅遊規劃工作坊</title>
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
+    <title>第二站：深度規劃 | AI 旅遊規劃師</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="../css/main.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <script src="../js/countdown-sync.js"></script>
+    <style>
+        .quick-nav-links::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tool-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 1.25rem;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        }
+
+        .tool-card:hover {
+            border-color: #a5b4fc;
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.2);
+        }
+
+        .prompt-box {
+            background: #f8fafc;
+            padding: 1rem 1.25rem;
+            padding-top: 2.75rem;
+            line-height: 1.6;
+            border-radius: 0.75rem;
+            font-family: monospace;
+            font-size: 0.95rem;
+            margin-top: 1rem;
+            position: relative;
+            border: 1px solid #e2e8f0;
+            color: #334155;
+        }
+
+        .prompt-box>div {
+            white-space: pre-wrap;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            padding: 0.35rem 0.85rem;
+            font-size: 0.75rem;
+            font-weight: bold;
+            background: white;
+            color: #475569;
+            border: 1px solid #cbd5e1;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
+
+        .copy-btn:hover {
+            background: #f1f5f9;
+            color: #0f172a;
+        }
+    </style>
 </head>
 
-<body class="page-phase2">
+<body class="bg-slate-50 text-slate-800 min-h-screen font-sans">
     <!-- Navbar -->
-    <nav class="navbar">
-        <div class="container navbar-content">
-            <div class="navbar-brand">
-                <span style="font-size: 1.5rem;">📊</span>
-                <h1>階段二：深度規劃</h1>
-                <span class="badge">35分鐘</span>
+    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-lg border-b border-slate-200 text-slate-800 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <span class="text-2xl">📊</span>
+                <h1 class="font-bold text-lg md:text-xl tracking-wide text-indigo-600">第二站：深度規劃</h1>
             </div>
-            <div class="navbar-links">
-                <span class="text-sm text-stone-500">2/6 階段</span>
+            <div class="flex items-center gap-3">
+                <a href="../index.html"
+                    class="px-4 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-600 text-sm font-bold transition-colors shadow-sm">🏠
+                    返回</a>
             </div>
         </div>
     </nav>
 
     <!-- Quick Nav -->
-    <div class="quick-nav">
-        <div class="container quick-nav-links">
-            <a href="../index.html" class="quick-nav-link">🏠 首頁</a>
-            <a href="phase1.html" class="quick-nav-link">1️⃣ 靈感</a>
-            <a href="phase2.html" class="quick-nav-link active">2️⃣ 規劃</a>
-            <a href="phase3.html" class="quick-nav-link">3️⃣ 知識庫</a>
-            <a href="phase4.html" class="quick-nav-link">4️⃣ 視覺</a>
-            <a href="phase5.html" class="quick-nav-link">5️⃣ 生存</a>
-            <a href="phase6.html" class="quick-nav-link">6️⃣ 變現</a>
-            <a href="../survey.html" class="quick-nav-link">📝 問卷</a>
-            <a href="../leaderboard.html" class="quick-nav-link">🏆 成績榜</a>
+    <div class="sticky top-16 z-40 bg-white/60 backdrop-blur-md border-b border-slate-200 py-3 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex gap-2 overflow-x-auto quick-nav-links">
+            <a href="../index.html"
+                class="px-4 py-1.5 rounded-full whitespace-nowrap text-sm font-medium transition-colors bg-white text-slate-600 hover:bg-slate-50 hover:text-sky-600 border border-slate-200 shadow-sm">🏠
+                首頁</a>
+            <a href="phase1.html"
+                class="px-4 py-1.5 rounded-full whitespace-nowrap text-sm font-medium transition-colors bg-white text-slate-600 hover:bg-slate-50 hover:text-sky-600 border border-slate-200 shadow-sm">1️⃣
+                靈感</a>
+            <a href="phase2.html"
+                class="px-4 py-1.5 rounded-full whitespace-nowrap text-sm font-medium transition-colors bg-indigo-600 text-white border border-indigo-500 shadow-md shadow-indigo-500/20">2️⃣
+                規劃</a>
+            <a href="phase3.html"
+                class="px-4 py-1.5 rounded-full whitespace-nowrap text-sm font-medium transition-colors bg-white text-slate-600 hover:bg-slate-50 hover:text-sky-600 border border-slate-200 shadow-sm">3️⃣
+                視覺</a>
+            <a href="phase4.html"
+                class="px-4 py-1.5 rounded-full whitespace-nowrap text-sm font-medium transition-colors bg-white text-slate-600 hover:bg-slate-50 hover:text-sky-600 border border-slate-200 shadow-sm">4️⃣
+                準備</a>
+            <a href="phase5.html"
+                class="px-4 py-1.5 rounded-full whitespace-nowrap text-sm font-medium transition-colors bg-white text-slate-600 hover:bg-slate-50 hover:text-sky-600 border border-slate-200 shadow-sm">5️⃣
+                變現</a>
         </div>
     </div>
 
     <!-- Main Content -->
-    <main class="container" style="padding-top: 2rem; padding-bottom: 6rem;">
-        <div class="fade-in">
-            <!-- Introduction -->
-            <div class="alert alert-info mb-6">
-                <strong>🎯 本階段目標：</strong>利用 Gemini Deep Research
-                的強大聯網搜尋與推理能力，產出包含細節（景點開放時間、真實交通班次、餐廳評價）的完整研究報告，並將其匯出為可編輯的 Google 文件。
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 flex-grow">
+
+        <!-- Hero map banner -->
+        <div
+            class="w-full h-48 md:h-64 rounded-3xl overflow-hidden mb-12 relative shadow-xl border border-slate-200 bg-white group">
+            <div class="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-105"
+                style="background-image: url('../image/banner-phase2.jpg');">
+            </div>
+            <div class="absolute inset-0 bg-gradient-to-t from-white/95 via-white/70 to-transparent"></div>
+            <div class="absolute bottom-6 left-6 md:bottom-8 md:left-8">
+                <span
+                    class="px-3 py-1 bg-indigo-100 border border-indigo-200 rounded-full text-indigo-700 text-xs font-bold tracking-wider mb-3 inline-block shadow-sm">PHASE
+                    2</span>
+                <h2 class="text-3xl md:text-5xl font-extrabold text-slate-800 drop-shadow-sm">精煉完美動線</h2>
+            </div>
+        </div>
+
+        <section class="bg-white border border-slate-200 rounded-2xl p-6 md:p-8 mb-10 shadow-md fade-in">
+            <div class="flex flex-col sm:flex-row items-start gap-5">
+                <div class="text-5xl bg-slate-50 p-4 rounded-2xl border border-slate-100 shadow-inner">🧠</div>
+                <div>
+                    <h2 class="text-2xl font-bold mb-3 text-slate-800">精算交通與排定動線</h2>
+                    <p class="text-slate-600 leading-relaxed text-lg">決定好地點後，最麻煩的就是排順路行程與算交通費。交給 AI 幫你比價「高鐵 vs 自駕」、並利用
+                        Google Maps 評分篩選餐廳。</p>
+                </div>
             </div>
 
-            <!-- Workflow Container -->
-            <div class="workflow-container">
-
-                <!-- Step 1: Deep Research -->
-                <div class="card mb-8">
-                    <div class="card-header flex items-center gap-3">
-                        <div class="step-num">1</div>
-                        <h3>啟動 Gemini Deep Research</h3>
-                    </div>
-                    <div class="card-body">
-                        <div class="step-grid">
-                            <div class="step-text">
-                                <p class="mb-4 text-stone-700">準備好你在第一階段產出的「七步框架指令」了嗎？現在我們要讓 Gemini
-                                    進入最強的思考模式。</p>
-                                <ul class="step-list">
-                                    <li>前往 <a href="https://gemini.google.com/" target="_blank"
-                                            class="text-blue-600 hover:underline">Gemini 官方網站</a></li>
-                                    <li>點擊輸入框左側的「<strong>工具</strong>」按鈕</li>
-                                    <li>選擇「<strong>Deep Research</strong>」功能</li>
-                                    <li>貼上你的指令，看著它開始翻遍網路資料！</li>
-                                </ul>
-                                <a href="https://gemini.google.com/" target="_blank"
-                                    class="btn btn-blue inline-flex items-center gap-2 mt-4">
-                                    🚀 前往 Gemini 實戰
-                                </a>
-                            </div>
-                            <div class="step-img">
-                                <img src="../image/Snipaste_01.png" alt="Gemini Deep Research 開關位置">
-                            </div>
-                        </div>
-                    </div>
+            <div
+                class="mt-6 p-4 bg-indigo-50 border border-indigo-100 text-indigo-800 rounded-xl text-sm flex items-start gap-3 shadow-inner">
+                <span class="text-lg">💡</span>
+                <div>
+                    <strong class="text-indigo-900 block mb-1">導師提示：</strong>
+                    請打開 Gemini，開啟「Deep Research (深入研究)」模式，讓 AI 上網幫你爬最新資料與正確的地圖距離。
                 </div>
-
-                <!-- Step 2: Verification -->
-                <div class="card mb-8">
-                    <div class="card-header flex items-center gap-3 card-header-amber">
-                        <div class="step-num">2</div>
-                        <h3>解析研究報告與推理過程</h3>
-                    </div>
-                    <div class="card-body">
-                        <div class="step-grid step-grid-reverse">
-                            <div class="step-img">
-                                <img src="../image/Snipaste_02.png" alt="Gemini 研究推理展開區塊">
-                            </div>
-                            <div class="step-text">
-                                <p class="mb-4 text-stone-700">Deep Research 會依照你的計劃進行研究，並列出完整的推理過程。</p>
-                                <div class="check-box">
-                                    <h4 class="font-bold mb-2 text-stone-800">檢查重點：</h4>
-                                    <ul class="text-sm space-y-1 text-stone-600">
-                                        <li>✅ 點擊「開始研究」啟動深度研究</li>
-                                        <li>✅ 觀察研究計畫是否符合你的需求</li>
-                                        <li>✅ 確認它正在調研多個網站來源</li>
-                                        <li>✅ 等待研究完成（約 3-5 分鐘）</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Step 3: Export to Docs -->
-                <div class="card mb-8">
-                    <div class="card-header flex items-center gap-3 card-header-emerald">
-                        <div class="step-num">3</div>
-                        <h3>匯出至 Google 文件</h3>
-                    </div>
-                    <div class="card-body">
-                        <div class="step-grid">
-                            <div class="step-text">
-                                <p class="mb-4 text-stone-700">研究報告完成後，將它匯出為 Google 文件，方便後續編輯與分享。</p>
-                                <ul class="step-list">
-                                    <li>在報告右上角點擊「<strong>分享及匯出</strong>」下拉選單</li>
-                                    <li>選擇「<strong>匯出到 Google 文件</strong>」</li>
-                                    <li>系統會自動建立文件並開啟 Google Docs</li>
-                                </ul>
-                            </div>
-                            <div class="step-img">
-                                <img src="../image/Snipaste_03.png" alt="Gemini 匯出至 Google 文件按鈕">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Step 4: Web Experience -->
-                <div class="card mb-8">
-                    <div class="card-header flex items-center gap-3 card-header-primary-light">
-                        <div class="step-num">4</div>
-                        <h3>體驗網頁生成</h3>
-                    </div>
-                    <div class="card-body">
-                        <div class="step-grid step-grid-reverse">
-                            <div class="step-img">
-                                <img src="../image/Snipaste_04.png" alt="Canvas 建立網頁">
-                            </div>
-                            <div class="step-text">
-                                <p class="mb-4 text-stone-700">利用 Canvas 的「建立」功能，體驗將報告一鍵轉為網頁的魔法！</p>
-                                <ul class="step-list">
-                                    <li>在 Canvas 介面右上角點擊「<strong>建立</strong>」按鈕</li>
-                                    <li>選擇「<strong>網頁</strong>」</li>
-                                    <li>Gemini 會自動將你的行程報告轉為精美的互動式網頁</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
             </div>
+        </section>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">
+            <!-- Tool 1 -->
+            <section class="tool-card fade-in" style="animation-delay: 0.1s;">
+                <div class="flex items-center gap-3 mb-3">
+                    <div
+                        class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center border border-indigo-200 text-xl shadow-sm">
+                        🚗</div>
+                    <h3 class="font-bold text-lg text-slate-800">交通比價精算機能</h3>
+                </div>
+                <p class="text-sm text-slate-600 mb-5 leading-relaxed">到底要自己開車、搭高鐵轉車，還是搭客運？讓 AI 幫你算時間與花費。</p>
+
+                <div class="prompt-box group/prompt border-l-4 border-indigo-500 shadow-inner">
+                    <button class="copy-btn opacity-0 group-hover/prompt:opacity-100 focus:opacity-100"
+                        onclick="copyText(this, 'prompt1')">📋 複製</button>
+                    <div id="prompt1">請幫我計算從 [出發地] 到 [目的地] 的交通方式比較。
+                        人數：[4] 人
+                        請評估以下三種方式的「總花費 (含油資/過路費/車票)」與「總交通時間」：
+                        1. 自己開車
+                        2. 搭高鐵轉當地租車
+                        3. 搭乘大眾客運
+
+                        請用表格呈現比較結果，並給我最終建議。</div>
+                </div>
+            </section>
+
+            <!-- Tool 2 -->
+            <section class="tool-card fade-in" style="animation-delay: 0.2s;">
+                <div class="flex items-center gap-3 mb-3">
+                    <div
+                        class="w-10 h-10 rounded-full bg-pink-100 flex items-center justify-center border border-pink-200 text-xl shadow-sm">
+                        🗺️</div>
+                    <h3 class="font-bold text-lg text-slate-800">完美順路行程表</h3>
+                </div>
+                <p class="text-sm text-slate-600 mb-5 leading-relaxed">最怕排出來的行程一直繞路或遇到公休。這組咒語能幫你一次搞定。</p>
+
+                <div class="prompt-box group/prompt border-l-4 border-pink-500 shadow-inner">
+                    <button class="copy-btn opacity-0 group-hover/prompt:opacity-100 focus:opacity-100"
+                        onclick="copyText(this, 'prompt2')">📋 複製</button>
+                    <div id="prompt2">我要規劃一趟 [目的地] 的 [3天2夜] 連假行程。
+                        請幫我排定每日動線，要求如下：
+                        1. 每天景點必須順路，請計算點到點的車程時間。
+                        2. 每天安排一家有在地特色的午餐與晚餐，並且 Google Maps 評分要在 4.2 星以上。
+                        3. 產生一份清楚的行程表格，包含：時間、地點、停留時間、亮點介紹。</div>
+                </div>
+            </section>
+        </div>
+
+        <section class="mt-8 flex justify-center fade-in" style="animation-delay: 0.3s;">
+            <a href="https://gemini.google.com/" target="_blank"
+                class="px-8 py-4 rounded-xl bg-gradient-to-r from-indigo-500 to-blue-500 hover:from-indigo-600 hover:to-blue-600 text-white font-bold transition-all flex justify-center items-center gap-2 shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/50 hover:-translate-y-1">
+                ✨ 立刻前往 Gemini 測試
+            </a>
+        </section>
+
+        <!-- Next Phase -->
+        <div class="flex justify-between items-center mt-12 pt-8 border-t border-slate-200 fade-in"
+            style="animation-delay: 0.4s;">
+            <a href="phase1.html"
+                class="flex items-center gap-2 text-slate-500 hover:text-slate-800 font-bold transition-colors">
+                <span class="p-2 rounded-full bg-white border border-slate-200 shadow-sm">←</span> 回靈感發想
+            </a>
+            <a href="phase3.html"
+                class="flex items-center gap-3 px-6 py-3 bg-white hover:bg-pink-50 text-slate-800 rounded-xl font-bold transition-all border border-slate-200 hover:border-pink-300 shadow-sm hover:shadow-md"
+                onclick="WorkshopState.completePhase(2)">
+                前往視覺與社群 <span class="p-1 rounded-full bg-pink-100 text-pink-600 shadow-sm">→</span>
+            </a>
         </div>
     </main>
 
-    <style>
-        .step-num {
-            background: white;
-            color: var(--color-primary);
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 1rem;
-            flex-shrink: 0;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .step-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            align-items: start;
-        }
-
-        .step-grid-reverse {
-            direction: rtl;
-        }
-
-        .step-grid-reverse>* {
-            direction: ltr;
-        }
-
-        .step-text {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .step-list {
-            list-style: disc;
-            padding-left: 1.25rem;
-            margin-bottom: 0;
-        }
-
-        .step-list li {
-            margin-bottom: 0.5rem;
-            color: #57534e;
-            line-height: 1.6;
-        }
-
-        .step-img {
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            border: 1px solid #e7e5e4;
-        }
-
-        .step-img img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        .check-box {
-            background: #fafaf9;
-            padding: 1rem;
-            border-left: 4px solid #f59e0b;
-            border-radius: 6px;
-        }
-
-        .card-header-amber {
-            background: linear-gradient(135deg, #f59e0b, #d97706);
-        }
-
-        .card-header-emerald {
-            background: linear-gradient(135deg, #10b981, #059669);
-        }
-
-        .card-header-primary-light {
-            background: linear-gradient(135deg, #6366f1, #4f46e5);
-        }
-
-        @media (max-width: 768px) {
-            .step-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .step-grid-reverse {
-                direction: ltr;
-            }
-
-            .step-img {
-                order: -1;
-            }
-        }
-    </style>
+    <!-- Toast -->
+    <div class="copy-toast" id="copy-toast"></div>
 
     <script src="../js/common.js"></script>
     <script>
-        // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
-            WorkshopState.setCurrentPhase(2);
-        });
+        function copyText(btn, elementId) {
+            const text = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                showCopyToast('🪄 提示詞已複製！');
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '✅ 已複製';
+                btn.classList.add('!bg-green-50', '!text-green-600', '!border-green-200');
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.classList.remove('!bg-green-50', '!text-green-600', '!border-green-200');
+                }, 2000);
+            });
+        }
     </script>
 </body>
 

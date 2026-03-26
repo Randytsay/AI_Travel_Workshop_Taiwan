@@ -1,0 +1,19 @@
+# System Files
+.DS_Store
+Thumbs.db
+.gemini/
+.idea/
+.vscode/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Logs
+*.log
+
+# Scripts (Temporary or internal)
+image/dl.py
+image/dl2.py
+fix_emoji*.py
