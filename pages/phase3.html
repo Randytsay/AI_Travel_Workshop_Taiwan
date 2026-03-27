@@ -6,84 +6,68 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon"
         href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎨</text></svg>">
-    <title>第三站：視覺與社群 | AI 旅遊規劃師</title>
+    <title>第三站：多媒體產出 | AI 旅遊規劃師</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="../css/main.css">
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
     <script src="../js/countdown-sync.js"></script>
     <style>
-        .quick-nav-links::-webkit-scrollbar {
-            display: none;
-        }
+        .quick-nav-links::-webkit-scrollbar { display: none; }
 
-        .style-card {
-            background: white;
-            border: 1px solid #e2e8f0;
+        /* Tab Navigation */
+        .stage-tabs { display: flex; gap: 0.5rem; overflow-x: auto; padding-bottom: 0.5rem; }
+        .stage-tabs::-webkit-scrollbar { display: none; }
+        .stage-tab {
+            flex-shrink: 0;
+            padding: 0.75rem 1.25rem;
             border-radius: 1rem;
-            padding: 1.5rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-align: center;
-            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-        }
-
-        .style-card:hover {
-            border-color: #f472b6;
-            transform: translateY(-4px);
-            box-shadow: 0 10px 15px -3px rgba(236, 72, 153, 0.1);
-        }
-
-        .style-card.selected {
-            border-color: #ec4899;
-            background: #fdf2f8;
-            box-shadow: 0 4px 6px -1px rgba(236, 72, 153, 0.1), 0 2px 4px -1px rgba(236, 72, 153, 0.06);
-        }
-
-        .style-card .emoji {
-            font-size: 3rem;
-            display: block;
-            margin-bottom: 0.75rem;
-            transition: transform 0.3s;
-        }
-
-        .style-card:hover .emoji {
-            transform: scale(1.1);
-        }
-
-        .style-card .name {
             font-weight: 700;
-            font-size: 1rem;
-            color: #1e293b;
-            display: block;
-        }
-
-        .prompt-preview {
-            background: #f8fafc;
-            color: #334155;
-            padding: 1.5rem;
-            line-height: 1.8;
-            border-radius: 0.75rem;
-            font-family: monospace;
-            font-size: 0.95rem;
-            white-space: pre-wrap;
-            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s;
             border: 1px solid #e2e8f0;
-            border-left-width: 4px;
-            border-left-color: #ec4899;
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
-        }
-
-        .podcast-box {
             background: white;
-            border: 1px solid #e2e8f0;
-            border-radius: 1rem;
-            padding: 1.5rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            color: #64748b;
+            white-space: nowrap;
         }
+        .stage-tab:hover { border-color: #cbd5e1; color: #334155; background: #f8fafc; }
+        .stage-tab.active { color: white; border-color: transparent; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+        .stage-tab[data-stage="podcast"].active { background: linear-gradient(135deg, #ec4899, #f43f5e); }
+        .stage-tab[data-stage="slides"].active { background: linear-gradient(135deg, #8b5cf6, #6366f1); }
+        .stage-tab[data-stage="map"].active { background: linear-gradient(135deg, #06b6d4, #3b82f6); }
+        .stage-tab[data-stage="animation"].active { background: linear-gradient(135deg, #f97316, #ef4444); }
+
+        /* Stage Content */
+        .stage-content { display: none; animation: fadeIn 0.3s ease; }
+        .stage-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Style Cards */
+        .style-card {
+            background: white; border: 1px solid #e2e8f0; border-radius: 1rem;
+            padding: 1.25rem; cursor: pointer; transition: all 0.3s ease;
+            text-align: center; box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+        .style-card:hover { border-color: #f472b6; transform: translateY(-4px); box-shadow: 0 8px 15px -3px rgba(236,72,153,0.12); }
+        .style-card.selected { border-color: #ec4899; background: #fdf2f8; box-shadow: 0 4px 6px -1px rgba(236,72,153,0.15); }
+        .style-card .emoji { font-size: 2.5rem; display: block; margin-bottom: 0.5rem; transition: transform 0.3s; }
+        .style-card:hover .emoji { transform: scale(1.15); }
+        .style-card .name { font-weight: 700; font-size: 0.9rem; color: #1e293b; display: block; }
+
+        /* Prompt Preview */
+        .prompt-preview {
+            background: #f8fafc; color: #334155; padding: 1.5rem;
+            line-height: 1.7; border-radius: 0.75rem;
+            font-family: 'Noto Sans TC', monospace; font-size: 0.85rem;
+            white-space: pre-wrap; border: 1px solid #e2e8f0;
+            border-left-width: 4px; max-height: 500px; overflow-y: auto;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .prompt-preview::-webkit-scrollbar { width: 6px; }
+        .prompt-preview::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
     </style>
 </head>
 
@@ -92,12 +76,11 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <div class="flex items-center gap-3">
                 <span class="text-2xl">🎨</span>
-                <h1 class="font-bold text-lg md:text-xl tracking-wide text-pink-600">第三站：視覺與社群</h1>
+                <h1 class="font-bold text-lg md:text-xl tracking-wide text-pink-600">第三站：多媒體產出</h1>
             </div>
             <div class="flex items-center gap-3">
                 <a href="../index.html"
-                    class="px-4 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-600 text-sm font-bold transition-colors shadow-sm">🏠
-                    返回</a>
+                    class="px-4 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-600 text-sm font-bold transition-colors shadow-sm">🏠 返回</a>
             </div>
         </div>
     </nav>
@@ -105,171 +88,173 @@
     <!-- Quick Nav -->
     <div class="sticky top-16 z-40 bg-white/60 backdrop-blur-md border-b border-slate-200 py-3 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex gap-2 overflow-x-auto quick-nav-links">
-            <a href="../index.html"
-                class="px-4 py-1.5 rounded-full whitespace-nowrap text-sm font-medium transition-colors bg-white text-slate-600 hover:bg-slate-50 hover:text-sky-600 border border-slate-200 shadow-sm">🏠
-                首頁</a>
-            <a href="phase1.html"
-                class="px-4 py-1.5 rounded-full whitespace-nowrap text-sm font-medium transition-colors bg-white text-slate-600 hover:bg-slate-50 hover:text-sky-600 border border-slate-200 shadow-sm">1️⃣
-                靈感</a>
-            <a href="phase2.html"
-                class="px-4 py-1.5 rounded-full whitespace-nowrap text-sm font-medium transition-colors bg-white text-slate-600 hover:bg-slate-50 hover:text-sky-600 border border-slate-200 shadow-sm">2️⃣
-                規劃</a>
-            <a href="phase3.html"
-                class="px-4 py-1.5 rounded-full whitespace-nowrap text-sm font-medium transition-colors bg-pink-500 text-white border border-pink-400 shadow-md shadow-pink-500/20">3️⃣
-                視覺</a>
-            <a href="phase4.html"
-                class="px-4 py-1.5 rounded-full whitespace-nowrap text-sm font-medium transition-colors bg-white text-slate-600 hover:bg-slate-50 hover:text-sky-600 border border-slate-200 shadow-sm">4️⃣
-                準備</a>
-            <a href="phase5.html"
-                class="px-4 py-1.5 rounded-full whitespace-nowrap text-sm font-medium transition-colors bg-white text-slate-600 hover:bg-slate-50 hover:text-sky-600 border border-slate-200 shadow-sm">5️⃣
-                變現</a>
+            <a href="../index.html" class="px-4 py-1.5 rounded-full whitespace-nowrap text-sm font-medium transition-colors bg-white text-slate-600 hover:bg-slate-50 hover:text-sky-600 border border-slate-200 shadow-sm">🏠 首頁</a>
+            <a href="phase1.html" class="px-4 py-1.5 rounded-full whitespace-nowrap text-sm font-medium transition-colors bg-white text-slate-600 hover:bg-slate-50 hover:text-sky-600 border border-slate-200 shadow-sm">1️⃣ 靈感</a>
+            <a href="phase2.html" class="px-4 py-1.5 rounded-full whitespace-nowrap text-sm font-medium transition-colors bg-white text-slate-600 hover:bg-slate-50 hover:text-sky-600 border border-slate-200 shadow-sm">2️⃣ 規劃</a>
+            <a href="phase3.html" class="px-4 py-1.5 rounded-full whitespace-nowrap text-sm font-medium transition-colors bg-pink-500 text-white border border-pink-400 shadow-md shadow-pink-500/20">3️⃣ 產出</a>
+            <a href="phase4.html" class="px-4 py-1.5 rounded-full whitespace-nowrap text-sm font-medium transition-colors bg-white text-slate-600 hover:bg-slate-50 hover:text-sky-600 border border-slate-200 shadow-sm">4️⃣ 變現</a>
         </div>
     </div>
 
     <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 flex-grow">
 
-        <!-- Hero image banner -->
-        <div
-            class="w-full h-48 md:h-64 rounded-3xl overflow-hidden mb-12 relative shadow-xl border border-slate-200 bg-white group">
+        <!-- Hero banner -->
+        <div class="w-full h-48 md:h-64 rounded-3xl overflow-hidden mb-12 relative shadow-xl border border-slate-200 bg-white group">
             <div class="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-105"
-                style="background-image: url('../image/banner-phase3.jpg');">
-            </div>
+                style="background-image: url('../image/banner-phase3.jpg');"></div>
             <div class="absolute inset-0 bg-gradient-to-t from-white/95 via-white/70 to-transparent"></div>
             <div class="absolute bottom-6 left-6 md:bottom-8 md:left-8">
-                <span
-                    class="px-3 py-1 bg-pink-100 border border-pink-200 rounded-full text-pink-700 text-xs font-bold tracking-wider mb-3 inline-block shadow-sm">PHASE
-                    3 / HIGHLIGHT</span>
-                <h2 class="text-3xl md:text-5xl font-extrabold text-slate-800 drop-shadow-sm">打造視覺焦點</h2>
+                <span class="px-3 py-1 bg-pink-100 border border-pink-200 rounded-full text-pink-700 text-xs font-bold tracking-wider mb-3 inline-block shadow-sm">PHASE 3 / HIGHLIGHT</span>
+                <h2 class="text-3xl md:text-5xl font-extrabold text-slate-800 drop-shadow-sm">四大多媒體產出</h2>
             </div>
         </div>
 
-        <section class="bg-white border border-slate-200 rounded-2xl p-6 md:p-8 mb-10 shadow-md fade-in">
+        <!-- Intro -->
+        <section class="bg-white border border-slate-200 rounded-2xl p-6 md:p-8 mb-8 shadow-md fade-in">
             <div class="flex flex-col sm:flex-row items-start gap-5">
-                <div class="text-5xl bg-slate-50 p-4 rounded-2xl border border-slate-100 shadow-inner">🎧</div>
+                <div class="text-5xl bg-slate-50 p-4 rounded-2xl border border-slate-100 shadow-inner">🎬</div>
                 <div>
-                    <h2 class="text-2xl font-bold mb-3 text-slate-800">不想看字？生一個 Podcast 語音導覽</h2>
-                    <p class="text-slate-600 leading-relaxed text-lg mb-4">把剛剛做好的行程表丟進 NotebookLM，立刻生成兩個 AI
-                        主持人為你導覽行程！適合行前通勤聽，或是旅行時邊走邊聽。</p>
-
-                    <div class="podcast-box mt-4 relative overflow-hidden">
-                        <div
-                            class="absolute top-0 right-0 w-32 h-32 bg-pink-50 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none">
-                        </div>
-                        <h3 class="font-bold mb-3 text-slate-800 flex items-center gap-2">
-                            <span
-                                class="p-1.5 rounded-lg bg-pink-100 text-pink-600 shadow-sm border border-pink-200">📻</span>
-                            操作步驟
-                        </h3>
-                        <ol class="list-decimal pl-6 text-slate-700 space-y-3 font-medium">
-                            <li>複製剛才 Gemini 排好的行程表。</li>
-                            <li>打開 <a href="https://notebooklm.google.com/" target="_blank"
-                                    class="text-pink-600 hover:text-pink-500 font-bold underline decoration-pink-300 underline-offset-4 transition-colors">NotebookLM</a>，建立新筆記本，選擇「貼上文字」。
-                            </li>
-                            <li>點擊右側的 <strong
-                                    class="text-slate-800 bg-slate-100 px-2 py-0.5 rounded border border-slate-300">Audio
-                                    Overview (音訊總覽)</strong> 內的 <strong>Generate</strong> 按鈕。</li>
-                            <li>稍微等它一下，戴上耳機享受你的專屬旅遊頻道！</li>
-                        </ol>
-
-                        <div class="mt-6">
-                            <h4 class="font-bold text-sm text-slate-700 mb-3">想讓主持人說中文？請選擇情境並複製指令：</h4>
-                            <div class="flex flex-wrap gap-2 mb-3">
-                                <button onclick="changePodcastPrompt('casual', this)"
-                                    class="podcast-tab px-3 py-1.5 rounded-full text-sm font-bold bg-pink-100 text-pink-700 border border-pink-200 transition-colors shadow-sm">👫
-                                    朋友閒聊</button>
-                                <button onclick="changePodcastPrompt('guide', this)"
-                                    class="podcast-tab px-3 py-1.5 rounded-full text-sm font-bold bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 transition-colors shadow-sm">🏛️
-                                    深度人文地陪</button>
-                                <button onclick="changePodcastPrompt('kids', this)"
-                                    class="podcast-tab px-3 py-1.5 rounded-full text-sm font-bold bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 transition-colors shadow-sm">👶
-                                    親子童話</button>
-                                <button onclick="changePodcastPrompt('foodie', this)"
-                                    class="podcast-tab px-3 py-1.5 rounded-full text-sm font-bold bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 transition-colors shadow-sm">🤤
-                                    老饕帶路</button>
-                            </div>
-                            <div class="prompt-box group/prompt border-l-4 border-pink-500 shadow-inner">
-                                <button class="copy-btn opacity-0 group-hover/prompt:opacity-100 focus:opacity-100"
-                                    onclick="handleCopyClick(this, 'prompt-podcast')">📋 複製</button>
-                                <div id="prompt-podcast">請像好朋友出遊前閒聊一樣活潑幽默，充滿對這趟旅行的期待感，並且自然地帶出行程中的亮點。</div>
-                            </div>
-                        </div>
-                    </div>
+                    <h2 class="text-2xl font-bold mb-3 text-slate-800">一份報告，四種作品</h2>
+                    <p class="text-slate-600 leading-relaxed text-lg">把 Deep Research 產出的 Google Doc 導入 NotebookLM，就能一口氣生成 <strong class="text-pink-600">Podcast</strong>、<strong class="text-purple-600">AI 簡報</strong>、<strong class="text-cyan-600">旅遊地圖</strong>，再用 Meta AI 做出<strong class="text-orange-600">動畫</strong>！</p>
+                </div>
+            </div>
+            <div class="mt-6 p-4 bg-pink-50 border border-pink-100 text-pink-800 rounded-xl text-sm flex items-start gap-3 shadow-inner">
+                <span class="text-lg">📝</span>
+                <div>
+                    <strong class="text-pink-900 block mb-1">前置步驟：</strong>
+                    打開 <a href="https://notebooklm.google.com/" target="_blank" class="text-pink-600 font-bold underline decoration-pink-300 underline-offset-4 hover:text-pink-500">NotebookLM</a>，建立新筆記本，選擇「<strong>Google 文件</strong>」來源，匯入你剛剛在 Phase 2 匯出的 Google Doc。
                 </div>
             </div>
         </section>
 
-        <section class="mb-12 fade-in mt-16" style="animation-delay: 0.1s;">
-            <div class="flex flex-col sm:flex-row items-center sm:items-start gap-5 mb-8 text-center sm:text-left">
-                <div class="text-5xl bg-slate-50 p-4 rounded-2xl border border-slate-100 shadow-inner inline-block">
-                    📸</div>
-                <div>
-                    <h2 class="text-2xl md:text-3xl font-bold mb-3 text-slate-800">AI 生圖：把台灣秘境變成藝術畫</h2>
-                    <p class="text-slate-600 leading-relaxed text-lg">在出發前，先用 AI 畫出你腦海中的旅行想像，發上限時動態讓朋友羨慕一下！</p>
+        <!-- Stage Tab Navigation -->
+        <div class="stage-tabs mb-8 fade-in" style="animation-delay: 0.1s;">
+            <button class="stage-tab active" data-stage="podcast" onclick="switchStage('podcast', this)">🎧 Podcast 語音導覽</button>
+            <button class="stage-tab" data-stage="slides" onclick="switchStage('slides', this)">📊 AI 簡報</button>
+            <button class="stage-tab" data-stage="map" onclick="switchStage('map', this)">🗺️ 旅遊地圖</button>
+            <button class="stage-tab" data-stage="animation" onclick="switchStage('animation', this)">🎬 動畫</button>
+        </div>
+
+        <!-- ==================== STAGE 1: PODCAST ==================== -->
+        <div class="stage-content active" id="stage-podcast">
+            <section class="bg-white border border-slate-200 rounded-2xl p-6 md:p-8 shadow-lg fade-in">
+                <div class="flex items-center gap-3 mb-2">
+                    <span class="text-3xl">🎧</span>
+                    <h3 class="text-2xl font-bold text-slate-800">Podcast 語音導覽</h3>
                 </div>
-            </div>
+                <p class="text-slate-600 mb-2">工具：<strong>NotebookLM → 語音摘要 (Audio Overview)</strong></p>
+                <p class="text-slate-500 text-sm mb-6">在 NotebookLM 的「語音摘要」中，貼入下方的自訂提示詞，兩位 AI 主持人就會用你選的風格為你導覽行程！</p>
 
-            <div class="flex items-center gap-3 mb-5">
-                <span
-                    class="flex items-center justify-center w-8 h-8 rounded-full bg-pink-100 text-pink-600 font-bold border border-pink-300 shadow-sm">1</span>
-                <h3 class="text-xl font-bold text-slate-800">選擇影像風格</h3>
-            </div>
-            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 pl-0 md:pl-11" id="style-grid">
-                <!-- Generator logic -->
-            </div>
-        </section>
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="flex items-center justify-center w-7 h-7 rounded-full bg-pink-100 text-pink-600 font-bold text-sm border border-pink-200">1</span>
+                    <h4 class="font-bold text-slate-800">選擇 Podcast 風格</h4>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6" id="podcast-grid"></div>
 
-        <!-- Step 2 -->
-        <section
-            class="bg-white border border-slate-200 rounded-2xl p-6 md:p-8 shadow-lg relative overflow-hidden fade-in"
-            style="animation-delay: 0.3s;">
-            <div
-                class="absolute bottom-0 right-0 w-64 h-64 bg-pink-50 rounded-full blur-3xl -mx-20 -my-20 pointer-events-none">
-            </div>
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="flex items-center justify-center w-7 h-7 rounded-full bg-pink-500 text-white font-bold text-sm shadow-md">2</span>
+                    <h4 class="font-bold text-slate-800">你的自訂提示詞</h4>
+                </div>
+                <div class="prompt-preview border-l-pink-500 mb-4" id="podcast-prompt">請先選擇風格...</div>
+                <div class="flex gap-3">
+                    <button onclick="handleCopyClick(this, 'podcast-prompt')" class="px-5 py-2.5 rounded-xl bg-pink-50 hover:bg-pink-100 text-pink-600 font-bold border border-pink-200 transition-all shadow-sm">📋 複製提示詞</button>
+                    <a href="https://notebooklm.google.com/" target="_blank" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-bold transition-all shadow-lg shadow-pink-500/25 hover:-translate-y-0.5">🎙️ 前往 NotebookLM</a>
+                </div>
+            </section>
+        </div>
 
-            <div class="flex items-center gap-3 mb-6 relative z-10">
-                <span
-                    class="flex items-center justify-center w-8 h-8 rounded-full bg-pink-500 text-white font-bold shadow-md shadow-pink-500/30">2</span>
-                <h3 class="text-2xl font-bold text-slate-800 flex items-center gap-2">
-                    你的專屬生圖提示詞 <span class="text-xl">🪄</span>
-                </h3>
-            </div>
+        <!-- ==================== STAGE 2: SLIDES ==================== -->
+        <div class="stage-content" id="stage-slides">
+            <section class="bg-white border border-slate-200 rounded-2xl p-6 md:p-8 shadow-lg fade-in">
+                <div class="flex items-center gap-3 mb-2">
+                    <span class="text-3xl">📊</span>
+                    <h3 class="text-2xl font-bold text-slate-800">AI 簡報</h3>
+                </div>
+                <p class="text-slate-600 mb-2">工具：<strong>NotebookLM → 簡報功能</strong></p>
+                <p class="text-slate-500 text-sm mb-6">選擇風格後，複製下方 YAML 提示詞貼入 NotebookLM 的簡報自訂指示欄位，即可生成 20 頁精美簡報！</p>
 
-            <div class="mb-6 relative z-10">
-                <label class="block text-sm font-bold text-slate-700 mb-2">請將剛剛在 Phase 2 (規劃頁) 產生的行程大綱或表格貼於下方：</label>
-                <textarea id="custom-location" rows="6"
-                    class="w-full bg-white border border-slate-300 text-slate-900 rounded-xl shadow-inner p-3 focus:outline-none focus:border-pink-400 focus:ring-1 focus:ring-pink-400 transition-all font-medium resize-y"
-                    placeholder="例如：
-Day 1: 抵達高鐵台南站 -> 國華街吃美食 -> 奇美博物館 -> 入住安平區飯店
-Day 2: 安平古堡 -> 漁光島夕陽 -> 大東夜市
-" oninput="updatePrompt()"></textarea>
-            </div>
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="flex items-center justify-center w-7 h-7 rounded-full bg-purple-100 text-purple-600 font-bold text-sm border border-purple-200">1</span>
+                    <h4 class="font-bold text-slate-800">選擇簡報風格</h4>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6" id="slides-grid"></div>
 
-            <div class="prompt-preview relative z-10" id="prompt-output">
-                請先選擇上方風格與輸入景點...
-            </div>
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="flex items-center justify-center w-7 h-7 rounded-full bg-purple-500 text-white font-bold text-sm shadow-md">2</span>
+                    <h4 class="font-bold text-slate-800">你的 YAML 簡報指令</h4>
+                </div>
+                <div class="prompt-preview border-l-purple-500 mb-4" id="slides-prompt">請先選擇風格...</div>
+                <div class="flex gap-3">
+                    <button onclick="handleCopyClick(this, 'slides-prompt')" class="px-5 py-2.5 rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-600 font-bold border border-purple-200 transition-all shadow-sm">📋 複製提示詞</button>
+                    <a href="https://notebooklm.google.com/" target="_blank" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 text-white font-bold transition-all shadow-lg shadow-purple-500/25 hover:-translate-y-0.5">📊 前往 NotebookLM</a>
+                </div>
+            </section>
+        </div>
 
-            <div class="flex flex-col sm:flex-row gap-4 relative z-10">
-                <button onclick="handleCopyClick(this, 'prompt-output')"
-                    class="flex-1 py-3 px-6 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold transition-colors border border-slate-300 flex justify-center items-center gap-2 shadow-sm">
-                    📋 複製提示詞
-                </button>
-                <a href="https://www.meta.ai/vibes" target="_blank"
-                    class="flex-1 py-3 px-6 rounded-xl bg-gradient-to-r from-blue-500 to-sky-500 hover:from-blue-600 hover:to-sky-600 text-white font-bold transition-all flex justify-center items-center gap-2 shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 hover:-translate-y-1">
-                    ✨ 前往 Meta AI 生圖
-                </a>
-            </div>
-        </section>
+        <!-- ==================== STAGE 3: MAP ==================== -->
+        <div class="stage-content" id="stage-map">
+            <section class="bg-white border border-slate-200 rounded-2xl p-6 md:p-8 shadow-lg fade-in">
+                <div class="flex items-center gap-3 mb-2">
+                    <span class="text-3xl">🗺️</span>
+                    <h3 class="text-2xl font-bold text-slate-800">旅遊行程地圖</h3>
+                </div>
+                <p class="text-slate-600 mb-2">工具：<strong>NotebookLM → 資訊圖表生成</strong></p>
+                <p class="text-slate-500 text-sm mb-6">選擇風格後，複製提示詞貼入 NotebookLM 的資訊圖表自訂指示，生成繽紛的行程地圖！</p>
 
-        <div class="flex justify-between items-center mt-12 pt-8 border-t border-slate-200 fade-in"
-            style="animation-delay: 0.4s;">
-            <a href="phase2.html"
-                class="flex items-center gap-2 text-slate-500 hover:text-slate-800 font-bold transition-colors">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="flex items-center justify-center w-7 h-7 rounded-full bg-cyan-100 text-cyan-600 font-bold text-sm border border-cyan-200">1</span>
+                    <h4 class="font-bold text-slate-800">選擇地圖風格</h4>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6" id="map-grid"></div>
+
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="flex items-center justify-center w-7 h-7 rounded-full bg-cyan-500 text-white font-bold text-sm shadow-md">2</span>
+                    <h4 class="font-bold text-slate-800">你的資訊圖表指令</h4>
+                </div>
+                <div class="prompt-preview border-l-cyan-500 mb-4" id="map-prompt">請先選擇風格...</div>
+                <div class="flex gap-3">
+                    <button onclick="handleCopyClick(this, 'map-prompt')" class="px-5 py-2.5 rounded-xl bg-cyan-50 hover:bg-cyan-100 text-cyan-600 font-bold border border-cyan-200 transition-all shadow-sm">📋 複製提示詞</button>
+                    <a href="https://notebooklm.google.com/" target="_blank" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white font-bold transition-all shadow-lg shadow-cyan-500/25 hover:-translate-y-0.5">🗺️ 前往 NotebookLM</a>
+                </div>
+            </section>
+        </div>
+
+        <!-- ==================== STAGE 4: ANIMATION ==================== -->
+        <div class="stage-content" id="stage-animation">
+            <section class="bg-white border border-slate-200 rounded-2xl p-6 md:p-8 shadow-lg fade-in">
+                <div class="flex items-center gap-3 mb-2">
+                    <span class="text-3xl">🎬</span>
+                    <h3 class="text-2xl font-bold text-slate-800">地圖動畫</h3>
+                </div>
+                <p class="text-slate-600 mb-2">工具：<strong>Meta AI (meta.ai/vibes)</strong></p>
+                <p class="text-slate-500 text-sm mb-6">上傳剛才生成的旅遊地圖，選擇動作型態，讓地圖中的元素動起來（整張圖不動，只有元件動）！</p>
+
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="flex items-center justify-center w-7 h-7 rounded-full bg-orange-100 text-orange-600 font-bold text-sm border border-orange-200">1</span>
+                    <h4 class="font-bold text-slate-800">選擇動作型態</h4>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6" id="animation-grid"></div>
+
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="flex items-center justify-center w-7 h-7 rounded-full bg-orange-500 text-white font-bold text-sm shadow-md">2</span>
+                    <h4 class="font-bold text-slate-800">你的動畫指令</h4>
+                </div>
+                <div class="prompt-preview border-l-orange-500 mb-4" id="animation-prompt">請先選擇動作...</div>
+                <div class="flex gap-3">
+                    <button onclick="handleCopyClick(this, 'animation-prompt')" class="px-5 py-2.5 rounded-xl bg-orange-50 hover:bg-orange-100 text-orange-600 font-bold border border-orange-200 transition-all shadow-sm">📋 複製提示詞</button>
+                    <a href="https://www.meta.ai/vibes" target="_blank" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-bold transition-all shadow-lg shadow-orange-500/25 hover:-translate-y-0.5">🎬 前往 Meta AI</a>
+                </div>
+            </section>
+        </div>
+
+        <!-- Next Phase -->
+        <div class="flex justify-between items-center mt-12 pt-8 border-t border-slate-200 fade-in" style="animation-delay: 0.4s;">
+            <a href="phase2.html" class="flex items-center gap-2 text-slate-500 hover:text-slate-800 font-bold transition-colors">
                 <span class="p-2 rounded-full bg-white border border-slate-200 shadow-sm">←</span> 回深度規劃
             </a>
-            <a href="phase4.html"
-                class="flex items-center gap-3 px-6 py-3 bg-white hover:bg-amber-50 text-slate-800 rounded-xl font-bold transition-all border border-slate-200 hover:border-amber-300 shadow-sm hover:shadow-md"
+            <a href="phase4.html" class="flex items-center gap-3 px-6 py-3 bg-white hover:bg-emerald-50 text-slate-800 rounded-xl font-bold transition-all border border-slate-200 hover:border-emerald-300 shadow-sm hover:shadow-md"
                 onclick="WorkshopState.completePhase(3)">
-                前往出發前準備 <span class="p-1 rounded-full bg-amber-100 text-amber-600 shadow-sm">→</span>
+                前往商業變現 <span class="p-1 rounded-full bg-emerald-100 text-emerald-600 shadow-sm">→</span>
             </a>
         </div>
     </main>
@@ -278,86 +263,96 @@ Day 2: 安平古堡 -> 漁光島夕陽 -> 大東夜市
 
     <script src="../js/common.js"></script>
     <script>
-        const styles = [
-            { id: 'shinkai', name: '新海誠', emoji: '✨', prompt: '風格：新海誠動畫電影風格，極度精緻的光影變化，清澈透明的藍天與大片流雲，唯美浪漫，高對比度，絢麗的黃昏色彩，8k 解析度，動漫背景美術。' },
-            { id: 'miyazaki', name: '宮崎駿', emoji: '🍃', prompt: '風格：吉卜力與宮崎駿動畫電影手繪風格，充滿溫度的水彩背景，生機盎然的翠綠風景，帶有一點懷舊與童話感，細膩的筆觸，溫馨療癒，高品質賽璐珞動畫感。' },
-            { id: 'cyberpunk', name: '賽博龐克', emoji: '👾', prompt: '風格：賽博龐克美學，未來主義，霓虹燈光效，雨夜積水反光，未來科技感，發光招牌，無機質，電影級戲劇性光影，8k 超高解析度。' },
-            { id: 'minimalist', name: '極簡設計', emoji: '📐', prompt: '風格：極簡扁平化設計插畫，現代向量藝術 (Vector Art)，平滑乾淨的漸層，銳利乾淨的線條，現代感，北歐風，色彩鮮豔但色調受限。' },
-            { id: 'claymorphism', name: '黏土擬真', emoji: '🧸', prompt: '風格：3D 等距視角 (Isometric)，黏土擬真質感 (Claymorphism)，馬卡龍色調，像精緻的微縮模型玩具，圓潤可愛，Blender 3D 渲染，柔和打光。' },
-            { id: 'ukiyo', name: '現代浮世繪', emoji: '🎎', prompt: '風格：融合現代元素的日本傳統浮世繪風格 (Ukiyo-e)。大膽的輪廓邊線，平塗的色彩（普魯士藍、赭黃）。泛黃紙張紋理，高雅且極具藝術性。' },
-            { id: 'gopro', name: '第一人稱', emoji: '🏄', prompt: '風格：GoPro 超廣角運動相機拍攝的動態感照，第一人稱視角 (POV)，極限運動感，高對比度，陽光普照，充滿張力與活力，Vlog 封面風格。' },
-            { id: 'watercolor', name: '水彩插畫', emoji: '🎨', prompt: '風格：柔和水彩畫插圖，充滿童趣，明亮的柔和粉彩色系，魔法氛圍，手繪感，充滿細節與溫潤的紋理。' }
+        // ========== DATA ==========
+        const podcastStyles = [
+            { id: 'casual', emoji: '👫', name: '朋友閒聊', prompt: '請用繁體中文。兩位主持人都是台灣人，對話請像好朋友出遊前閒聊一樣活潑幽默，充滿對這趟旅行的期待感，自然帶出行程中的亮點與必吃美食，語氣輕鬆搞笑但資訊量豐富。' },
+            { id: 'guide', emoji: '🏛️', name: '深度人文地陪', prompt: '請用繁體中文。化身為專業的在地文史導遊，以沉穩清晰的語氣，深入淺出地講解景點背後的歷史典故、人文脈絡與地理特色。讓聽眾彷彿跟著一位知識淵博的在地達人漫步。' },
+            { id: 'kids', emoji: '👶', name: '親子童話', prompt: '請用繁體中文。聽眾是小朋友與家長，請用溫柔親切、充滿童趣與魔法感的方式，像講故事一樣介紹行程。加入「哇！你知道嗎？」之類的驚奇語句，讓孩子們對旅行充滿期待！' },
+            { id: 'foodie', emoji: '🤤', name: '老饕帶路', prompt: '請用繁體中文。化身美食老饕，把介紹重點放在行程中出現的所有美食、小吃與在地名產。用極度生動、讓人聽了會流口水的文字描繪食物的口感、香氣與烹調方式，穿插有趣的美食豆知識。' },
+            { id: 'biz', emoji: '💼', name: '商務精華', prompt: '請用繁體中文。用簡潔專業的語氣，像在做一場高效率的旅遊 Briefing。重點條列行程亮點、預算分析、時間管理建議，適合忙碌的商務人士快速掌握旅行精華。' },
+            { id: 'comedy', emoji: '🎭', name: '脫口秀', prompt: '請用繁體中文。兩位主持人用脫口秀喜劇的風格來討論這趟旅行，充滿吐槽、諧音梗和誇張的笑料，但同時也要真正介紹到行程資訊。像《博恩夜夜秀》遇上旅遊節目。' },
+            { id: 'chill', emoji: '🌙', name: '療癒夜聊', prompt: '請用繁體中文。用溫暖舒適、低語般的療癒語調，像深夜電台節目一樣，慢慢地、細膩地描述旅途中的風景、氣味和感受，讓聽眾在放鬆的氛圍中期待旅行。' },
+            { id: 'adventure', emoji: '🏃', name: '冒險實況', prompt: '請用繁體中文。用充滿腎上腺素的冒險實況風格，像 YouTuber Vlog 一樣充滿活力，「衝啊！我們現在要去的是...」、「天哪你們看這個景色！」讓聽眾彷彿身歷其境地加入這趟冒險。' }
         ];
 
-        let selectedStyle = 'watercolor';
+        const slidesStyles = [
+            { id: 'magazine', emoji: '🎨', name: '雜誌風', prompt: 'presentation_style: magazine_editorial\ntotal_slides: 20\nlanguage: zh-TW\ndesign:\n  font: Noto Sans TC\n  color_scheme: warm_earth_tones\n  layout: asymmetric_editorial\n  image_style: full_bleed_photography\nslide_structure:\n  - cover: 旅行主題大標題, 副標題含日期與天數\n  - slides_2_4: 行程總覽, 大地圖與路線標示\n  - slides_5_14: 每日行程詳細介紹 (景點, 美食, 交通)\n  - slides_15_17: 住宿推薦與比較\n  - slide_18: 預算總表\n  - slide_19: 行李打包清單\n  - slide_20: Bon Voyage 結尾頁\nnotes: 每頁都要有精美的全版圖片作為背景, 文字排版要像時尚雜誌一樣有層次感' },
+            { id: 'photo', emoji: '📷', name: '攝影集風', prompt: 'presentation_style: photo_album\ntotal_slides: 20\nlanguage: zh-TW\ndesign:\n  font: Noto Serif TC\n  color_scheme: black_white_with_accent\n  layout: centered_minimal\n  image_style: cinematic_landscape\nslide_structure:\n  - cover: 簡約大字標題, 一張震撼風景照\n  - slides_2_4: 旅行時間軸概覽\n  - slides_5_14: 每個景點一頁, 大圖配一句詩意描述\n  - slides_15_17: 美食特寫頁\n  - slide_18: 交通路線圖\n  - slide_19: 旅行小故事\n  - slide_20: 下次見的結尾\nnotes: 以攝影作品集的質感呈現, 大量留白, 每頁只放一張重點照片' },
+            { id: 'handdrawn', emoji: '🧸', name: '親子手繪風', prompt: 'presentation_style: hand_drawn_illustration\ntotal_slides: 20\nlanguage: zh-TW\ndesign:\n  font: Noto Sans TC\n  color_scheme: pastel_rainbow\n  layout: playful_scattered\n  image_style: cute_illustration_sticker\nslide_structure:\n  - cover: 可愛手繪標題, 全家人卡通插圖\n  - slides_2_3: 我們要去哪裡玩 (簡易地圖)\n  - slides_4_13: 每日冒險記錄 (貼紙風插圖)\n  - slides_14_16: 好吃的東西圖鑑\n  - slides_17_18: 交通工具大集合\n  - slide_19: 旅行任務清單 (勾勾框)\n  - slide_20: 旅行結業證書\nnotes: 充滿童趣的手繪插畫風, 用貼紙和塗鴉點綴, 適合親子共讀' },
+            { id: 'natgeo', emoji: '🏔️', name: '國家地理風', prompt: 'presentation_style: national_geographic\ntotal_slides: 20\nlanguage: zh-TW\ndesign:\n  font: Noto Serif TC\n  color_scheme: deep_green_gold\n  layout: documentary_grid\n  image_style: documentary_photography\nslide_structure:\n  - cover: 黃色邊框經典標題\n  - slides_2_4: 目的地地理與生態介紹\n  - slides_5_14: 行程深度報導 (景點歷史, 自然生態, 人文故事)\n  - slides_15_16: 在地美食文化探索\n  - slide_17: 生態保育小知識\n  - slide_18: 攝影最佳拍攝點\n  - slide_19: 旅行者守則\n  - slide_20: 探索永不停歇\nnotes: 以國家地理雜誌的深度報導風格, 知識性與視覺性並重' },
+            { id: 'japanese', emoji: '🌸', name: '日系清新', prompt: 'presentation_style: japanese_minimal\ntotal_slides: 20\nlanguage: zh-TW\ndesign:\n  font: Noto Sans TC Light\n  color_scheme: sakura_pink_sky_blue\n  layout: zen_minimal_asymmetric\n  image_style: soft_watercolor_filter\nslide_structure:\n  - cover: 留白極簡標題, 一枝櫻花裝飾\n  - slides_2_3: 旅行概要 (淡雅時間軸)\n  - slides_4_13: 每日行程 (和風分隔線, 柔和色調)\n  - slides_14_16: 私藏美食筆記\n  - slide_17: 交通小攻略\n  - slide_18: 文具控的行李清單\n  - slide_19: 旅行手帳一頁\n  - slide_20: またね (下次見)\nnotes: 極度清新的日系美學, 大量留白, 淡粉配色, 讓人感到寧靜舒適' },
+            { id: 'nightcity', emoji: '🌃', name: '夜景都會風', prompt: 'presentation_style: urban_night\ntotal_slides: 20\nlanguage: zh-TW\ndesign:\n  font: Noto Sans TC Bold\n  color_scheme: dark_mode_neon\n  layout: bold_cinematic\n  image_style: night_photography_neon\nslide_structure:\n  - cover: 大膽霓虹標題, 城市夜景背景\n  - slides_2_3: 行程 Highlight Reel\n  - slides_4_13: 每日行程 (暗色背景, 霓虹強調色)\n  - slides_14_16: 夜市與美食地圖\n  - slide_17: 夜景拍攝攻略\n  - slide_18: 交通懶人包\n  - slide_19: 住宿推薦 (設計旅店)\n  - slide_20: See You Tonight\nnotes: 深色模式科技感, 霓虹漸層強調色, 充滿都市夜生活的時尚氛圍' },
+            { id: 'minimal', emoji: '📐', name: '極簡設計', prompt: 'presentation_style: swiss_minimal\ntotal_slides: 20\nlanguage: zh-TW\ndesign:\n  font: Noto Sans TC\n  color_scheme: monochrome_with_one_accent\n  layout: grid_system_strict\n  image_style: geometric_clean\nslide_structure:\n  - cover: 大字標題居中, 純色背景\n  - slides_2_3: 行程資訊圖表\n  - slides_4_13: 每日行程 (嚴格網格排版)\n  - slides_14_15: 預算數據視覺化\n  - slide_16: 交通比較表格\n  - slides_17_18: 美食評分雷達圖\n  - slide_19: 核心行李清單\n  - slide_20: 旅行, 即出發.\nnotes: 瑞士設計風格, 嚴謹的網格系統, 只使用一個強調色, 其餘黑白灰' },
+            { id: 'popart', emoji: '🎪', name: '普普藝術', prompt: 'presentation_style: pop_art\ntotal_slides: 20\nlanguage: zh-TW\ndesign:\n  font: Noto Sans TC Black\n  color_scheme: vibrant_primary_colors\n  layout: comic_panel\n  image_style: pop_art_halftone\nslide_structure:\n  - cover: 漫畫爆炸框標題, POW!\n  - slides_2_3: 行程路線漫畫分鏡\n  - slides_4_13: 每日行程 (半色調漫畫風)\n  - slides_14_16: 美食漫畫特寫\n  - slide_17: 行李清單 (購物清單風)\n  - slide_18: 交通指南 (地鐵圖風格)\n  - slide_19: 旅行金句 BOOM!\n  - slide_20: TO BE CONTINUED...\nnotes: 安迪沃荷普普藝術風, 高飽和撞色, 漫畫網點效果, 對話泡泡, 充滿視覺衝擊' }
+        ];
 
-        const podcastPrompts = {
-            casual: "兩位都是台灣人，對話請像好朋友出遊前閒聊一樣活潑幽默，充滿對這趟旅行的期待感，並且自然地帶出行程中的亮點。",
-            guide: "請化身為專業深度的在地導遊，以沉穩清晰的語氣，深入淺出地為我們講解這些景點背後的歷史人文、背景故事與地理特色。",
-            kids: "我們的聽眾是小朋友，請用非常溫柔親切、充滿童趣與魔法感的方式，像講故事一樣介紹我們的行程，讓孩子們對旅行充滿驚奇與期待！",
-            foodie: "請化身為極致的在地老饕，把介紹重點放在行程中的美食、小吃與在地名產。請用極度生動、讓人聽了會流口水的詞彙來描繪食物的口感與香氣！"
-        };
+        const mapStyles = [
+            { id: 'shinkai', emoji: '✨', name: '新海誠', prompt: '請以新海誠動畫電影風格繪製這份旅遊行程的資訊圖表地圖。要求：極度精緻的光影變化、清澈透明的藍天與大片流雲、唯美浪漫、高對比度、絢麗的黃昏色彩。地圖上用蜿蜒的路線串連所有景點，每個景點用精美的小插圖標示，旁邊標註景點名稱與停留時間。整體構圖要像一幅動畫電影的場景概念圖。' },
+            { id: 'miyazaki', emoji: '🍃', name: '宮崎駿', prompt: '請以吉卜力宮崎駿動畫風格繪製這份旅遊行程的資訊圖表地圖。要求：充滿溫度的手繪水彩質感、生機盎然的翠綠風景、童話般的雲朵與小屋。地圖上的路線像蜿蜒的鄉間小路，每個景點畫成吉卜力式的可愛建築小插圖，搭配手寫風文字標註。加入龍貓或飛行器之類的奇幻元素點綴。' },
+            { id: 'cyberpunk', emoji: '👾', name: '賽博龐克', prompt: '請以賽博龐克未來主義風格繪製這份旅遊行程的資訊圖表地圖。要求：深色背景搭配高對比的霓虹光（粉紅、青色、紫色），建築物帶有科技感與發光招牌，路線以電路板或光纖的形式連接各景點。每個景點用全息投影風格的資訊框標示。整體像一張來自 2077 年的旅遊導覽。' },
+            { id: 'clay', emoji: '🧸', name: '黏土擬真', prompt: '請以 3D 等距視角黏土擬真風格繪製這份旅遊行程的資訊圖表地圖。要求：所有元素像用馬卡龍色調的黏土捏製而成，圓潤可愛。景點化為精緻的微縮模型，路線用彩色的黏土條連接。加入可愛的小人偶、小車車、小樹木。Blender 3D 渲染般的柔和打光，超高品質。' },
+            { id: 'ukiyo', emoji: '🎎', name: '浮世繪', prompt: '請以融合現代元素的日本傳統浮世繪風格繪製這份旅遊行程的資訊圖表地圖。要求：大膽的輪廓邊線、平塗色彩（普魯士藍、朱紅、赭黃），泛黃和紙質感。景點用浮世繪經典構圖描繪，路線像墨跡流動般串連。加入海浪紋、雲紋等經典紋樣作為裝飾邊框。高雅且極具藝術性。' },
+            { id: 'watercolor', emoji: '🎨', name: '水彩插畫', prompt: '請以溫暖迷人的手繪水彩插畫風格繪製這份旅遊行程的資訊圖表地圖。要求：柔和的輪廓線、溫潤的水彩紋理，粉彩色系（暖黃、藍色、粉色）並帶有花卉裝飾。景點畫成精緻的水彩小插圖，路線用虛線與水彩渲染串連。整體營造浪漫療癒的手帳風格。' },
+            { id: 'vector', emoji: '📐', name: '極簡向量', prompt: '請以現代極簡向量設計風格繪製這份旅遊行程的資訊圖表地圖。要求：扁平化設計、銳利乾淨的線條、鮮豔但和諧的幾何色塊。每個景點用簡約的 icon 圖示表示，路線以粗細一致的線條連接，配上乾淨的無襯線字體標註。整體像一張高級設計事務所出品的 Infographic。' },
+            { id: 'adventure', emoji: '🏄', name: '探險藏寶圖', prompt: '請以復古冒險藏寶圖風格繪製這份旅遊行程的資訊圖表地圖。要求：泛黃羊皮紙質感、手繪航海圖般的線條、指南針玫瑰與海怪插圖。景點標示為「X」或旗幟圖示，路線用虛線與腳印標記。邊緣加入捲曲的紙張效果與復古字體裝飾。讓人看了想立刻出發冒險！' }
+        ];
 
-        function changePodcastPrompt(type, btn) {
-            // Reset all tabs
-            document.querySelectorAll('.podcast-tab').forEach(el => {
-                el.classList.remove('bg-pink-100', 'text-pink-700', 'border-pink-200');
-                el.classList.add('bg-white', 'text-slate-600', 'border-slate-200');
-            });
-            // highlight active tab
-            btn.classList.remove('bg-white', 'text-slate-600', 'border-slate-200');
-            btn.classList.add('bg-pink-100', 'text-pink-700', 'border-pink-200');
+        const animationStyles = [
+            { id: 'wave', emoji: '🌊', name: '海浪拍打', prompt: '請讓這張旅遊地圖中的水域元素動起來：海浪輕輕拍打海岸線，湖面微微波動漣漪，河流緩緩流動。整張地圖的陸地與文字保持靜止不動，只有水的部分有自然的流動動畫。循環播放 5 秒。' },
+            { id: 'sakura', emoji: '🌸', name: '花瓣飄落', prompt: '請讓這張旅遊地圖增加花瓣飄落的動畫效果：粉色或彩色的花瓣從畫面上方緩緩飄落，隨微風輕輕擺動。花瓣大小不一、速度不同，營造自然的飄落感。整張地圖本身保持靜止不動。循環播放 5 秒。' },
+            { id: 'clouds', emoji: '☁️', name: '雲朵飄移', prompt: '請讓這張旅遊地圖中的天空部分增加雲朵飄移動畫：白色的雲朵從左側緩緩飄向右側，速度很慢很自然。地圖上的景點、文字、路線等元素全部保持靜止不動，只有天空的雲在移動。循環播放 5 秒。' },
+            { id: 'vehicle', emoji: '🚂', name: '交通工具移動', prompt: '請讓這張旅遊地圖中的交通工具元素動起來：火車沿著路線小小的前進、汽車在道路上緩緩移動、船在水面滑行。其他所有元素（建築、山、文字）保持完全靜止。動作要小且自然，像微縮模型一樣可愛。循環播放 5 秒。' },
+            { id: 'smoke', emoji: '🔥', name: '煙霧氤氳', prompt: '請讓這張旅遊地圖增加煙霧氤氳效果：溫泉景點冒出裊裊輕煙、餐廳飄出炊煙、山間有輕薄的雲霧繚繞。煙霧緩緩上升並消散，非常輕柔自然。地圖整體結構保持靜止不動。循環播放 5 秒。' },
+            { id: 'sparkle', emoji: '✨', name: '光影閃爍', prompt: '請讓這張旅遊地圖增加光影閃爍效果：景點標誌或重要位置發出微微閃爍的星光或光點，像寶石一樣一閃一滅。如有霓虹燈招牌也加入明暗變化。整張地圖結構不動，只有光點在閃爍。循環播放 5 秒。' },
+            { id: 'rain', emoji: '🌧️', name: '雨滴落下', prompt: '請讓這張旅遊地圖增加細雨動畫：細小的雨絲從天空輕輕落下，落在水面產生小小的漣漪。雨量不多，呈現溫柔的小雨氛圍。地圖上所有固定元素保持靜止。營造一種雨天散步的文青浪漫感。循環播放 5 秒。' },
+            { id: 'firework', emoji: '🎆', name: '煙火綻放', prompt: '請讓這張旅遊地圖的夜空部分增加煙火綻放效果：色彩繽紛的煙火在天空中輪流綻放，一次一到兩朵，光芒散射後漸漸消失。地圖上的所有建築、文字、路線保持完全不動。營造節慶歡樂的夜晚氛圍。循環播放 5 秒。' }
+        ];
 
-            // Update text
-            document.getElementById('prompt-podcast').innerText = podcastPrompts[type];
+        // ========== LOGIC ==========
+        const selections = { podcast: 'casual', slides: 'magazine', map: 'shinkai', animation: 'wave' };
+
+        function switchStage(stage, btn) {
+            document.querySelectorAll('.stage-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.stage-tab').forEach(el => el.classList.remove('active'));
+            document.getElementById(`stage-${stage}`).classList.add('active');
+            btn.classList.add('active');
         }
 
-        function initPhase3() {
-            const grid = document.getElementById('style-grid');
-            styles.forEach(s => {
+        function buildGrid(containerId, items, category) {
+            const grid = document.getElementById(containerId);
+            items.forEach(item => {
                 const card = document.createElement('div');
-                card.className = `style-card fade-in ${s.id === selectedStyle ? 'selected' : ''}`;
-                card.onclick = () => selectStyle(s.id);
-                card.id = `style-${s.id}`;
-                card.innerHTML = `
-                    <span class="emoji">${s.emoji}</span>
-                    <span class="name">${s.name}</span>
-                `;
+                card.className = `style-card${item.id === selections[category] ? ' selected' : ''}`;
+                card.id = `${category}-${item.id}`;
+                card.onclick = () => selectCard(category, item.id, items);
+                card.innerHTML = `<span class="emoji">${item.emoji}</span><span class="name">${item.name}</span>`;
                 grid.appendChild(card);
             });
-            updatePrompt();
+            updatePromptDisplay(category, items);
         }
 
-        function selectStyle(id) {
-            document.querySelectorAll('.style-card').forEach(c => c.classList.remove('selected'));
-            document.getElementById(`style-${id}`).classList.add('selected');
-            selectedStyle = id;
-            updatePrompt();
+        function selectCard(category, id, items) {
+            const container = document.getElementById(`${category}-grid`);
+            container.querySelectorAll('.style-card').forEach(c => c.classList.remove('selected'));
+            document.getElementById(`${category}-${id}`).classList.add('selected');
+            selections[category] = id;
+            updatePromptDisplay(category, items);
         }
 
-        function updatePrompt() {
-            const styleObj = styles.find(s => s.id === selectedStyle);
-            const location = document.getElementById('custom-location').value || '【尚未貼上行程】';
-
-            const promptStr = `請幫我設計一張極具視覺吸引力的「旅遊行程圖解海報 (Infographic Travel Poster)」。
-
-【畫面主體與排版】
-- 請將以下這段行程的主要景點、交通、住宿與美食資訊，以好看且具設計感的中文字體排版於海報中：
-"""
-${location}
-"""
-- 文字請錯落有致地分佈於圖面上，並用合適的圖示 (Icons) 點綴 (例如：用火車小圖示代表交通、刀叉代表美食、床鋪代表住宿)。
-- 海報要有清晰的視覺動線與標題。
-
-【藝術與攝影風格】
-${styleObj.prompt}
-
-高品質、傑作、排版乾淨俐落、文字需要清晰可讀。`;
-            document.getElementById('prompt-output').innerText = promptStr;
+        function updatePromptDisplay(category, items) {
+            const selected = items.find(i => i.id === selections[category]);
+            if (selected) {
+                document.getElementById(`${category}-prompt`).innerText = selected.prompt;
+            }
         }
 
-
-        document.addEventListener('DOMContentLoaded', initPhase3);
+        // ========== INIT ==========
+        document.addEventListener('DOMContentLoaded', () => {
+            buildGrid('podcast-grid', podcastStyles, 'podcast');
+            buildGrid('slides-grid', slidesStyles, 'slides');
+            buildGrid('map-grid', mapStyles, 'map');
+            buildGrid('animation-grid', animationStyles, 'animation');
+        });
     </script>
 </body>
 

@@ -11,7 +11,6 @@
         rel="stylesheet">
     <link rel="stylesheet" href="../css/main.css">
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
     <script src="../js/countdown-sync.js"></script>
@@ -20,58 +19,32 @@
             display: none;
         }
 
-        .tool-card {
+        .step-card {
             background: white;
             border: 1px solid #e2e8f0;
             border-radius: 1.25rem;
-            padding: 1.5rem;
+            padding: 2rem;
             transition: all 0.3s ease;
-            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-        }
-
-        .tool-card:hover {
-            border-color: #a5b4fc;
-            transform: translateY(-4px);
-            box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.2);
-        }
-
-        .prompt-box {
-            background: #f8fafc;
-            padding: 1rem 1.25rem;
-            padding-top: 2.75rem;
-            line-height: 1.6;
-            border-radius: 0.75rem;
-            font-family: monospace;
-            font-size: 0.95rem;
-            margin-top: 1rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
             position: relative;
-            border: 1px solid #e2e8f0;
-            color: #334155;
+            overflow: hidden;
         }
 
-        .prompt-box>div {
-            white-space: pre-wrap;
-        }
-
-        .copy-btn {
+        .step-card::before {
+            content: '';
             position: absolute;
-            top: 0.5rem;
-            right: 0.5rem;
-            padding: 0.35rem 0.85rem;
-            font-size: 0.75rem;
-            font-weight: bold;
-            background: white;
-            color: #475569;
-            border: 1px solid #cbd5e1;
-            border-radius: 0.5rem;
-            cursor: pointer;
-            transition: all 0.2s;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #6366f1, #8b5cf6);
+            border-radius: 4px 0 0 4px;
         }
 
-        .copy-btn:hover {
-            background: #f1f5f9;
-            color: #0f172a;
+        .step-card:hover {
+            border-color: #a5b4fc;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px -3px rgba(99, 102, 241, 0.15);
         }
     </style>
 </head>
@@ -106,12 +79,9 @@
                 規劃</a>
             <a href="phase3.html"
                 class="px-4 py-1.5 rounded-full whitespace-nowrap text-sm font-medium transition-colors bg-white text-slate-600 hover:bg-slate-50 hover:text-sky-600 border border-slate-200 shadow-sm">3️⃣
-                視覺</a>
+                產出</a>
             <a href="phase4.html"
                 class="px-4 py-1.5 rounded-full whitespace-nowrap text-sm font-medium transition-colors bg-white text-slate-600 hover:bg-slate-50 hover:text-sky-600 border border-slate-200 shadow-sm">4️⃣
-                準備</a>
-            <a href="phase5.html"
-                class="px-4 py-1.5 rounded-full whitespace-nowrap text-sm font-medium transition-colors bg-white text-slate-600 hover:bg-slate-50 hover:text-sky-600 border border-slate-200 shadow-sm">5️⃣
                 變現</a>
         </div>
     </div>
@@ -130,81 +100,90 @@
                 <span
                     class="px-3 py-1 bg-indigo-100 border border-indigo-200 rounded-full text-indigo-700 text-xs font-bold tracking-wider mb-3 inline-block shadow-sm">PHASE
                     2</span>
-                <h2 class="text-3xl md:text-5xl font-extrabold text-slate-800 drop-shadow-sm">精煉完美動線</h2>
+                <h2 class="text-3xl md:text-5xl font-extrabold text-slate-800 drop-shadow-sm">Deep Research 深度研究</h2>
             </div>
         </div>
 
+        <!-- Intro -->
         <section class="bg-white border border-slate-200 rounded-2xl p-6 md:p-8 mb-10 shadow-md fade-in">
             <div class="flex flex-col sm:flex-row items-start gap-5">
-                <div class="text-5xl bg-slate-50 p-4 rounded-2xl border border-slate-100 shadow-inner">🧠</div>
+                <div class="text-5xl bg-slate-50 p-4 rounded-2xl border border-slate-100 shadow-inner">🔬</div>
                 <div>
-                    <h2 class="text-2xl font-bold mb-3 text-slate-800">精算交通與排定動線</h2>
-                    <p class="text-slate-600 leading-relaxed text-lg">決定好地點後，最麻煩的就是排順路行程與算交通費。交給 AI 幫你比價「高鐵 vs 自駕」、並利用
-                        Google Maps 評分篩選餐廳。</p>
-                </div>
-            </div>
-
-            <div
-                class="mt-6 p-4 bg-indigo-50 border border-indigo-100 text-indigo-800 rounded-xl text-sm flex items-start gap-3 shadow-inner">
-                <span class="text-lg">💡</span>
-                <div>
-                    <strong class="text-indigo-900 block mb-1">導師提示：</strong>
-                    請打開 Gemini，開啟「Deep Research (深入研究)」模式，讓 AI 上網幫你爬最新資料與正確的地圖距離。
+                    <h2 class="text-2xl font-bold mb-3 text-slate-800">讓 AI 幫你上網做功課</h2>
+                    <p class="text-slate-600 leading-relaxed text-lg">Gemini 的 Deep Research
+                        會自動上網搜尋、比價、查評價，幫你產出一份完整的行程研究報告。不用自己一間一間查民宿、一家一家看餐廳評論了！</p>
                 </div>
             </div>
         </section>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">
-            <!-- Tool 1 -->
-            <section class="tool-card fade-in" style="animation-delay: 0.1s;">
-                <div class="flex items-center gap-3 mb-3">
-                    <div
-                        class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center border border-indigo-200 text-xl shadow-sm">
-                        🚗</div>
-                    <h3 class="font-bold text-lg text-slate-800">交通比價精算機能</h3>
+        <!-- Step 1 -->
+        <section class="mb-6 fade-in" style="animation-delay: 0.1s;">
+            <div class="step-card">
+                <div class="flex items-center gap-3 mb-4">
+                    <span
+                        class="flex items-center justify-center w-10 h-10 rounded-full bg-indigo-500 text-white font-bold text-lg shadow-md shadow-indigo-500/30">1</span>
+                    <h3 class="text-xl font-bold text-slate-800">開啟 Gemini，選擇 Deep Research 模式</h3>
                 </div>
-                <p class="text-sm text-slate-600 mb-5 leading-relaxed">到底要自己開車、搭高鐵轉車，還是搭客運？讓 AI 幫你算時間與花費。</p>
+                <p class="text-slate-600 mb-5 leading-relaxed">進入 Gemini 後，找到輸入框上方的模型切換選項，選擇「<strong
+                        class="text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-200">Deep
+                        Research (深入研究)</strong>」。</p>
+                <a href="https://gemini.google.com/" target="_blank"
+                    class="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-500 to-blue-500 hover:from-indigo-600 hover:to-blue-600 text-white rounded-xl font-bold transition-all shadow-lg shadow-indigo-500/25 hover:-translate-y-1">
+                    ✨ 前往 Gemini
+                </a>
+            </div>
+        </section>
 
-                <div class="prompt-box group/prompt border-l-4 border-indigo-500 shadow-inner">
-                    <button class="copy-btn opacity-0 group-hover/prompt:opacity-100 focus:opacity-100"
-                        onclick="handleCopyClick(this, 'prompt1')">📋 複製</button>
-                    <div id="prompt1">請幫我計算從 [出發地] 到 [目的地] 的交通方式比較。
-                        人數：[4] 人
-                        請評估以下三種方式的「總花費 (含油資/過路費/車票)」與「總交通時間」：
-                        1. 自己開車
-                        2. 搭高鐵轉當地租車
-                        3. 搭乘大眾客運
-
-                        請用表格呈現比較結果，並給我最終建議。</div>
+        <!-- Step 2 -->
+        <section class="mb-6 fade-in" style="animation-delay: 0.15s;">
+            <div class="step-card">
+                <div class="flex items-center gap-3 mb-4">
+                    <span
+                        class="flex items-center justify-center w-10 h-10 rounded-full bg-indigo-500 text-white font-bold text-lg shadow-md shadow-indigo-500/30">2</span>
+                    <h3 class="text-xl font-bold text-slate-800">貼上你的旅遊需求摘要</h3>
                 </div>
-            </section>
-
-            <!-- Tool 2 -->
-            <section class="tool-card fade-in" style="animation-delay: 0.2s;">
-                <div class="flex items-center gap-3 mb-3">
-                    <div
-                        class="w-10 h-10 rounded-full bg-pink-100 flex items-center justify-center border border-pink-200 text-xl shadow-sm">
-                        🗺️</div>
-                    <h3 class="font-bold text-lg text-slate-800">完美順路行程表</h3>
+                <p class="text-slate-600 mb-4 leading-relaxed">把剛才在第一站 AI 旅遊顧問產出的「旅遊需求摘要」，<strong
+                        class="text-slate-800">整段貼入</strong> Gemini 的輸入框並送出。</p>
+                <div
+                    class="bg-indigo-50 border border-indigo-100 text-indigo-800 rounded-xl p-4 text-sm flex items-start gap-3">
+                    <span class="text-lg">💡</span>
+                    <div>Deep Research 會先給你一個「研究計畫」，你可以直接按「開始研究」。它會花 2-5 分鐘跑完，這段時間可以先繼續聽講師說明。
+                    </div>
                 </div>
-                <p class="text-sm text-slate-600 mb-5 leading-relaxed">最怕排出來的行程一直繞路或遇到公休。這組咒語能幫你一次搞定。</p>
+            </div>
+        </section>
 
-                <div class="prompt-box group/prompt border-l-4 border-pink-500 shadow-inner">
-                    <button class="copy-btn opacity-0 group-hover/prompt:opacity-100 focus:opacity-100"
-                        onclick="handleCopyClick(this, 'prompt2')">📋 複製</button>
-                    <div id="prompt2">我要規劃一趟 [目的地] 的 [3天2夜] 連假行程。
-                        請幫我排定每日動線，要求如下：
-                        1. 每天景點必須順路，請計算點到點的車程時間。
-                        2. 每天安排一家有在地特色的午餐與晚餐，並且 Google Maps 評分要在 4.2 星以上。
-                        3. 產生一份清楚的行程表格，包含：時間、地點、停留時間、亮點介紹。</div>
+        <!-- Step 3 -->
+        <section class="mb-6 fade-in" style="animation-delay: 0.2s;">
+            <div class="step-card">
+                <div class="flex items-center gap-3 mb-4">
+                    <span
+                        class="flex items-center justify-center w-10 h-10 rounded-full bg-indigo-500 text-white font-bold text-lg shadow-md shadow-indigo-500/30">3</span>
+                    <h3 class="text-xl font-bold text-slate-800">匯出為 Google Doc</h3>
                 </div>
-            </section>
-        </div>
+                <p class="text-slate-600 mb-4 leading-relaxed">研究完成後，Gemini 會產出一份完整的報告。點擊報告右上角的「<strong
+                        class="text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-200">匯出至 Google
+                        文件</strong>」按鈕，把報告存到 Google Drive。</p>
+                <div
+                    class="bg-amber-50 border border-amber-100 text-amber-800 rounded-xl p-4 text-sm flex items-start gap-3">
+                    <span class="text-lg">⚠️</span>
+                    <div><strong>重要：</strong>下一站的所有多媒體產出（Podcast、簡報、地圖、動畫）都需要用到這份 Google Doc，請務必完成匯出！
+                    </div>
+                </div>
+            </div>
+        </section>
 
-        <section class="mt-8 flex justify-center fade-in" style="animation-delay: 0.3s;">
-            <a href="https://gemini.google.com/" target="_blank"
-                class="px-8 py-4 rounded-xl bg-gradient-to-r from-indigo-500 to-blue-500 hover:from-indigo-600 hover:to-blue-600 text-white font-bold transition-all flex justify-center items-center gap-2 shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/50 hover:-translate-y-1">
-                ✨ 立刻前往 Gemini 測試
+        <!-- Proceed CTA -->
+        <section
+            class="bg-gradient-to-br from-indigo-50 to-purple-50 border border-indigo-100 rounded-2xl p-6 md:p-8 text-center fade-in mt-10"
+            style="animation-delay: 0.3s;">
+            <div class="text-4xl mb-4">📄</div>
+            <h3 class="text-xl font-bold text-slate-800 mb-3">Google Doc 匯出完成了嗎？</h3>
+            <p class="text-slate-600 mb-6">接下來是最精彩的環節！我們要把這份行程報告變成 Podcast、AI 簡報、手繪地圖和動畫！</p>
+            <a href="phase3.html"
+                class="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white rounded-2xl font-bold text-lg transition-all shadow-lg shadow-pink-500/30 hover:shadow-pink-500/50 hover:-translate-y-1"
+                onclick="WorkshopState.completePhase(2)">
+                前往多媒體產出 <span class="p-1 rounded-full bg-white/20">→</span>
             </a>
         </section>
 
@@ -218,7 +197,7 @@
             <a href="phase3.html"
                 class="flex items-center gap-3 px-6 py-3 bg-white hover:bg-pink-50 text-slate-800 rounded-xl font-bold transition-all border border-slate-200 hover:border-pink-300 shadow-sm hover:shadow-md"
                 onclick="WorkshopState.completePhase(2)">
-                前往視覺與社群 <span class="p-1 rounded-full bg-pink-100 text-pink-600 shadow-sm">→</span>
+                前往多媒體產出 <span class="p-1 rounded-full bg-pink-100 text-pink-600 shadow-sm">→</span>
             </a>
         </div>
     </main>
@@ -227,8 +206,6 @@
     <div class="copy-toast" id="copy-toast"></div>
 
     <script src="../js/common.js"></script>
-    <script>
-    </script>
 </body>
 
 </html>
