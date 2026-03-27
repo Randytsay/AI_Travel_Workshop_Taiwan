@@ -259,10 +259,29 @@
         </div>
     </main>
 
-    <div class="copy-toast" id="copy-toast"></div>
-
-    <script src="../js/common.js"></script>
     <script>
+        // ========== COPY FUNCTION (standalone fallback) ==========
+        function handleCopyClick(btn, elementId) {
+            var el = document.getElementById(elementId);
+            if (!el) return;
+            var text = el.innerText || el.textContent;
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(function() {
+                    btn.textContent = '✅ 已複製！';
+                    setTimeout(function() { btn.textContent = '📋 複製提示詞'; }, 2000);
+                });
+            } else {
+                var ta = document.createElement('textarea');
+                ta.value = text;
+                document.body.appendChild(ta);
+                ta.select();
+                document.execCommand('copy');
+                document.body.removeChild(ta);
+                btn.textContent = '✅ 已複製！';
+                setTimeout(function() { btn.textContent = '📋 複製提示詞'; }, 2000);
+            }
+        }
+
         // ========== DATA ==========
         const podcastStyles = [
             { id: 'casual', emoji: '👫', name: '朋友閒聊', prompt: '請用繁體中文。兩位主持人都是台灣人，對話請像好朋友出遊前閒聊一樣活潑幽默，充滿對這趟旅行的期待感，自然帶出行程中的亮點與必吃美食，語氣輕鬆搞笑但資訊量豐富。' },
@@ -277,7 +296,7 @@
 
         const slidesStyles = [
             { id: 'magazine', emoji: '🎨', name: '雜誌風', prompt: 'presentation_style: magazine_editorial\ntotal_slides: 20\nlanguage: zh-TW\ndesign:\n  font: Noto Sans TC\n  color_scheme: warm_earth_tones\n  layout: asymmetric_editorial\n  image_style: full_bleed_photography\nslide_structure:\n  - cover: 旅行主題大標題, 副標題含日期與天數\n  - slides_2_4: 行程總覽, 大地圖與路線標示\n  - slides_5_14: 每日行程詳細介紹 (景點, 美食, 交通)\n  - slides_15_17: 住宿推薦與比較\n  - slide_18: 預算總表\n  - slide_19: 行李打包清單\n  - slide_20: Bon Voyage 結尾頁\nnotes: 每頁都要有精美的全版圖片作為背景, 文字排版要像時尚雜誌一樣有層次感' },
-            { id: 'photo', emoji: '📷', name: '攝影集風', prompt: 'presentation_style: photo_album\ntotal_slides: 20\nlanguage: zh-TW\ndesign:\n  font: Noto Serif TC\n  color_scheme: black_white_with_accent\n  layout: centered_minimal\n  image_style: cinematic_landscape\nslide_structure:\n  - cover: 簡約大字標題, 一張震撼風景照\n  - slides_2_4: 旅行時間軸概覽\n  - slides_5_14: 每個景點一頁, 大圖配一句詩意描述\n  - slides_15_17: 美食特寫頁\n  - slide_18: 交通路線圖\n  - slide_19: 旅行小故事\n  - slide_20: 下次見的結尾\nnotes: 以攝影作品集的質感呈現, 大量留白, 每頁只放一張重點照片' },
+            { id: 'photo', emoji: '📷', name: '攝影集風', prompt: 'presentation_style: photo_album\ntotal_slides: 20\nlanguage: zh-TW\ndesign:\n  font: Noto Serif TC\n  color_scheme: black_white_with_accent\n  layout: centered_minimal\n  image_style: cinematic_landscape\nslide_structure:\n  - cover: 簡約大字標題, 一張震撼風景照\n  - slides_2_4: 旅行時間軸概覽\n  - slides_5_14: 每個景點一頁, 大圖配一句詩意描述\n  - slides_15_17: 美食特寫頁\n  - slide_18: 交通路线圖\n  - slide_19: 旅行小故事\n  - slide_20: 下次見的結尾\nnotes: 以攝影作品集的質感呈現, 大量留白, 每頁只放一張重點照片' },
             { id: 'handdrawn', emoji: '🧸', name: '親子手繪風', prompt: 'presentation_style: hand_drawn_illustration\ntotal_slides: 20\nlanguage: zh-TW\ndesign:\n  font: Noto Sans TC\n  color_scheme: pastel_rainbow\n  layout: playful_scattered\n  image_style: cute_illustration_sticker\nslide_structure:\n  - cover: 可愛手繪標題, 全家人卡通插圖\n  - slides_2_3: 我們要去哪裡玩 (簡易地圖)\n  - slides_4_13: 每日冒險記錄 (貼紙風插圖)\n  - slides_14_16: 好吃的東西圖鑑\n  - slides_17_18: 交通工具大集合\n  - slide_19: 旅行任務清單 (勾勾框)\n  - slide_20: 旅行結業證書\nnotes: 充滿童趣的手繪插畫風, 用貼紙和塗鴉點綴, 適合親子共讀' },
             { id: 'natgeo', emoji: '🏔️', name: '國家地理風', prompt: 'presentation_style: national_geographic\ntotal_slides: 20\nlanguage: zh-TW\ndesign:\n  font: Noto Serif TC\n  color_scheme: deep_green_gold\n  layout: documentary_grid\n  image_style: documentary_photography\nslide_structure:\n  - cover: 黃色邊框經典標題\n  - slides_2_4: 目的地地理與生態介紹\n  - slides_5_14: 行程深度報導 (景點歷史, 自然生態, 人文故事)\n  - slides_15_16: 在地美食文化探索\n  - slide_17: 生態保育小知識\n  - slide_18: 攝影最佳拍攝點\n  - slide_19: 旅行者守則\n  - slide_20: 探索永不停歇\nnotes: 以國家地理雜誌的深度報導風格, 知識性與視覺性並重' },
             { id: 'japanese', emoji: '🌸', name: '日系清新', prompt: 'presentation_style: japanese_minimal\ntotal_slides: 20\nlanguage: zh-TW\ndesign:\n  font: Noto Sans TC Light\n  color_scheme: sakura_pink_sky_blue\n  layout: zen_minimal_asymmetric\n  image_style: soft_watercolor_filter\nslide_structure:\n  - cover: 留白極簡標題, 一枝櫻花裝飾\n  - slides_2_3: 旅行概要 (淡雅時間軸)\n  - slides_4_13: 每日行程 (和風分隔線, 柔和色調)\n  - slides_14_16: 私藏美食筆記\n  - slide_17: 交通小攻略\n  - slide_18: 文具控的行李清單\n  - slide_19: 旅行手帳一頁\n  - slide_20: またね (下次見)\nnotes: 極度清新的日系美學, 大量留白, 淡粉配色, 讓人感到寧靜舒適' },
@@ -311,55 +330,57 @@
         // ========== LOGIC ==========
         const selections = { podcast: 'casual', slides: 'magazine', map: 'shinkai', animation: 'wave' };
 
-        function switchStage(stage, btn) {
+        window.switchStage = function(stage, btn) {
             document.querySelectorAll('.stage-content').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.stage-tab').forEach(el => el.classList.remove('active'));
-            document.getElementById(`stage-${stage}`).classList.add('active');
+            document.getElementById('stage-' + stage).classList.add('active');
             btn.classList.add('active');
-        }
+        };
 
-        function buildGrid(containerId, items, category) {
+        window.buildGrid = function(containerId, items, category) {
             const grid = document.getElementById(containerId);
+            if (!grid) return;
+            grid.innerHTML = '';
             items.forEach(item => {
                 const card = document.createElement('div');
-                card.className = `style-card${item.id === selections[category] ? ' selected' : ''}`;
-                card.id = `${category}-${item.id}`;
-                card.onclick = () => selectCard(category, item.id, items);
-                card.innerHTML = `<span class="emoji">${item.emoji}</span><span class="name">${item.name}</span>`;
+                card.className = 'style-card' + (item.id === selections[category] ? ' selected' : '');
+                card.id = category + '-' + item.id;
+                card.onclick = function() { window.selectCard(category, item.id, items); };
+                card.innerHTML = '<span class="emoji">' + item.emoji + '</span><span class="name">' + item.name + '</span>';
                 grid.appendChild(card);
             });
-            updatePromptDisplay(category, items);
-        }
+            window.updatePromptDisplay(category, items);
+        };
 
-        function selectCard(category, id, items) {
-            const container = document.getElementById(`${category}-grid`);
-            container.querySelectorAll('.style-card').forEach(c => c.classList.remove('selected'));
-            document.getElementById(`${category}-${id}`).classList.add('selected');
+        window.selectCard = function(category, id, items) {
+            var container = document.getElementById(category + '-grid');
+            if (!container) return;
+            container.querySelectorAll('.style-card').forEach(function(c) { c.classList.remove('selected'); });
+            var card = document.getElementById(category + '-' + id);
+            if (card) card.classList.add('selected');
             selections[category] = id;
-            updatePromptDisplay(category, items);
-        }
+            window.updatePromptDisplay(category, items);
+        };
 
-        function updatePromptDisplay(category, items) {
-            const selected = items.find(i => i.id === selections[category]);
-            if (selected) {
-                document.getElementById(`${category}-prompt`).innerText = selected.prompt;
+        window.updatePromptDisplay = function(category, items) {
+            var selected = items.find(function(i) { return i.id === selections[category]; });
+            var promptEl = document.getElementById(category + '-prompt');
+            if (selected && promptEl) {
+                promptEl.innerText = selected.prompt;
             }
-        }
+        };
 
         // ========== INIT ==========
-        function initAllGrids() {
-            buildGrid('podcast-grid', podcastStyles, 'podcast');
-            buildGrid('slides-grid', slidesStyles, 'slides');
-            buildGrid('map-grid', mapStyles, 'map');
-            buildGrid('animation-grid', animationStyles, 'animation');
-        }
+        window.initAllGrids = function() {
+            window.buildGrid('podcast-grid', podcastStyles, 'podcast');
+            window.buildGrid('slides-grid', slidesStyles, 'slides');
+            window.buildGrid('map-grid', mapStyles, 'map');
+            window.buildGrid('animation-grid', animationStyles, 'animation');
+        };
 
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initAllGrids);
-        } else {
-            initAllGrids();
-        }
+        // Run immediately since script is at bottom of body
+        window.initAllGrids();
     </script>
+    <script src="../js/common.js"></script>
 </body>
-
 </html>
