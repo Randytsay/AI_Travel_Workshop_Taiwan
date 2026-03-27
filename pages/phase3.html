@@ -189,7 +189,7 @@
                             </div>
                             <div class="prompt-box group/prompt border-l-4 border-pink-500 shadow-inner">
                                 <button class="copy-btn opacity-0 group-hover/prompt:opacity-100 focus:opacity-100"
-                                    onclick="copyText(this, 'prompt-podcast')">📋 複製</button>
+                                    onclick="handleCopyClick(this, 'prompt-podcast')">📋 複製</button>
                                 <div id="prompt-podcast">請像好朋友出遊前閒聊一樣活潑幽默，充滿對這趟旅行的期待感，並且自然地帶出行程中的亮點。</div>
                             </div>
                         </div>
@@ -249,7 +249,7 @@ Day 2: 安平古堡 -> 漁光島夕陽 -> 大東夜市
             </div>
 
             <div class="flex flex-col sm:flex-row gap-4 relative z-10">
-                <button onclick="copyPrompt(this)"
+                <button onclick="handleCopyClick(this, 'prompt-output')"
                     class="flex-1 py-3 px-6 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold transition-colors border border-slate-300 flex justify-center items-center gap-2 shadow-sm">
                     📋 複製提示詞
                 </button>
@@ -356,19 +356,6 @@ ${styleObj.prompt}
             document.getElementById('prompt-output').innerText = promptStr;
         }
 
-        function copyPrompt(btn) {
-            const text = document.getElementById('prompt-output').innerText;
-            navigator.clipboard.writeText(text).then(() => {
-                showCopyToast('🪄 提示詞已複製！快去貼給 Meta AI 吧');
-                const originalText = btn.innerHTML;
-                btn.innerHTML = '✅ 已複製';
-                btn.classList.add('!bg-green-50', '!text-green-600', '!border-green-200');
-                setTimeout(() => {
-                    btn.innerHTML = originalText;
-                    btn.classList.remove('!bg-green-50', '!text-green-600', '!border-green-200');
-                }, 2000);
-            });
-        }
 
         document.addEventListener('DOMContentLoaded', initPhase3);
     </script>

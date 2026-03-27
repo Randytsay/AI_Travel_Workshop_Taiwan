@@ -96,6 +96,57 @@ function copyText(text) {
     fallbackCopy(text);
 }
 
+/**
+ * Handle copy button click with visual feedback (centralized version)
+ * @param {HTMLElement} btn The button element that was clicked
+ * @param {string} elementId The ID of the element containing the text to copy
+ */
+function handleCopyClick(btn, elementId) {
+    const element = document.getElementById(elementId);
+    if (!element) return;
+    const text = element.value || element.innerText;
+    
+    if (!navigator.clipboard) {
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        ta.style.position = "fixed";
+        ta.style.left = "-9999px";
+        document.body.appendChild(ta);
+        ta.focus();
+        ta.select();
+        try {
+            document.execCommand('copy');
+            showCopyToast('🪄 提示詞已複製！');
+            applyButtonFeedback(btn);
+        } catch (e) {
+            showCopyToast('複製失敗，請手動複製', true);
+        }
+        document.body.removeChild(ta);
+    } else {
+        navigator.clipboard.writeText(text).then(() => {
+            showCopyToast('🪄 提示詞已複製！');
+            applyButtonFeedback(btn);
+        }).catch(() => {
+            showCopyToast('複製失敗，請手動複製', true);
+        });
+    }
+}
+
+/**
+ * Apply temporary success state to a button
+ */
+function applyButtonFeedback(btn) {
+    if (!btn) return;
+    const originalText = btn.innerHTML;
+    btn.innerHTML = '✅ 已複製';
+    const successClasses = ['!bg-green-50', '!text-green-600', '!border-green-200'];
+    btn.classList.add(...successClasses);
+    setTimeout(() => {
+        btn.innerHTML = originalText;
+        btn.classList.remove(...successClasses);
+    }, 2000);
+}
+
 function fallbackCopy(text) {
     if (!navigator.clipboard) {
         // Fallback for older browsers

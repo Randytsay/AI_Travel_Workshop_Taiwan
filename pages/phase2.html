@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-TW">
 
 <head>
@@ -167,7 +167,7 @@
 
                 <div class="prompt-box group/prompt border-l-4 border-indigo-500 shadow-inner">
                     <button class="copy-btn opacity-0 group-hover/prompt:opacity-100 focus:opacity-100"
-                        onclick="copyText(this, 'prompt1')">📋 複製</button>
+                        onclick="handleCopyClick(this, 'prompt1')">📋 複製</button>
                     <div id="prompt1">請幫我計算從 [出發地] 到 [目的地] 的交通方式比較。
                         人數：[4] 人
                         請評估以下三種方式的「總花費 (含油資/過路費/車票)」與「總交通時間」：
@@ -191,7 +191,7 @@
 
                 <div class="prompt-box group/prompt border-l-4 border-pink-500 shadow-inner">
                     <button class="copy-btn opacity-0 group-hover/prompt:opacity-100 focus:opacity-100"
-                        onclick="copyText(this, 'prompt2')">📋 複製</button>
+                        onclick="handleCopyClick(this, 'prompt2')">📋 複製</button>
                     <div id="prompt2">我要規劃一趟 [目的地] 的 [3天2夜] 連假行程。
                         請幫我排定每日動線，要求如下：
                         1. 每天景點必須順路，請計算點到點的車程時間。
@@ -228,19 +228,6 @@
 
     <script src="../js/common.js"></script>
     <script>
-        function copyText(btn, elementId) {
-            const text = document.getElementById(elementId).innerText;
-            navigator.clipboard.writeText(text).then(() => {
-                showCopyToast('🪄 提示詞已複製！');
-                const originalText = btn.innerHTML;
-                btn.innerHTML = '✅ 已複製';
-                btn.classList.add('!bg-green-50', '!text-green-600', '!border-green-200');
-                setTimeout(() => {
-                    btn.innerHTML = originalText;
-                    btn.classList.remove('!bg-green-50', '!text-green-600', '!border-green-200');
-                }, 2000);
-            });
-        }
     </script>
 </body>
 

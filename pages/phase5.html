@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-TW">
 
 <head>
@@ -221,7 +221,7 @@
 
                     <div class="prompt-box group/prompt border-l-4 border-emerald-500 shadow-inner">
                         <button class="copy-btn opacity-0 group-hover/prompt:opacity-100 focus:opacity-100"
-                            onclick="copyText(this, 'prompt1')">📋 複製</button>
+                            onclick="handleCopyClick(this, 'prompt1')">📋 複製</button>
                         <div id="prompt1">我即將出發去台灣國內連假旅遊。我在 Shop.com 網路上找到了這款 [填寫商品，例如：SPF50 高效防曬乳/輕量斜背包]。
                             請幫我寫一段簡短、口語化、像是在 Dcard 旅遊版分享的「推坑文案」。
                             字數 100 字以內，並在最後一句很自然的附上「想要連結可以私訊我」的引導。</div>
@@ -239,7 +239,7 @@
 
                     <div class="prompt-box group/prompt border-l-4 border-teal-500 shadow-inner">
                         <button class="copy-btn opacity-0 group-hover/prompt:opacity-100 focus:opacity-100"
-                            onclick="copyText(this, 'prompt2')">📋 複製</button>
+                            onclick="handleCopyClick(this, 'prompt2')">📋 複製</button>
                         <div id="prompt2">我剛剛完成了我的 [3天2夜國內] 旅遊計畫。
                             我想要在行程表最後附加一個「達人必帶裝備清單」。
                             請幫我列出 3 個我這趟旅程絕對會用到的實用小物 (例如：行動電源、機能水壺、防蚊液)，並說明為什麼這趟旅程不能沒有它？</div>
@@ -276,19 +276,6 @@
 
     <script src="../js/common.js"></script>
     <script>
-        function copyText(btn, elementId) {
-            const text = document.getElementById(elementId).innerText;
-            navigator.clipboard.writeText(text).then(() => {
-                showCopyToast('🪄 提示詞已複製！');
-                const originalText = btn.innerHTML;
-                btn.innerHTML = '✅ 已複製';
-                btn.classList.add('!bg-green-50', '!text-green-600', '!border-green-200');
-                setTimeout(() => {
-                    btn.innerHTML = originalText;
-                    btn.classList.remove('!bg-green-50', '!text-green-600', '!border-green-200');
-                }, 2000);
-            });
-        }
     </script>
 </body>
 

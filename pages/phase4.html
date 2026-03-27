@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-TW">
 
 <head>
@@ -158,7 +158,7 @@
 
                 <div class="prompt-box group/prompt border-l-4 border-amber-500 shadow-inner">
                     <button class="copy-btn opacity-0 group-hover/prompt:opacity-100 focus:opacity-100"
-                        onclick="copyText(this, 'prompt1')">📋 複製</button>
+                        onclick="handleCopyClick(this, 'prompt1')">📋 複製</button>
                     <div id="prompt1">請幫我查詢 [旅行地點] 在 [旅行日期] 的天氣預報。
                         根據天氣：
                         1. 給我一份專屬的行李打包清單 (含衣服穿搭建議)。
@@ -178,7 +178,7 @@
 
                 <div class="prompt-box group/prompt border-l-4 border-orange-500 shadow-inner">
                     <button class="copy-btn opacity-0 group-hover/prompt:opacity-100 focus:opacity-100"
-                        onclick="copyText(this, 'prompt2')">📋 複製</button>
+                        onclick="handleCopyClick(this, 'prompt2')">📋 複製</button>
                     <div id="prompt2">我連假第一天早上預計從 [台北] 開車到 [花蓮]。
                         請幫我分析：
                         1. 這個連假的預估塞車地雷時段是何時？我應該幾點出門比較好？
@@ -229,19 +229,6 @@
 
     <script src="../js/common.js"></script>
     <script>
-        function copyText(btn, elementId) {
-            const text = document.getElementById(elementId).innerText;
-            navigator.clipboard.writeText(text).then(() => {
-                showCopyToast('🪄 提示詞已複製！');
-                const originalText = btn.innerHTML;
-                btn.innerHTML = '✅ 已複製';
-                btn.classList.add('!bg-green-50', '!text-green-600', '!border-green-200');
-                setTimeout(() => {
-                    btn.innerHTML = originalText;
-                    btn.classList.remove('!bg-green-50', '!text-green-600', '!border-green-200');
-                }, 2000);
-            });
-        }
     </script>
 </body>
 
