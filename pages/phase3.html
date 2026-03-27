@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon"
         href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎨</text></svg>">
-    <title>第三站：多媒體產出 | AI 旅遊規劃師</title>
+    <title>第三站：視覺革命 | AI 旅遊規劃師</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="../css/main.css">
@@ -76,7 +76,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <div class="flex items-center gap-3">
                 <span class="text-2xl">🎨</span>
-                <h1 class="font-bold text-lg md:text-xl tracking-wide text-pink-600">第三站：多媒體產出</h1>
+                <h1 class="font-bold text-lg md:text-xl tracking-wide text-pink-600">第三站：視覺革命</h1>
             </div>
             <div class="flex items-center gap-3">
                 <a href="../index.html"
@@ -91,7 +91,7 @@
             <a href="../index.html" class="px-4 py-1.5 rounded-full whitespace-nowrap text-sm font-medium transition-colors bg-white text-slate-600 hover:bg-slate-50 hover:text-sky-600 border border-slate-200 shadow-sm">🏠 首頁</a>
             <a href="phase1.html" class="px-4 py-1.5 rounded-full whitespace-nowrap text-sm font-medium transition-colors bg-white text-slate-600 hover:bg-slate-50 hover:text-sky-600 border border-slate-200 shadow-sm">1️⃣ 靈感</a>
             <a href="phase2.html" class="px-4 py-1.5 rounded-full whitespace-nowrap text-sm font-medium transition-colors bg-white text-slate-600 hover:bg-slate-50 hover:text-sky-600 border border-slate-200 shadow-sm">2️⃣ 規劃</a>
-            <a href="phase3.html" class="px-4 py-1.5 rounded-full whitespace-nowrap text-sm font-medium transition-colors bg-pink-500 text-white border border-pink-400 shadow-md shadow-pink-500/20">3️⃣ 產出</a>
+            <a href="phase3.html" class="px-4 py-1.5 rounded-full whitespace-nowrap text-sm font-medium transition-colors bg-pink-500 text-white border border-pink-400 shadow-md shadow-pink-500/20">3️⃣ 視覺革命</a>
             <a href="phase4.html" class="px-4 py-1.5 rounded-full whitespace-nowrap text-sm font-medium transition-colors bg-white text-slate-600 hover:bg-slate-50 hover:text-sky-600 border border-slate-200 shadow-sm">4️⃣ 變現</a>
         </div>
     </div>
@@ -105,7 +105,7 @@
             <div class="absolute inset-0 bg-gradient-to-t from-white/95 via-white/70 to-transparent"></div>
             <div class="absolute bottom-6 left-6 md:bottom-8 md:left-8">
                 <span class="px-3 py-1 bg-pink-100 border border-pink-200 rounded-full text-pink-700 text-xs font-bold tracking-wider mb-3 inline-block shadow-sm">PHASE 3 / HIGHLIGHT</span>
-                <h2 class="text-3xl md:text-5xl font-extrabold text-slate-800 drop-shadow-sm">四大多媒體產出</h2>
+                <h2 class="text-3xl md:text-5xl font-extrabold text-slate-800 drop-shadow-sm">視覺革命</h2>
             </div>
         </div>
 
@@ -347,12 +347,18 @@
         }
 
         // ========== INIT ==========
-        document.addEventListener('DOMContentLoaded', () => {
+        function initAllGrids() {
             buildGrid('podcast-grid', podcastStyles, 'podcast');
             buildGrid('slides-grid', slidesStyles, 'slides');
             buildGrid('map-grid', mapStyles, 'map');
             buildGrid('animation-grid', animationStyles, 'animation');
-        });
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initAllGrids);
+        } else {
+            initAllGrids();
+        }
     </script>
 </body>
 
